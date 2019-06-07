@@ -17,7 +17,7 @@ hausdorff_dist <- function (first_configuration, second_configuration, test = "H
 			distance_results <- julia_call("Average_Hausdorff", first_configuration, second_configuration)
 		}
 		if(dist == "maximum"){
-			distance_results <- julia_call("Maximum_Hausdorff", first_configuration, second_configuration)
+			distance_results <- julia_call("Max_Hausdorff", first_configuration, second_configuration)
 		}
 	}
 	return(distance_results)

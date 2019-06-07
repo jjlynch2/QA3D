@@ -1,4 +1,3 @@
-JV <- NULL
 output$version_numbers <- renderUI({
 	HTML(
 		paste(

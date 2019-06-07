@@ -53,6 +53,7 @@ shinyUI(
 								sliderInput(inputId = "vara", label = "% of Coordinates", min=0.01, max=1, value=0.01, step = 0.01)
 							),
 							radioButtons("Procedure", "Procedure", choices = c("1st", "All"), selected = "All"),
+							uiOutput('mspec3D'),
 							actionButton("Process", " Process", icon = icon("cog"))
 						)
 					),
@@ -76,7 +77,7 @@ shinyUI(
 							htmlOutput('contents')
 						),
 						tabPanel("Render",
-							htmlOutput('contents1')
+							rglwidgetOutput('webgl3Dalign', width = "1200px", height = "1200px")
 						)
 					)
 				)

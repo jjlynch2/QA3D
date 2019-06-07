@@ -3,12 +3,12 @@ compare.3d <- function(data = NULL, sessiontempdir = NULL, procedure = "All", pc
 	options(stringsAsFactors = FALSE)
 	data1 <- list()
 	data2 <- list()
-	cnames1 <- c()
-	cnames2 <- c()
+	cnames <- c()
 	adistances <- 0
 	mdistances <- 0
-	n = 0
-	if(procedure == "ALL") {
+	n = 1
+
+	if(procedure == "All") {
 		for(i in 1:length(data)) {
 			for(x in 1:length(data)) {
 				if(i == x) {break}
@@ -32,15 +32,14 @@ compare.3d <- function(data = NULL, sessiontempdir = NULL, procedure = "All", pc
 					else if (j == 8) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3]*-1)}
 					lt <- icpmat(lt1, B, iterations = iteration, type = "rigid", threads = cores)
 					d1t <- hausdorff_dist(lt, B, test = "Hausdorff", dist = "average")
-					if (d1 < d1t) {
+					if (d1t < d1) {
 						d1 <- d1t
+						adistances <- d1t
 						data1[[n]] <- lt1
 						data2[[n]] <- B
-						adistances <- rbind(adistances, d1t)
 					}
 				}
-				cnames1 <- c(names(data)[i])
-				cnames2 <- c(names(data)[x])
+				cnames <- c(paste(names(data)[i], names(data)[x], sep="-"))
 				mdistances <- rbind(mdistances, hausdorff_dist(data1[[n]], data2[[n]], test = "Hausdorff", dist="maximum"))
 				n <- n + 1
 			}
@@ -75,8 +74,7 @@ compare.3d <- function(data = NULL, sessiontempdir = NULL, procedure = "All", pc
 					adistances <- rbind(adistances, d1t)
 				}
 			}
-			cnames1 <- c(cnames1, names(data)[1])
-			cnames2 <- c(cnames2, names(data)[i])
+			cnames <- c(paste(names(data)[i], names(data)[1], sep="-"))
 			mdistances <- rbind(mdistances, hausdorff_dist(data1[[n]], data2[[n]], test = "Hausdorff", dist="maximum"))
 			n <- n + 1
 		}
@@ -84,5 +82,5 @@ compare.3d <- function(data = NULL, sessiontempdir = NULL, procedure = "All", pc
 	gc()
 	print("Pairwise comparisons completed")	
 	options(stringsAsFactors = TRUE) #restore default R  
-	return(list(cnames1, cnames2, data1, data2, adistances, mdistance))
+	return(list(cnames, data1, data2, adistances, mdistances))
 }
