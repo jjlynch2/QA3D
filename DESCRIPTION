@@ -1,0 +1,27 @@
+Package: QA3D
+Title: Three-dimensional Quality Assurance
+Version: 0.0.1
+Authors@R: person("Jeff", "Lynch", email = "jjlynch@osteocoder.com", role = c("aut","cre"))
+Description: This package allows the analysis of 3D equipment error by providing descriptive statistics on repeated scans. http://osteocoder.com
+Depends:
+    R (>= 3.3.0),
+	Morpho,
+	DT,
+	shiny,
+	htmltools,
+	zip,
+	rgl,
+	ClusterR,
+	JuliaCall
+License: GPL-2
+LazyData: true
+ByteCompile: true
+Imports:
+	Morpho,
+	DT,
+	shiny,
+	htmltools,
+	zip,
+	rgl,
+	ClusterR,
+	JuliaCall
