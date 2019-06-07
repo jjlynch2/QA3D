@@ -9,7 +9,7 @@ library(rgl)
 
 shinyUI(
 	navbarPage(theme = "css/flatly.min.css", windowTitle = "QA3D",
-		tags$script(HTML(paste("var header = $('.navbar > .container-fluid');header.append('<div style=\"float:left\"><img src=\"osteosort_new.png\" alt=\"alt\" style=\"float:right; width:200px;padding-top:0px;\"></div><div style=\"float:right; padding-top:15px\">", 
+		tags$script(HTML(paste("var header = $('.navbar > .container-fluid');header.append('<div style=\"float:left\"><img src=\"fav.png\" alt=\"alt\" style=\"float:right; width:40px;padding-top:5px;padding-right:5px;\"></div><div style=\"float:right; padding-top:15px\">", 
 		uiOutput("memUsage"), "</div>');console.log(header)", sep=""))),
 		tabPanel("About", icon = icon("question", lib="font-awesome"),
 			fluidRow(
@@ -37,36 +37,48 @@ shinyUI(
 				,width = 6)
 			),
 			tags$style(type = "text/css", "#Create_Desktop_Icon { width:100%; font-size:85%; background-color:#126a8f }")
-		),#navbar osteometric
-
-
+		),
 		tabPanel("3DQA", icon = icon("cloud-download", lib="glyphicon"),
 			titlePanel(""),
 			sidebarLayout(
 				sidebarPanel(
-					uiOutput('resettableInput3Da'),
+					uiOutput('resettableInput3D'),
 					fluidRow(
 						column(12,
-							sliderInput(inputId = "ncorespc", label = "Number of Cores", min=1, max=detectCores(), value=detectCores()-1, step =1),
+							sliderInput(inputId = "ncorespc", label = "Parallel Cores", min=1, max=detectCores(), value=detectCores()-1, step =1),
+							sliderInput(inputId = "iterations", label = "Iterations", min=1, max=100, value=20, step =1),
 							checkboxInput("pcalign", "PC Align", value = TRUE),
 							checkboxInput("kmeans", "K-means Simplify", value = TRUE),
 							conditionalPanel(condition = "input.kmeans",
 								sliderInput(inputId = "vara", label = "% of Coordinates", min=0.01, max=1, value=0.01, step = 0.01)
 							),
-							radioButtons("Procedure", "Procedure", choices = c("First", "All"), selected = "All")
+							radioButtons("Procedure", "Procedure", choices = c("1st", "All"), selected = "All"),
+							actionButton("Process", " Process", icon = icon("cog"))
 						)
 					),
+					fluidRow(br()),
 					fluidRow(
 						column(6,
-							actionButton("clearFile3Da", " clear   ", icon = icon("window-close"))
+							actionButton("clearFile3D", " clear   ", icon = icon("window-close"))
 						),
 						column(6,
 							downloadButton("savedata", " save    ")
 						)
-					)
+					),
+					width=2,
+					tags$style(type = "text/css", "#clearFile3D { width:100%; font-size:85%; background-color:#126a8f }"),
+					tags$style(type = "text/css", "#Process { width:100%; font-size:85%; background-color:#126a8f }"),
+					tags$style(type = "text/css", "#savedata { width:100%; font-size:85%; background-color:#126a8f }")
 				),
 				mainPanel(
-					htmlOutput('contents')
+					tabsetPanel(id="tabSelected",
+						tabPanel("Results",
+							htmlOutput('contents')
+						),
+						tabPanel("Render",
+							htmlOutput('contents1')
+						)
+					)
 				)
 			)
 		)
