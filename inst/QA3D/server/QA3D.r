@@ -25,11 +25,9 @@ observeEvent(input$aligndata$datapath, {
 })
 
 observeEvent(input$mspec3D, {
-		tt1 <- d1[[2]][d1[[1]] == input$mspec3D]
-		tt1 <- as.numeric(tt1)
-		tt1 <- d1[[3]][d1[[1]] == input$mspec3D]
-		tt2 <- as.numeric(tt2)
-		output$webgl3D <- renderRglwidget ({
+		tt1 <- d1[[2]][which(d1[[1]] == input$mspec3D)][[1]]
+		tt2 <- d1[[3]][which(d1[[1]] == input$mspec3D)][[1]]
+		output$webgl3Dalign <- renderRglwidget ({
 			try(rgl.close())
 			points3d(tt1, size=3, col="dimgray", box=FALSE)
 			points3d(tt2, size=3, col="dodgerblue", box=FALSE)
@@ -59,8 +57,12 @@ observeEvent(input$Process, {
 			filelist3$list[[i]] <- kmeans.3d(filelist3$list[[i]], cluster = input$vara)
 		}
 	}
-
-	d1 <<- compare.3d(data = filelist3$list, sessiontempdir = sessiontemp, procedure = input$Procedure, iteration = input$iterations, cores = input$ncorespc)
+	if(input$subsample) {
+		subsample <- input$vara2
+	} else {
+		subsample <- NULL
+	}
+	d1 <<- compare.3d(data = filelist3$list, sessiontempdir = sessiontemp, procedure = input$Procedure, iteration = input$iterations, cores = input$ncorespc, subsample = subsample)
 
 	output$mspec3D <- renderUI({
 		selectInput(inputId = "mspec3D", label = "Choose comparison", choices = c(d1[[1]]))
