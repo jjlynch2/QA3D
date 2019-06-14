@@ -51,10 +51,11 @@ observeEvent(input$Process, {
 		JuliaSetup(add_cores = input$ncorespc, source = TRUE, recall_libraries = TRUE)
 		print("Finished.")
 	}
+	data <- filelist3$list
 	if(input$kmeans) {
 		ll <- length(filelist3$list)
 		for (i in 1:ll) {	
-			filelist3$list[[i]] <- kmeans.3d(filelist3$list[[i]], cluster = input$vara)
+			data[[i]] <- kmeans.3d(filelist3$list[[i]], cluster = input$vara)
 		}
 	}
 	if(input$subsample) {
@@ -62,7 +63,7 @@ observeEvent(input$Process, {
 	} else {
 		subsample <- NULL
 	}
-	d1 <<- compare.3d(data = filelist3$list, sessiontempdir = sessiontemp, procedure = input$Procedure, iteration = input$iterations, cores = input$ncorespc, subsample = subsample)
+	d1 <<- compare.3d(data = data, sessiontempdir = sessiontemp, procedure = input$Procedure, iteration = input$iterations, cores = input$ncorespc, subsample = subsample, pca = input$pcalign)
 
 	output$mspec3D <- renderUI({
 		selectInput(inputId = "mspec3D", label = "Choose comparison", choices = c(d1[[1]]))

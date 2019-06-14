@@ -6,7 +6,8 @@ compare.3d <- function(data = NULL, sessiontempdir = NULL, procedure = "All", pc
 	cnames <- c()
 	adistances <- 0
 	mdistances <- 0
-	n = 1
+	n <- 1
+
 	if(procedure == "All") {
 		for(i in 1:length(data)) {
 			for(x in 1:length(data)) {
@@ -20,6 +21,8 @@ compare.3d <- function(data = NULL, sessiontempdir = NULL, procedure = "All", pc
 					k = 8
 				}
 				d1 = 999999
+				ad = 0
+				md = 0
 				for(j in 1:k) {
 					if (j == 1) {lt1 <- cbind( A[,1], A[,2],A[,3])}
 					else if(j == 2) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3])}
@@ -29,37 +32,56 @@ compare.3d <- function(data = NULL, sessiontempdir = NULL, procedure = "All", pc
 					else if (j == 6) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3]*-1)}
 					else if (j == 7) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3]*-1)}
 					else if (j == 8) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3]*-1)}
-					nr1 <- nrow(B)
-					nr1 <- nr1 * subsample
-					nr2 <- nrow(lt1)
-					nr2 <- nr2 * subsample
-					subs <- round(mean(nr1, nr2), digits = 0)
+					if(!is.null(subsample)) {
+						nr1 <- nrow(B)
+						nr1 <- nr1 * subsample
+						nr2 <- nrow(lt1)
+						nr2 <- nr2 * subsample
+						subs <- round(mean(nr1, nr2), digits = 0)
+					} else {
+						subs = NULL
+					}
 					lt <- icpmat(lt1, B, iterations = iteration, type = "rigid", threads = cores, subsample = subs)
-					d1t <- hausdorff_dist(lt, B, test = "Hausdorff", dist = "average")
-					if (d1t < d1) {
-						d1 <- d1t
-						adistances <- rbind(adistances, d1t)
-						data1[[n]] <- lt1
+					d1t <- hausdorff_dist(lt, B, test = "Hausdorff")
+					avg <- d1t[1]
+					max <- d1t[2]
+					if (avg < d1) {
+						d1 <- avg
+						ad <- avg
+						md <- max
+						data1[[n]] <- lt
 						data2[[n]] <- B
 					}
+
+#try using breaks again for max 
+#try using breaks again for max 
+#try using breaks again for max 
+#try using breaks again for max 
+
 				}
+				adistances <- rbind(adistances, ad)
+				mdistances <- rbind(mdistances, md)
 				cnames <- c(cnames, paste(names(data)[i], names(data)[x], sep="-"))
-				mdistances <- rbind(mdistances, hausdorff_dist(data1[[n]], data2[[n]], test = "Hausdorff", dist="maximum"))
+				print(paste(names(data)[i], names(data)[x], adistances[n+1], mdistances[n+1], sep=" "))
 				n <- n + 1
 			}
 		}
 	}
-	if(procedure == "1st") {
-		for(i in 1:length(data)) {
+	if(procedure == "First") {
+		B <- data[[1]][,c(1:3)]
+		if(pca) {
+			B <- QA3D::pca_align(B)
+		}
+		for(i in 2:length(data)) {
 			k = 1
-			B <- data[[1]][,c(1:3)]
 			A <- data[[i]][,c(1:3)]
 			if(pca) {
 				A <- QA3D::pca_align(A)
-				B <- QA3D::pca_align(B)
 				k = 8
 			}
 			d1 = 999999
+			ad = 0
+			md = 0
 			for(j in 1:k) {
 				if (j == 1) {lt1 <- cbind( A[,1], A[,2],A[,3])}
 				else if(j == 2) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3])}
@@ -69,22 +91,35 @@ compare.3d <- function(data = NULL, sessiontempdir = NULL, procedure = "All", pc
 				else if (j == 6) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3]*-1)}
 				else if (j == 7) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3]*-1)}
 				else if (j == 8) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3]*-1)}
-				nr1 <- nrow(B)
-				nr1 <- nr1 * subsample
-				nr2 <- nrow(lt1)
-				nr2 <- nr2 * subsample
-				subs <- round(mean(nr1, nr2), digits = 0)
+				if(!is.null(subsample)) {
+					nr1 <- nrow(B)
+					nr1 <- nr1 * subsample
+					nr2 <- nrow(lt1)
+					nr2 <- nr2 * subsample
+					subs <- round(mean(nr1, nr2), digits = 0)
+				} else {
+					subs = NULL
+				}
 				lt <- icpmat(lt1, B, iterations = iteration, type = "rigid", threads = cores, subsample = subs)
-				d1t <- hausdorff_dist(lt, B, test = "Hausdorff", dist = "average")
-				if (d1 < d1t) {
-					d1 <- d1t
-					data1[[n]] <- lt1
+				d1t <- hausdorff_dist(lt, B, test = "Hausdorff")
+				avg <- d1t[1]
+				max <- d1t[2]
+				if (avg < d1) {
+					d1 <- avg
+					data1[[n]] <- lt
 					data2[[n]] <- B
-					adistances <- rbind(adistances, d1t)
+					ad <- avg
+					md <- max
 				}
 			}
-			cnames <- c(cnames, paste(names(data)[i], names(data)[1], sep="-"))
-			mdistances <- rbind(mdistances, hausdorff_dist(data1[[n]], data2[[n]], test = "Hausdorff", dist="maximum"))
+#try using breaks again for max 
+#try using breaks again for max 
+#try using breaks again for max 
+#try using breaks again for max 
+			adistances <- rbind(adistances, ad)
+			mdistances <- rbind(mdistances, md)
+			cnames <- c(cnames, paste(names(data)[1], names(data)[i], sep="-"))
+			print(paste(names(data)[1], names(data)[i], adistances[n+1], mdistances[n+1], sep=" "))
 			n <- n + 1
 		}
 	}

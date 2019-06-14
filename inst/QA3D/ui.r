@@ -47,7 +47,7 @@ shinyUI(
 						column(12,
 							sliderInput(inputId = "ncorespc", label = "Parallel Cores", min=1, max=detectCores(), value=detectCores()-1, step =1),
 							sliderInput(inputId = "iterations", label = "Iterations", min=1, max=1000, value=100, step =1),
-							checkboxInput("subsample", "ICP subsample", value = FALSE),
+							checkboxInput("subsample", "ICP Subsample", value = FALSE),
 							conditionalPanel(condition = "input.subsample",
 								sliderInput(inputId = "vara2", label = "% of Coordinates", min=0.01, max=1, value=0.10, step = 0.01)
 							),
@@ -56,9 +56,9 @@ shinyUI(
 							conditionalPanel(condition = "input.kmeans",
 								sliderInput(inputId = "vara", label = "% of Coordinates", min=0.01, max=1, value=0.10, step = 0.01)
 							),
-							radioButtons("Procedure", "Procedure", choices = c("1st", "All"), selected = "All"),
+							radioButtons("Procedure", "Procedure", choices = c("First", "All"), selected = "All"),
 							uiOutput('mspec3D'),
-							actionButton("Process", " Process", icon = icon("cog"))
+							actionButton("Process", "process", icon = icon("cog"))
 						)
 					),
 					fluidRow(br()),
