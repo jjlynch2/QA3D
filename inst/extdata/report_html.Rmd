@@ -1,6 +1,6 @@
 ---
 title: "QA3D Report"
-output: pdf_document
+output: html_document
 params:
   iterations: NULL
   subsample: NULL

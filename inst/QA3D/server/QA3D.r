@@ -72,9 +72,9 @@ observeEvent(input$Process, {
 	params_list <- list(date = Sys.time(), iterations = input$iterations, subsample = subsample, pcalign = input$pcalign, kmeans = input$kmeans, procedure = input$Procedure, vara = input$vara, vara2 = input$vara2, report_pw = report_pw, report_gr = report_gr)
 
 	output$savedata <- downloadHandler(
-		filename = "report.pdf",
+		filename = "report.html",
 		content = function(file) {
-			pdf_report <- system.file("extdata", "report_pdf.Rmd", package = "QA3D")
+			pdf_report <- system.file("extdata", "report_html.Rmd", package = "QA3D")
 			file.copy(pdf_report, "report.Rmd", overwrite = TRUE)
 			rmarkdown::render("report.Rmd", output_file = file, params = params_list)
 		}
