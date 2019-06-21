@@ -12,7 +12,9 @@ Depends:
 	zip,
 	rgl,
 	ClusterR,
-	JuliaCall
+	JuliaCall,
+	rmarkdown,
+	knitr
 License: GPL-2
 LazyData: true
 ByteCompile: true
@@ -24,4 +26,6 @@ Imports:
 	zip,
 	rgl,
 	ClusterR,
-	JuliaCall
+	JuliaCall,
+	rmarkdown,
+	knitr

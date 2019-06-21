@@ -78,10 +78,12 @@ shinyUI(
 				mainPanel(
 					tabsetPanel(id="tabSelected",
 						tabPanel("Results",
-							htmlOutput('contents')
+							DT::dataTableOutput('table2'),
+							uiOutput('contents'),
+							DT::dataTableOutput('table1')
 						),
 						tabPanel("Render",
-							rglwidgetOutput('webgl3Dalign', width = "800px", height = "800px")
+							rglwidgetOutput('webgl3Dalign', width = "1000px", height = "1000px")
 						)
 					)
 				)

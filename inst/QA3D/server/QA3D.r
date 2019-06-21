@@ -11,10 +11,7 @@ output$resettableInput3D <- renderUI({
 })
 
 output$contents <- renderUI({
-	HTML(paste(""))
-})
-output$contents1 <- renderUI({
-	HTML(paste(""))
+	HTML(paste("<br>"))
 })
 
 observeEvent(input$aligndata$datapath, {
@@ -54,7 +51,7 @@ observeEvent(input$Process, {
 	data <- filelist3$list
 	if(input$kmeans) {
 		ll <- length(filelist3$list)
-		for (i in 1:ll) {	
+		for (i in 1:ll) {
 			data[[i]] <- kmeans.3d(filelist3$list[[i]], cluster = input$vara)
 		}
 	}
@@ -69,25 +66,27 @@ observeEvent(input$Process, {
 		selectInput(inputId = "mspec3D", label = "Choose comparison", choices = c(d1[[1]]))
 	})
 
+	report_pw <- data.frame(Comparison = d1[[1]], Average_Hausdorff = d1[[4]], Maximum_Hausdorff = d1[[6]])
+	report_gr <- data.frame(Average_Hausdorff = d1[[5]], Maximum_Hausdorff = d1[[7]], TEMah = d1[[8]], TEMmh = d1[[9]], RMSEah = d1[[10]], RMSEmh = d1[[11]])
+	if(is.null(subsample)){subsample <- FALSE}
+	params_list <- list(date = Sys.time(), iterations = input$iterations, subsample = subsample, pcalign = input$pcalign, kmeans = input$kmeans, procedure = input$Procedure, vara = input$vara, vara2 = input$vara2, report_pw = report_pw, report_gr = report_gr)
 
+	output$savedata <- downloadHandler(
+		filename = "report.pdf",
+		content = function(file) {
+			pdf_report <- system.file("extdata", "report_pdf.Rmd", package = "QA3D")
+			file.copy(pdf_report, "report.Rmd", overwrite = TRUE)
+			rmarkdown::render("report.Rmd", output_file = file, params = params_list)
+		}
+	)
 
+	output$table1 <- DT::renderDataTable({
+		DT::datatable(report_pw, options = list(dom = 't'), rownames = FALSE)
+	})
+	output$table2 <- DT::renderDataTable({
+		DT::datatable(report_gr, options = list(dom = 't'), rownames = FALSE)
+	})
 
-	#Zip and download handler
-	#direc <- d2[[1]]
-	#setwd(sessiontemp)
-	#setwd(direc)
-	#files <- list.files(recursive = TRUE)
-	#zip:::zipr(zipfile = paste(direc,'.zip',sep=''), files = files)
-	#output$downloadData2 <- downloadHandler(
-	#	filename = function() {
-	#		paste("results.zip")
-	#	},
-	#	content = function(file) {
-	#		setwd(direc)
-	#		file.copy(paste(direc,'.zip',sep=''), file)  
-	#	},
-	#	contentType = "application/zip"
-	#)
 	removeModal()
 	setwd(sessiontemp)
 	gc() #clean up 

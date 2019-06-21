@@ -1,0 +1,41 @@
+---
+title: "QA3D Report"
+output: pdf_document
+params:
+  iterations: NULL
+  subsample: NULL
+  pcalign: NULL
+  kmeans: NULL
+  procedure: NULL
+  vara: NULL
+  vara2: NULL
+  report_pw: NULL
+  report_gr: NULL
+  date: NULL
+---
+QA3D Version: `r packageVersion("QA3D")`
+
+Date: `r params$date`
+
+### Registration Parameters
+ICP Iterations: `r params$iterations`
+
+ICP subsample: `r params$subsample`
+
+`r if(params$subsample) {paste("Subsample %:", params$vara2, sep=" ")}`
+
+PC Align: `r params$pcalign`
+
+K-means simplify: `r params$kmeans`
+
+`r if(params$kmeans) {paste("K-means %:", params$vara, sep=" ")}`
+
+Procedure: `r params$procedure`
+
+
+### Grand Results
+`r kable(params$report_gr)`
+
+
+### Pairwise Results
+`r kable(params$report_pw)`

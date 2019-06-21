@@ -30,7 +30,7 @@ if(system_name == "Darwin") {
 output$system_info <- renderUI({
 	HTML(paste("<p><h3>System Details</h3></p>", 
 	"<strong>Platform:  </strong>", system_name, "<p></p>",
-	"<strong>Cores: </strong>", OsteoSort:::detectCores(), "<p></p>",
+	"<strong>Cores: </strong>", QA3D:::detectCores(), "<p></p>",
 	"<strong>Memory: </strong>", system_mem,
 	"<br><br><p></p>"
 	,sep=""))
