@@ -13,7 +13,7 @@ observeEvent(input$Create_Desktop_Icon, {
 			paste(
 				"[Desktop Entry]\nEncoding=UTF-8\nTerminal=true\nType=Application\nCategories=Application\nName=QA3D\n",
 				"Version=",	packageVersion("QA3D"),"\n",
-				"Icon=",		system.file("QA3D/www/QA3D.png", package = "QA3D"),"\n",
+				"Icon=",		system.file("QA3D/www/fav.png", package = "QA3D"),"\n",
 				"Exec=",		paste(file.path(R.home("bin"), "R"), "-e", "library(QA3D);QA3D()", sep=" ")
 			,sep=""),#paste
 			file = paste(file.path(path.expand("~"), "Desktop"), "QA3D.desktop", sep = "/")
