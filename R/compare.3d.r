@@ -52,6 +52,12 @@ compare.3d <- function(data = NULL, sessiontempdir = NULL, procedure = "All", pc
 						data1[[n]] <- lt
 						data2[[n]] <- B
 					}
+
+#try using breaks again for max 
+#try using breaks again for max 
+#try using breaks again for max 
+#try using breaks again for max 
+
 				}
 				adistances <- rbind(adistances, ad)
 				mdistances <- rbind(mdistances, md)
@@ -106,6 +112,10 @@ compare.3d <- function(data = NULL, sessiontempdir = NULL, procedure = "All", pc
 					md <- max
 				}
 			}
+#try using breaks again for max 
+#try using breaks again for max 
+#try using breaks again for max 
+#try using breaks again for max 
 			adistances <- rbind(adistances, ad)
 			mdistances <- rbind(mdistances, md)
 			cnames <- c(cnames, paste(names(data)[1], names(data)[i], sep="-"))
