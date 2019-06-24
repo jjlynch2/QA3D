@@ -21,3 +21,7 @@
 ## Julia Dependencies
 * Distributed
 * SharedArrays
+
+## Other Dependencies
+* Requires MiKTeX for windows https://miktex.org/download
+* Julia must be in your PATH to run
