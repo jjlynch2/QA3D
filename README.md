@@ -10,9 +10,10 @@ QA3D()
 ```
 
 ## Desktop Icon
-* Once you run QA3D(), clicking the Desktop Shortcut button on the dashboard will allow you to run QA3D without launching R manually.
+Once you run QA3D(), clicking the Desktop Shortcut button on the dashboard will allow you to run QA3D without launching R manually.
 
 ## R Dependencies
+The following will be installed automatically:
 * Morpho
 * DT
 * shiny
@@ -25,10 +26,12 @@ QA3D()
 * knitr
 
 ## Julia Dependencies
+The following will be installed automatically:
 * Distributed
 * SharedArrays
 
-## Other Dependencies
+## Other Windows Dependencies
+The following needs to be installed manually:
 * Requires MiKTeX for Windows https://miktex.org/download
 * Requires Pandoc for Windows https://pandoc.org/installing.html
-* Julia must be in your PATH to run. On Windows this may need to be added manually.
+* Julia must be in your PATH to run.
