@@ -1,5 +1,7 @@
 output$changes <- renderUI({
-	HTML(paste("<p><h3>Version Changes</h3></p>",
-		"<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><p></p>"
-		,sep=""))
+	HTML("<p><h3>Version Changes</h3>
+		This is the first release.
+		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+		</p>
+	")
 })

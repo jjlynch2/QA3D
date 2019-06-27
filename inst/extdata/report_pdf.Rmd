@@ -12,10 +12,16 @@ params:
   report_pw: NULL
   report_gr: NULL
   date: NULL
+  scannerid: NULL
+  analyst: NULL
 ---
 QA3D Version: `r packageVersion("QA3D")`
 
 Date: `r params$date`
+
+`r if(params$scannerid != "") {paste("Scanner ID:", params$scannerid, sep=" ")}`
+
+`r if(params$analyst != "") {paste("Analyst:", params$analyst, sep=" ")}`
 
 ### Registration Parameters
 ICP Iterations: `r params$iterations`

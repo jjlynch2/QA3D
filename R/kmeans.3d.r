@@ -1,11 +1,3 @@
-#' k-means simplification wrapper
-#' 
-#'
-#' @keywords kmeans.3d
-#' @export
-#' @examples
-#' kmeans.3d()
-
 kmeans.3d <- function(data = NULL, clusters = NULL, iter = 10) {
 	if(!is.null(data) && !is.null(clusters)) {
 		data <- data[,c(1:3)]

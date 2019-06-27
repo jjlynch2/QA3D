@@ -57,6 +57,8 @@ shinyUI(
 								sliderInput(inputId = "vara", label = "% of Coordinates", min=0.01, max=1, value=0.10, step = 0.01)
 							),
 							radioButtons("Procedure", "Procedure", choices = c("First", "All"), selected = "All"),
+							textInput(inputId = 'scannerid', label = 'Scanner ID', value = ''),
+							textInput(inputId = 'analyst', label = 'Analyst', value = ''),
 							uiOutput('mspec3D'),
 							actionButton("Process", "Process", icon = icon("cog"))
 						)

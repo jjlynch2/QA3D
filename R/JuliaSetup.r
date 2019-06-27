@@ -1,10 +1,3 @@
-#' Setup Julia Environment
-#' 
-#' @keywords JuliaSetup()
-#' @export
-#' @examples
-#' JuliaSetup()
-
 JuliaSetup <- function(add_cores = 1, remove_cores = FALSE, libraries = FALSE, source = FALSE, recall_libraries = FALSE) {
 
 	if (libraries) {

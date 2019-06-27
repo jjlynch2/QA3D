@@ -1,4 +1,5 @@
 ## QA3D 0.0.1
+QA3D (Quality Assurance 3D) is an R package that allows the error analysis of repeated scans from three-dimensional equipment. While not requiring the use of skeletal elements, this app was designed and intended to be used with repeated skeletal element scans. Given the rise in popularity of three-dimensional technology in forensic anthropology, there is a need for an FA specific tool to verify the quality of scanners for research and laboratory accreditation purposes.
 
 ## Installation
 ```R
@@ -18,7 +19,6 @@ The following will be installed automatically:
 * DT
 * shiny
 * htmltools
-* zip
 * rgl
 * ClusterR
 * JuliaCall
@@ -32,6 +32,9 @@ The following will be installed automatically:
 
 ## Other Windows Dependencies
 The following needs to be installed manually:
-* Requires MiKTeX for Windows https://miktex.org/download
-* Requires Pandoc for Windows https://pandoc.org/installing.html
+* Requires MiKTeX https://miktex.org/download
+* Requires Pandoc https://pandoc.org/installing.html
 * Julia must be in your PATH to run.
+
+## Known Bugs
+A bug exists in the StatsModels package version 0.6.0 in Julia, which prevents RCall from precompiling. This bug breaks JuliaCall in R. Downgrading the package to version 0.5.0 will allow QA3D to run properly.
