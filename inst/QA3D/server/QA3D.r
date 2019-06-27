@@ -33,7 +33,6 @@ observeEvent(input$mspec3D, {
 		})
 })
 
-
 observeEvent(input$Process, {
 	showModal(modalDialog(title = "Calculation has started...Window will update when finished.", easyClose = FALSE, footer = NULL))
 	withProgress(message = 'Calculation has started', detail = '', value = 0, {       

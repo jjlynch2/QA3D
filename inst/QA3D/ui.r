@@ -21,7 +21,7 @@ shinyUI(
 				,width = 3),
 				sidebarPanel(
 					uiOutput("system_info"),
-					actionButton('Create_Desktop_Icon', 'Desktop shortcut', icon = icon("gears"))
+					actionButton('Create_Desktop_Icon', 'Desktop Shortcut', icon = icon("gears"))
 				,width=3),
 				sidebarPanel(
 					uiOutput("URL")
@@ -58,16 +58,16 @@ shinyUI(
 							),
 							radioButtons("Procedure", "Procedure", choices = c("First", "All"), selected = "All"),
 							uiOutput('mspec3D'),
-							actionButton("Process", "process", icon = icon("cog"))
+							actionButton("Process", "Process", icon = icon("cog"))
 						)
 					),
 					fluidRow(br()),
 					fluidRow(
 						column(6,
-							actionButton("clearFile3D", " clear   ", icon = icon("window-close"))
+							actionButton("clearFile3D", " Clear   ", icon = icon("window-close"))
 						),
 						column(6,
-							downloadButton("savedata", " save    ")
+							downloadButton("savedata", " Report    ")
 						)
 					),
 					width=2,
