@@ -52,12 +52,6 @@ compare.3d <- function(data = NULL, sessiontempdir = NULL, procedure = "All", pc
 						data1[[n]] <- lt
 						data2[[n]] <- B
 					}
-
-#try using breaks again for max 
-#try using breaks again for max 
-#try using breaks again for max 
-#try using breaks again for max 
-
 				}
 				adistances <- rbind(adistances, ad)
 				mdistances <- rbind(mdistances, md)
@@ -112,10 +106,6 @@ compare.3d <- function(data = NULL, sessiontempdir = NULL, procedure = "All", pc
 					md <- max
 				}
 			}
-#try using breaks again for max 
-#try using breaks again for max 
-#try using breaks again for max 
-#try using breaks again for max 
 			adistances <- rbind(adistances, ad)
 			mdistances <- rbind(mdistances, md)
 			cnames <- c(cnames, paste(names(data)[1], names(data)[i], sep="-"))
@@ -125,6 +115,6 @@ compare.3d <- function(data = NULL, sessiontempdir = NULL, procedure = "All", pc
 	}
 	gc()
 	print("Pairwise comparisons completed")	
-	options(stringsAsFactors = TRUE) #restore default R  
+	options(stringsAsFactors = TRUE)
 	return(list(cnames, data1, data2, adistances[-1], mean(adistances[-1]), mdistances[-1], mean(mdistances[-1]), tem(adistances[-1]), tem(mdistances[-1]), rmse(adistances[-1]), rmse(mdistances[-1])))
 }

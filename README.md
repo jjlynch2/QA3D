@@ -3,7 +3,7 @@ QA3D (Quality Assurance 3D) is an R package that allows the error analysis of re
 
 ## Installation
 ```R
-install.packages("devtoolk")
+install.packages("devtools")
 library(devtools)
 install_github("jjlynch2/QA3D", ref="v0.0.1")
 library(QA3D)

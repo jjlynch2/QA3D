@@ -22,15 +22,15 @@ observeEvent(input$aligndata$datapath, {
 })
 
 observeEvent(input$mspec3D, {
-		tt1 <- d1[[2]][which(d1[[1]] == input$mspec3D)][[1]]
-		tt2 <- d1[[3]][which(d1[[1]] == input$mspec3D)][[1]]
-		output$webgl3Dalign <- renderRglwidget ({
-			try(rgl.close())
-			points3d(tt1, size=3, col="dimgray", box=FALSE)
-			points3d(tt2, size=3, col="dodgerblue", box=FALSE)
-			axes3d(c('x++', 'y++', 'z++'))
-			rglwidget()
-		})
+	tt1 <- d1[[2]][which(d1[[1]] == input$mspec3D)][[1]]
+	tt2 <- d1[[3]][which(d1[[1]] == input$mspec3D)][[1]]
+	output$webgl3Dalign <- renderRglwidget ({
+		try(rgl.close())
+		points3d(tt1, size=3, col="dimgray", box=FALSE)
+		points3d(tt2, size=3, col="dodgerblue", box=FALSE)
+		axes3d(c('x++', 'y++', 'z++'))
+		rglwidget()
+	})
 })
 
 observeEvent(input$Process, {
