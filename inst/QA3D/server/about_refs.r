@@ -6,11 +6,11 @@ output$about_refs <- renderUI({
 		<br><br>
 		PC Align uses Principal Component Analysis to pre-align specimens. This requires reflection along each dimension and takes longer to run. However, it significantly increases the change of successful registration.
 		<br><br>
-		K-means simplify reduces the point cloud size based on a percentage of the original coordinates of each scan.
+		K-means Simplify reduces the point cloud size based on a percentage of the original coordinates of each scan.
 		<br><br>
-		The first procedure will compare all scans to the first scan.
+		The First procedure will compare all scans to the first scan.
 		<br><br>
-		The all procedure will compare all scans to every other scan.
+		The All procedure will compare all scans to every other scan.
 		</p>
 	")
 })
