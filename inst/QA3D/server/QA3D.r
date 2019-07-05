@@ -35,7 +35,7 @@ observeEvent(input$mspec3D, {
 
 observeEvent(input$Process, {
 	showModal(modalDialog(title = "Calculation has started...Window will update when finished.", easyClose = FALSE, footer = NULL))
-	withProgress(message = 'Calculation has started', detail = '', value = 0, {       
+	withProgress(message = 'Calculation has started', detail = '', value = 0, {
 		for (i in 1:10) {
 			incProgress(1/10)
 			Sys.sleep(0.05)
@@ -80,7 +80,7 @@ observeEvent(input$Process, {
 	)
 
 	output$table1 <- DT::renderDataTable({
-		DT::datatable(report_pw, options = list(dom = 't'), rownames = FALSE)
+		DT::datatable(report_pw, options = list(pageLength = 50, dom = 't'), rownames = FALSE)
 	})
 	output$table2 <- DT::renderDataTable({
 		DT::datatable(report_gr, options = list(dom = 't'), rownames = FALSE)
