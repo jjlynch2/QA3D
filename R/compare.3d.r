@@ -45,6 +45,7 @@ compare.3d <- function(data = NULL, sessiontempdir = NULL, procedure = "All", pc
 					d1t <- hausdorff_dist(lt, B, test = "Hausdorff")
 					avg <- d1t[1]
 					max <- d1t[2]
+print(max)
 					if (avg < d1) {
 						d1 <- avg
 						ad <- avg
