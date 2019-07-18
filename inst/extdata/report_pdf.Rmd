@@ -34,6 +34,8 @@ ICP subsample: `r params$subsample`
 
 PC Align: `r params$pcalign`
 
+Early Break: `r params$breake`
+
 `r if(params$pcalign && params$breake) {paste("Break Point:", params$breakk, sep=" ")}`
 
 K-means simplify: `r params$kmeans`
