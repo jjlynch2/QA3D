@@ -51,7 +51,11 @@ print(max)
 						md <- max
 						data1[[n]] <- lt
 						data2[[n]] <- B
-						if(max < break_early) {break}
+						if(!is.null(break_early)) {
+							if(max < break_early) {
+								break
+							}
+						}
 					}
 				}
 				adistances <- rbind(adistances, ad)
@@ -106,7 +110,11 @@ print(max)
 					data2[[n]] <- B
 					ad <- avg
 					md <- max
-					if(max < break_early) {break}
+					if(!is.null(break_early)) {
+						if(max < break_early) {
+							break
+						}
+					}
 				}
 			}
 			adistances <- rbind(adistances, ad)
