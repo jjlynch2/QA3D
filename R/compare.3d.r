@@ -1,4 +1,4 @@
-compare.3d <- function(data = NULL, sessiontempdir = NULL, procedure = "All", pca = TRUE, iteration = 20, cores = 1, subsample = NULL) {
+compare.3d <- function(data = NULL, sessiontempdir = NULL, procedure = "All", pca = TRUE, iteration = 20, cores = 1, subsample = NULL, break_early = 1) {
 	print("Pairwise comparisons started")
 	options(stringsAsFactors = FALSE)
 	data1 <- list()
@@ -7,7 +7,6 @@ compare.3d <- function(data = NULL, sessiontempdir = NULL, procedure = "All", pc
 	adistances <- 0
 	mdistances <- 0
 	n <- 1
-
 	if(procedure == "All") {
 		for(i in 1:length(data)) {
 			for(x in 1:length(data)) {
@@ -52,6 +51,7 @@ print(max)
 						md <- max
 						data1[[n]] <- lt
 						data2[[n]] <- B
+						if(max < break_early) {break}
 					}
 				}
 				adistances <- rbind(adistances, ad)
@@ -99,12 +99,14 @@ print(max)
 				d1t <- hausdorff_dist(lt, B, test = "Hausdorff")
 				avg <- d1t[1]
 				max <- d1t[2]
+print(max)
 				if (avg < d1) {
 					d1 <- avg
 					data1[[n]] <- lt
 					data2[[n]] <- B
 					ad <- avg
 					md <- max
+					if(max < break_early) {break}
 				}
 			}
 			adistances <- rbind(adistances, ad)

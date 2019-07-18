@@ -59,7 +59,14 @@ observeEvent(input$Process, {
 	} else {
 		subsample <- NULL
 	}
-	d1 <<- compare.3d(data = data, sessiontempdir = sessiontemp, procedure = input$Procedure, iteration = input$iterations, cores = input$ncorespc, subsample = subsample, pca = input$pcalign)
+
+	if(input$breake) {
+		breakk <- input$breakearly
+	} else {
+		breakk <- NULL
+	}
+
+	d1 <<- compare.3d(data = data, sessiontempdir = sessiontemp, procedure = input$Procedure, iteration = input$iterations, cores = input$ncorespc, subsample = subsample, pca = input$pcalign, break_early = breakk)
 
 	output$mspec3D <- renderUI({
 		selectInput(inputId = "mspec3D", label = "Choose comparison", choices = c(d1[[1]]))
@@ -68,7 +75,7 @@ observeEvent(input$Process, {
 	report_pw <- data.frame(Comparison = d1[[1]], Average_Hausdorff = d1[[4]], Maximum_Hausdorff = d1[[6]])
 	report_gr <- data.frame(Average_Hausdorff = d1[[5]], Maximum_Hausdorff = d1[[7]], TEMah = d1[[8]], TEMmh = d1[[9]], RMSEah = d1[[10]], RMSEmh = d1[[11]])
 	if(is.null(subsample)){subsample <- FALSE}
-	params_list <- list(scannerid = input$scannerid, analyst = input$analyst, date = Sys.time(), iterations = input$iterations, subsample = subsample, pcalign = input$pcalign, kmeans = input$kmeans, procedure = input$Procedure, vara = input$vara, vara2 = input$vara2, report_pw = report_pw, report_gr = report_gr)
+	params_list <- list(breake = input$breake, breakk = breakk, scannerid = input$scannerid, analyst = input$analyst, date = Sys.time(), iterations = input$iterations, subsample = subsample, pcalign = input$pcalign, kmeans = input$kmeans, procedure = input$Procedure, vara = input$vara, vara2 = input$vara2, report_pw = report_pw, report_gr = report_gr)
 
 	output$savedata <- downloadHandler(
 		filename = "report.pdf",

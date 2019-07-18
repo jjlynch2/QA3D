@@ -52,6 +52,12 @@ shinyUI(
 								sliderInput(inputId = "vara2", label = "% of Coordinates", min=0.01, max=1, value=0.10, step = 0.01)
 							),
 							checkboxInput("pcalign", "PC Align", value = TRUE),
+							conditionalPanel(condition = "input.pcalign", 
+								checkboxInput("breake", "Break Early", value = FALSE),
+								conditionalPanel(condition = "input.breake", 
+									sliderInput(inputId = "breakearly", label = "Break Point", min=0.01, max=20, value=1, step =0.01)
+								)
+							),
 							checkboxInput("kmeans", "K-means Simplify", value = TRUE),
 							conditionalPanel(condition = "input.kmeans",
 								sliderInput(inputId = "vara", label = "% of Coordinates", min=0.01, max=1, value=0.10, step = 0.01)

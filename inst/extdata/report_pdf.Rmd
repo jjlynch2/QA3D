@@ -14,6 +14,8 @@ params:
   date: NULL
   scannerid: NULL
   analyst: NULL
+  breake: NULL
+  breakk: NULL
 ---
 QA3D Version: `r packageVersion("QA3D")`
 
@@ -31,6 +33,8 @@ ICP subsample: `r params$subsample`
 `r if(params$subsample) {paste("Subsample %:", params$vara2, sep=" ")}`
 
 PC Align: `r params$pcalign`
+
+`r if(params$pcalign && params$breake) {paste("Break Point:", params$breakk, sep=" ")}`
 
 K-means simplify: `r params$kmeans`
 
