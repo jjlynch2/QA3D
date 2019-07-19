@@ -62,7 +62,14 @@ shinyUI(
 							conditionalPanel(condition = "input.kmeans",
 								sliderInput(inputId = "vara", label = "% of Coordinates", min=0.01, max=1, value=0.10, step = 0.01)
 							),
-							radioButtons("Procedure", "Procedure", choices = c("First", "All"), selected = "All"),
+							radioButtons("Procedure", "Procedure", choices = c("First", "All", "Custom"), selected = "All"),
+							conditionalPanel(condition = "input.Procedure == 'Custom'",
+								numericInput(inputId = "x", label = "X", value = "10", min=0,max=999,step=0.01),
+								numericInput(inputId = "y", label = "Y", value = "10", min=0,max=999,step=0.01),
+								numericInput(inputId = "z", label = "Z", value = "10", min=0,max=999,step=0.01),
+								numericInput(inputId = "d", label = "Density", value = "0.5", min=0,max=999,step=0.01)
+							),
+							textInput(inputId = 'attributes', label = 'Attributes', value = ''),
 							textInput(inputId = 'scannerid', label = 'Scanner ID', value = ''),
 							textInput(inputId = 'analyst', label = 'Analyst', value = ''),
 							uiOutput('mspec3D'),

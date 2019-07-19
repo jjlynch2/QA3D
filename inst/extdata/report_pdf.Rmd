@@ -16,10 +16,17 @@ params:
   analyst: NULL
   breake: NULL
   breakk: NULL
+  x: NULL
+  y: NULL
+  z: NULL
+  d: NULL
+  attributes: NULL
 ---
 QA3D Version: `r packageVersion("QA3D")`
 
 Date: `r params$date`
+
+`r if(params$attributes != "") {paste("Attributes:", params$attributes, sep=" ")}`
 
 `r if(params$scannerid != "") {paste("Scanner ID:", params$scannerid, sep=" ")}`
 
@@ -44,6 +51,13 @@ K-means simplify: `r params$kmeans`
 
 Procedure: `r params$procedure`
 
+`r if(params$procedure == "Custom") {paste("X:", params$x, sep=" ")}`
+
+`r if(params$procedure == "Custom") {paste("Y:", params$y, sep=" ")}`
+
+`r if(params$procedure == "Custom") {paste("Z:", params$z, sep=" ")}`
+
+`r if(params$procedure == "Custom") {paste("Density:", params$d, sep=" ")}`
 
 ### Grand Results
 `r kable(params$report_gr)`
