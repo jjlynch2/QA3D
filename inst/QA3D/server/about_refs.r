@@ -10,7 +10,7 @@ output$about_refs <- renderUI({
 		<br><br>
 		K-means Simplify reduces the point cloud size based on a percentage of the original coordinates of each scan.
 		<br><br>
-		The First procedure will compare all scans to the first scan.
+		The Choose procedure will compare all scans to the chosen scan.
 		<br><br>
 		The All procedure will compare all scans to every other scan.
 		<br><br>

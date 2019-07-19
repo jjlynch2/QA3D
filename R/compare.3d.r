@@ -1,4 +1,4 @@
-compare.3d <- function(data = NULL, custom_surface = NULL, sessiontempdir = NULL, procedure = "All", pca = TRUE, iteration = 20, cores = 1, subsample = NULL, break_early = 1, verbose = TRUE) {
+compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessiontempdir = NULL, procedure = "All", pca = TRUE, iteration = 20, cores = 1, subsample = NULL, break_early = 1, verbose = TRUE) {
 	print("Pairwise comparisons started")
 	options(stringsAsFactors = FALSE)
 	data1 <- list()
@@ -126,12 +126,13 @@ compare.3d <- function(data = NULL, custom_surface = NULL, sessiontempdir = NULL
 				n <- n + 1
 			}
 		}
-	} else if(procedure == "First") {
-		B <- data[[1]][,c(1:3)]
+	} else if(procedure == "Choose") {
+		B <- data[[choose]][,c(1:3)]
+		data[[choose]] <- NULL
 		if(pca) {
 			B <- QA3D::pca_align(B)
 		}
-		for(i in 2:length(data)) {
+		for(i in 1:length(data)) {
 			k = 1
 			A <- data[[i]][,c(1:3)]
 			if(pca) {
@@ -181,8 +182,8 @@ compare.3d <- function(data = NULL, custom_surface = NULL, sessiontempdir = NULL
 			}
 			adistances <- rbind(adistances, ad)
 			mdistances <- rbind(mdistances, md)
-			cnames <- c(cnames, paste(names(data)[1], names(data)[i], sep="-"))
-			print(paste(names(data)[1], names(data)[i], adistances[n+1], mdistances[n+1], sep=" "))
+			cnames <- c(cnames, paste(choose, names(data)[i], sep="-"))
+			print(paste(choose, names(data)[i], adistances[n+1], mdistances[n+1], sep=" "))
 			n <- n + 1
 		}
 	}

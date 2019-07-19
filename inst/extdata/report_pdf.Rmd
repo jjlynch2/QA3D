@@ -21,6 +21,7 @@ params:
   z: NULL
   d: NULL
   attributes: NULL
+  choose: NULL
 ---
 QA3D Version: `r packageVersion("QA3D")`
 
@@ -58,6 +59,8 @@ Procedure: `r params$procedure`
 `r if(params$procedure == "Custom") {paste("Z:", params$z, sep=" ")}`
 
 `r if(params$procedure == "Custom") {paste("Density:", params$d, sep=" ")}`
+
+`r if(params$procedure == "Choose") {paste("Target:", params$choose, sep=" ")}`
 
 ### Grand Results
 `r kable(params$report_gr)`

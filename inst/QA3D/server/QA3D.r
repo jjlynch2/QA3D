@@ -21,6 +21,9 @@ observeEvent(input$aligndata$datapath, {
 	showModal(modalDialog(title = "Import has started...Window will update when finished.", easyClose = FALSE, footer = NULL))
 	file.copy(input$aligndata$datapath, input$aligndata$name)
 	filelist3$list <- input.3d(input$aligndata$name) #imports 3D xyzrbg data
+	output$Choose <- renderUI({
+		selectInput(inputId = "Choose", label = "Choose Target", choices = names(filelist3$list))
+	})
 	removeModal()
 })
 
@@ -75,7 +78,7 @@ observeEvent(input$Process, {
 		custom_surface = NULL
 	}
 
-	d1 <<- compare.3d(data = data, custom_surface = surface, sessiontempdir = sessiontemp, procedure = input$Procedure, iteration = input$iterations, cores = input$ncorespc, subsample = subsample, pca = input$pcalign, break_early = breakk)
+	d1 <<- compare.3d(choose = input$Choose, data = data, custom_surface = surface, sessiontempdir = sessiontemp, procedure = input$Procedure, iteration = input$iterations, cores = input$ncorespc, subsample = subsample, pca = input$pcalign, break_early = breakk)
 
 	output$mspec3D <- renderUI({
 		selectInput(inputId = "mspec3D", label = "Choose comparison", choices = c(d1[[1]]))
@@ -84,7 +87,7 @@ observeEvent(input$Process, {
 	report_pw <- data.frame(Comparison = d1[[1]], Average_Hausdorff = d1[[4]], Maximum_Hausdorff = d1[[6]])
 	report_gr <- data.frame(Average_Hausdorff = d1[[5]], Maximum_Hausdorff = d1[[7]], TEMah = d1[[8]], TEMmh = d1[[9]], RMSEah = d1[[10]], RMSEmh = d1[[11]])
 	if(is.null(subsample)){subsample <- FALSE}
-	params_list <- list(attributes = input$attributes, x = input$x, y = input$y, z = input$z, d = input$d, breake = input$breake, breakk = breakk, scannerid = input$scannerid, analyst = input$analyst, date = Sys.time(), iterations = input$iterations, subsample = subsample, pcalign = input$pcalign, kmeans = input$kmeans, procedure = input$Procedure, vara = input$vara, vara2 = input$vara2, report_pw = report_pw, report_gr = report_gr)
+	params_list <- list(choose = input$Choose, attributes = input$attributes, x = input$x, y = input$y, z = input$z, d = input$d, breake = input$breake, breakk = breakk, scannerid = input$scannerid, analyst = input$analyst, date = Sys.time(), iterations = input$iterations, subsample = subsample, pcalign = input$pcalign, kmeans = input$kmeans, procedure = input$Procedure, vara = input$vara, vara2 = input$vara2, report_pw = report_pw, report_gr = report_gr)
 
 	output$savedata <- downloadHandler(
 		filename = "report.pdf",
@@ -105,7 +108,7 @@ observeEvent(input$Process, {
 		HTML("<h3>Grand Results</h1>")
 	})
 	output$contents2 <- renderUI({
-		HTML("<h3>Mean Results</h1>")
+		HTML("<h3>Pairwise Results</h1>")
 	})
 	removeModal()
 	setwd(sessiontemp)
