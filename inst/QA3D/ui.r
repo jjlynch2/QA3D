@@ -93,8 +93,9 @@ shinyUI(
 				mainPanel(
 					tabsetPanel(id="tabSelected",
 						tabPanel("Results",
+							uiOutput('contents1'),
 							DT::dataTableOutput('table2'),
-							uiOutput('contents'),
+							uiOutput('contents2'),
 							DT::dataTableOutput('table1')
 						),
 						tabPanel("Render",

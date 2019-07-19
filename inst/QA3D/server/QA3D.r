@@ -10,7 +10,10 @@ output$resettableInput3D <- renderUI({
 	fileInput('aligndata', 'Import Scans', accept=c("xyz"), multiple = TRUE)
 })
 
-output$contents <- renderUI({
+output$contents1 <- renderUI({
+	HTML(paste("<br>"))
+})
+output$contents2 <- renderUI({
 	HTML(paste("<br>"))
 })
 
@@ -98,7 +101,12 @@ observeEvent(input$Process, {
 	output$table2 <- DT::renderDataTable({
 		DT::datatable(report_gr, options = list(dom = 't'), rownames = FALSE)
 	})
-
+	output$contents1 <- renderUI({
+		HTML("<h3>Grand Results</h1>")
+	})
+	output$contents2 <- renderUI({
+		HTML("<h3>Mean Results</h1>")
+	})
 	removeModal()
 	setwd(sessiontemp)
 	gc() #clean up 

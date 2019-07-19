@@ -6,11 +6,15 @@ output$about_refs <- renderUI({
 		<br><br>
 		PC Align uses Principal Component Analysis to pre-align specimens. This requires reflection along each dimension and takes longer to run. However, it significantly increases the change of successful registration.
 		<br><br>
+		Break Early specifies a break point when using PC Align where any reflection with a maximum distance less than the break point is accepted as the true distance.
+		<br><br>
 		K-means Simplify reduces the point cloud size based on a percentage of the original coordinates of each scan.
 		<br><br>
 		The First procedure will compare all scans to the first scan.
 		<br><br>
 		The All procedure will compare all scans to every other scan.
+		<br><br>
+		The Custom procedure will create a surface of x, y, and z dimensions using a specified density for comparison with the imported scans.
 		</p>
 	")
 })

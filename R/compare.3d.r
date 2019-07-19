@@ -1,4 +1,4 @@
-compare.3d <- function(data = NULL, custom_surface = NULL, sessiontempdir = NULL, procedure = "All", pca = TRUE, iteration = 20, cores = 1, subsample = NULL, break_early = 1) {
+compare.3d <- function(data = NULL, custom_surface = NULL, sessiontempdir = NULL, procedure = "All", pca = TRUE, iteration = 20, cores = 1, subsample = NULL, break_early = 1, verbose = TRUE) {
 	print("Pairwise comparisons started")
 	options(stringsAsFactors = FALSE)
 	data1 <- list()
@@ -7,7 +7,6 @@ compare.3d <- function(data = NULL, custom_surface = NULL, sessiontempdir = NULL
 	adistances <- 0
 	mdistances <- 0
 	n <- 1
-
 	if(procedure == "Custom" && !is.null(custom_surface)) {
 		B <- custom_surface
 		if(pca) {
@@ -45,7 +44,9 @@ compare.3d <- function(data = NULL, custom_surface = NULL, sessiontempdir = NULL
 				d1t <- hausdorff_dist(lt, B, test = "Hausdorff")
 				avg <- d1t[1]
 				max <- d1t[2]
-print(max)
+				if(verbose) {
+					print(paste(avg, max, sep = " "))
+				}
 				if (avg < d1) {
 					d1 <- avg
 					data1[[n]] <- lt
@@ -61,8 +62,8 @@ print(max)
 			}
 			adistances <- rbind(adistances, ad)
 			mdistances <- rbind(mdistances, md)
-			cnames <- c(cnames, paste(names(data)[1], names(data)[i], sep="-"))
-			print(paste(names(data)[1], names(data)[i], adistances[n+1], mdistances[n+1], sep=" "))
+			cnames <- c(cnames, paste("Custom", names(data)[i], sep="-"))
+			print(paste("Custom", names(data)[i], adistances[n+1], mdistances[n+1], sep=" "))
 			n <- n + 1
 		}
 	} else if(procedure == "All") {
@@ -102,7 +103,9 @@ print(max)
 					d1t <- hausdorff_dist(lt, B, test = "Hausdorff")
 					avg <- d1t[1]
 					max <- d1t[2]
-print(max)
+					if(verbose) {
+						print(paste(avg, max, sep = " "))
+					}
 					if (avg < d1) {
 						d1 <- avg
 						ad <- avg
@@ -160,7 +163,9 @@ print(max)
 				d1t <- hausdorff_dist(lt, B, test = "Hausdorff")
 				avg <- d1t[1]
 				max <- d1t[2]
-print(max)
+				if(verbose) {
+					print(paste(avg, max, sep = " "))
+				}
 				if (avg < d1) {
 					d1 <- avg
 					data1[[n]] <- lt
