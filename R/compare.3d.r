@@ -41,7 +41,7 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 					subs = NULL
 				}
 				lt <- icpmat(lt1, B, iterations = iteration, type = "rigid", threads = cores, subsample = subs)
-				d1t <- hausdorff_dist(lt, B, test = "Hausdorff")
+				d1t <- hausdorff_dist(lt, B)
 				avg <- d1t[1]
 				max <- d1t[2]
 				if(verbose) {
@@ -100,7 +100,7 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 						subs = NULL
 					}
 					lt <- icpmat(lt1, B, iterations = iteration, type = "rigid", threads = cores, subsample = subs)
-					d1t <- hausdorff_dist(lt, B, test = "Hausdorff")
+					d1t <- hausdorff_dist(lt, B)
 					avg <- d1t[1]
 					max <- d1t[2]
 					if(verbose) {
@@ -161,7 +161,7 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 					subs = NULL
 				}
 				lt <- icpmat(lt1, B, iterations = iteration, type = "rigid", threads = cores, subsample = subs)
-				d1t <- hausdorff_dist(lt, B, test = "Hausdorff")
+				d1t <- hausdorff_dist(lt, B)
 				avg <- d1t[1]
 				max <- d1t[2]
 				if(verbose) {

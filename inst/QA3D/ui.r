@@ -1,8 +1,3 @@
-#' Shiny ui.r file
-#' 
-#' This is the ui.r file for the interface that utilizes all previous functions. 
-#' runApp("3DQA")
-
 options(warn = -1)
 library(shiny)
 library(rgl)
@@ -46,8 +41,8 @@ shinyUI(
 					fluidRow(
 						column(12,
 							sliderInput(inputId = "ncorespc", label = "Parallel Cores", min=1, max=detectCores(), value=detectCores()-1, step =1),
-							sliderInput(inputId = "iterations", label = "Iterations", min=1, max=1000, value=100, step =1),
-							checkboxInput("subsample", "ICP Subsample", value = FALSE),
+							sliderInput(inputId = "iterations", label = "Iterations", min=1, max=1000, value=250, step =1),
+							checkboxInput("subsample", "ICP Subsample", value = TRUE),
 							conditionalPanel(condition = "input.subsample",
 								sliderInput(inputId = "vara2", label = "% of Coordinates", min=0.01, max=1, value=0.10, step = 0.01)
 							),
@@ -58,7 +53,7 @@ shinyUI(
 									sliderInput(inputId = "breakearly", label = "Break Point", min=0.01, max=20, value=1, step =0.01)
 								)
 							),
-							checkboxInput("kmeans", "K-means Simplify", value = TRUE),
+							checkboxInput("kmeans", "K-means Simplify", value = FALSE),
 							conditionalPanel(condition = "input.kmeans",
 								sliderInput(inputId = "vara", label = "% of Coordinates", min=0.01, max=1, value=0.10, step = 0.01)
 							),
@@ -67,7 +62,7 @@ shinyUI(
 								numericInput(inputId = "x", label = "X", value = "10", min=0,max=999,step=0.01),
 								numericInput(inputId = "y", label = "Y", value = "10", min=0,max=999,step=0.01),
 								numericInput(inputId = "z", label = "Z", value = "10", min=0,max=999,step=0.01),
-								numericInput(inputId = "d", label = "Density", value = "0.5", min=0,max=999,step=0.01)
+								numericInput(inputId = "d", label = "Density", value = "0.1", min=0,max=999,step=0.01)
 							),
 							conditionalPanel(condition = "input.Procedure == 'Choose'",
 								uiOutput('Choose')

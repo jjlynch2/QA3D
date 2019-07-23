@@ -20,7 +20,7 @@ output$contents2 <- renderUI({
 observeEvent(input$aligndata$datapath, {
 	showModal(modalDialog(title = "Import has started...Window will update when finished.", easyClose = FALSE, footer = NULL))
 	file.copy(input$aligndata$datapath, input$aligndata$name)
-	filelist3$list <- input.3d(input$aligndata$name) #imports 3D xyzrbg data
+	filelist3$list <- input.3d(input$aligndata$name)
 	output$Choose <- renderUI({
 		selectInput(inputId = "Choose", label = "Choose Target", choices = names(filelist3$list))
 	})
@@ -112,5 +112,5 @@ observeEvent(input$Process, {
 	})
 	removeModal()
 	setwd(sessiontemp)
-	gc() #clean up 
+	gc()
 })
