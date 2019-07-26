@@ -24,13 +24,13 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 			md = 0
 			for(j in 1:k) {
 				if (j == 1) {lt1 <- cbind( A[,1], A[,2],A[,3])}
-				else if(j == 2) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3])}
-				else if (j == 3) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3])}
-				else if (j == 4) {lt1 <- cbind( A[,1], A[,2],A[,3]*-1)}
+				else if (j == 2) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3]*-1)}
+				else if (j == 3) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3]*-1)}
+				else if (j == 4) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3]*-1)}
 				else if (j == 5) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3])}
-				else if (j == 6) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3]*-1)}
-				else if (j == 7) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3]*-1)}
-				else if (j == 8) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3]*-1)}
+				else if (j == 6) {lt1 <- cbind( A[,1], A[,2],A[,3]*-1)}
+				else if (j == 7) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3])}
+				else if(j == 8) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3])}
 				if(!is.null(subsample)) {
 					nr1 <- nrow(B)
 					nr1 <- nr1 * subsample
@@ -83,13 +83,13 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 				md = 0
 				for(j in 1:k) {
 					if (j == 1) {lt1 <- cbind( A[,1], A[,2],A[,3])}
-					else if(j == 2) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3])}
-					else if (j == 3) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3])}
-					else if (j == 4) {lt1 <- cbind( A[,1], A[,2],A[,3]*-1)}
+					else if (j == 2) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3]*-1)}
+					else if (j == 3) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3]*-1)}
+					else if (j == 4) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3]*-1)}
 					else if (j == 5) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3])}
-					else if (j == 6) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3]*-1)}
-					else if (j == 7) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3]*-1)}
-					else if (j == 8) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3]*-1)}
+					else if (j == 6) {lt1 <- cbind( A[,1], A[,2],A[,3]*-1)}
+					else if (j == 7) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3])}
+					else if(j == 8) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3])}
 					if(!is.null(subsample)) {
 						nr1 <- nrow(B)
 						nr1 <- nr1 * subsample
@@ -144,13 +144,13 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 			md = 0
 			for(j in 1:k) {
 				if (j == 1) {lt1 <- cbind( A[,1], A[,2],A[,3])}
-				else if(j == 2) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3])}
-				else if (j == 3) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3])}
-				else if (j == 4) {lt1 <- cbind( A[,1], A[,2],A[,3]*-1)}
+				else if (j == 2) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3]*-1)}
+				else if (j == 3) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3]*-1)}
+				else if (j == 4) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3]*-1)}
 				else if (j == 5) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3])}
-				else if (j == 6) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3]*-1)}
-				else if (j == 7) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3]*-1)}
-				else if (j == 8) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3]*-1)}
+				else if (j == 6) {lt1 <- cbind( A[,1], A[,2],A[,3]*-1)}
+				else if (j == 7) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3])}
+				else if(j == 8) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3])}
 				if(!is.null(subsample)) {
 					nr1 <- nrow(B)
 					nr1 <- nr1 * subsample
