@@ -6,6 +6,7 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 	cnames <- c()
 	adistances <- 0
 	mdistances <- 0
+	sddistances <- 0
 	n <- 1
 	if(procedure == "Custom" && !is.null(custom_surface)) {
 		B <- custom_surface
@@ -53,6 +54,7 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 					data2[[n]] <- B
 					ad <- avg
 					md <- max
+					sdd <- d1t[3]
 					if(!is.null(break_early)) {
 						if(max < break_early) {
 							break
@@ -62,6 +64,7 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 			}
 			adistances <- rbind(adistances, ad)
 			mdistances <- rbind(mdistances, md)
+			sddistances <- rbind(sddistances, sdd)
 			cnames <- c(cnames, paste("Custom", names(data)[i], sep="-"))
 			print(paste("Custom", names(data)[i], adistances[n+1], mdistances[n+1], sep=" "))
 			n <- n + 1
@@ -110,6 +113,7 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 						d1 <- avg
 						ad <- avg
 						md <- max
+						sdd <- d1t[3]
 						data1[[n]] <- lt
 						data2[[n]] <- B
 						if(!is.null(break_early)) {
@@ -121,6 +125,7 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 				}
 				adistances <- rbind(adistances, ad)
 				mdistances <- rbind(mdistances, md)
+				sddistances <- rbind(sddistances, sdd)
 				cnames <- c(cnames, paste(names(data)[i], names(data)[x], sep="-"))
 				print(paste(names(data)[i], names(data)[x], adistances[n+1], mdistances[n+1], sep=" "))
 				n <- n + 1
@@ -173,6 +178,7 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 					data2[[n]] <- B
 					ad <- avg
 					md <- max
+					sdd <- d1t[3]
 					if(!is.null(break_early)) {
 						if(max < break_early) {
 							break
@@ -182,6 +188,7 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 			}
 			adistances <- rbind(adistances, ad)
 			mdistances <- rbind(mdistances, md)
+			sddistances <- rbind(sddistances, sdd)
 			cnames <- c(cnames, paste(choose, names(data)[i], sep="-"))
 			print(paste(choose, names(data)[i], adistances[n+1], mdistances[n+1], sep=" "))
 			n <- n + 1
@@ -190,5 +197,5 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 	gc()
 	print("Pairwise comparisons completed")	
 	options(stringsAsFactors = TRUE)
-	return(list(cnames, data1, data2, adistances[-1], mean(adistances[-1]), mdistances[-1], mean(mdistances[-1]), tem(adistances[-1]), tem(mdistances[-1]), rmse(adistances[-1]), rmse(mdistances[-1])))
+	return(list(cnames, data1, data2, adistances[-1], mean(adistances[-1]), mdistances[-1], mean(mdistances[-1]), tem(adistances[-1]), tem(mdistances[-1]), rmse(adistances[-1]), rmse(mdistances[-1]), mean(sddistances[-1]), sddistances[-1]))
 }
