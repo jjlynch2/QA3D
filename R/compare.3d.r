@@ -45,8 +45,9 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 				d1t <- hausdorff_dist(lt, B)
 				avg <- d1t[1]
 				max <- d1t[2]
+				sdd <- d1t[3]
 				if(verbose) {
-					print(paste(avg, max, sep = " "))
+					print(paste(avg, max, sdd, sep = " "))
 				}
 				if (avg < d1) {
 					d1 <- avg
@@ -54,7 +55,7 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 					data2[[n]] <- B
 					ad <- avg
 					md <- max
-					sdd <- d1t[3]
+					sddd <- sdd
 					if(!is.null(break_early)) {
 						if(max < break_early) {
 							break
@@ -64,9 +65,9 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 			}
 			adistances <- rbind(adistances, ad)
 			mdistances <- rbind(mdistances, md)
-			sddistances <- rbind(sddistances, sdd)
+			sddistances <- rbind(sddistances, sddd)
 			cnames <- c(cnames, paste("Custom", names(data)[i], sep="-"))
-			print(paste("Custom", names(data)[i], adistances[n+1], mdistances[n+1], sep=" "))
+			print(paste("Custom", names(data)[i], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
 			n <- n + 1
 		}
 	} else if(procedure == "All") {
@@ -106,14 +107,15 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 					d1t <- hausdorff_dist(lt, B)
 					avg <- d1t[1]
 					max <- d1t[2]
+					sdd <- d1t[3]
 					if(verbose) {
-						print(paste(avg, max, sep = " "))
+						print(paste(avg, max, sdd, sep = " "))
 					}
 					if (avg < d1) {
 						d1 <- avg
 						ad <- avg
 						md <- max
-						sdd <- d1t[3]
+						sddd <- sdd
 						data1[[n]] <- lt
 						data2[[n]] <- B
 						if(!is.null(break_early)) {
@@ -125,9 +127,9 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 				}
 				adistances <- rbind(adistances, ad)
 				mdistances <- rbind(mdistances, md)
-				sddistances <- rbind(sddistances, sdd)
+				sddistances <- rbind(sddistances, sddd)
 				cnames <- c(cnames, paste(names(data)[i], names(data)[x], sep="-"))
-				print(paste(names(data)[i], names(data)[x], adistances[n+1], mdistances[n+1], sep=" "))
+				print(paste(names(data)[i], names(data)[x], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
 				n <- n + 1
 			}
 		}
@@ -169,8 +171,9 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 				d1t <- hausdorff_dist(lt, B)
 				avg <- d1t[1]
 				max <- d1t[2]
+				sdd <- d1t[3]
 				if(verbose) {
-					print(paste(avg, max, sep = " "))
+					print(paste(avg, max, sdd, sep = " "))
 				}
 				if (avg < d1) {
 					d1 <- avg
@@ -178,7 +181,7 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 					data2[[n]] <- B
 					ad <- avg
 					md <- max
-					sdd <- d1t[3]
+					sddd <- sdd
 					if(!is.null(break_early)) {
 						if(max < break_early) {
 							break
@@ -188,9 +191,9 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 			}
 			adistances <- rbind(adistances, ad)
 			mdistances <- rbind(mdistances, md)
-			sddistances <- rbind(sddistances, sdd)
+			sddistances <- rbind(sddistances, sddd)
 			cnames <- c(cnames, paste(choose, names(data)[i], sep="-"))
-			print(paste(choose, names(data)[i], adistances[n+1], mdistances[n+1], sep=" "))
+			print(paste(choose, names(data)[i], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
 			n <- n + 1
 		}
 	}
