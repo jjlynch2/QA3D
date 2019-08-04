@@ -30,10 +30,21 @@ observeEvent(input$aligndata$datapath, {
 observeEvent(input$mspec3D, {
 	tt1 <- d1[[2]][which(d1[[1]] == input$mspec3D)][[1]]
 	tt2 <- d1[[3]][which(d1[[1]] == input$mspec3D)][[1]]
+
+	if(is.null(nrow(d1[[14]]))){
+		tt1p <- d1[[14]]
+		tt2p <- d1[[15]]
+	} else {
+		tt1p <- d1[[14]][which(d1[[1]] == input$mspec3D),]
+		tt2p <- d1[[15]][which(d1[[1]] == input$mspec3D),]
+	}
+	ttp <- rbind(tt1p, tt2p)
+
 	output$webgl3Dalign <- renderRglwidget ({
 		try(rgl.close())
 		points3d(tt1, size=3, col="dimgray", box=FALSE)
 		points3d(tt2, size=3, col="dodgerblue", box=FALSE)
+		lines3d(ttp, col=2, lwd=2)
 		axes3d(c('x++', 'y++', 'z++'))
 		rglwidget()
 	})

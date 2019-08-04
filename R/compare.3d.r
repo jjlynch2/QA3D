@@ -7,6 +7,8 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 	adistances <- 0
 	mdistances <- 0
 	sddistances <- 0
+	maxcoords1 <- 0
+	maxcoords2 <- 0
 	n <- 1
 	if(procedure == "Custom" && !is.null(custom_surface)) {
 		B <- custom_surface
@@ -46,6 +48,9 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 				avg <- d1t[1]
 				max <- d1t[2]
 				sdd <- d1t[3]
+				mx1 <- d1t[4]
+				mx2 <- d1t[5]
+				mx3 <- d1t[6]
 				if(verbose) {
 					print(paste(avg, max, sdd, sep = " "))
 				}
@@ -56,6 +61,13 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 					ad <- avg
 					md <- max
 					sddd <- sdd
+					if(mx3 == 2) {
+						mxxx1 <- lt[mx1,]
+						mxxx2 <- B[mx2,]
+					} else {
+						mxxx1 <- lt[mx2,]
+						mxxx2 <- B[mx1,]
+					}
 					if(!is.null(break_early)) {
 						if(max < break_early) {
 							break
@@ -66,6 +78,8 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 			adistances <- rbind(adistances, ad)
 			mdistances <- rbind(mdistances, md)
 			sddistances <- rbind(sddistances, sddd)
+			maxcoords1 <- rbind(maxcoords1, mxxx1)
+			maxcoords2 <- rbind(maxcoords2, mxxx2)
 			cnames <- c(cnames, paste("Custom", names(data)[i], sep="-"))
 			print(paste("Custom", names(data)[i], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
 			n <- n + 1
@@ -108,6 +122,9 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 					avg <- d1t[1]
 					max <- d1t[2]
 					sdd <- d1t[3]
+					mx1 <- d1t[4]
+					mx2 <- d1t[5]
+					mx3 <- d1t[6]
 					if(verbose) {
 						print(paste(avg, max, sdd, sep = " "))
 					}
@@ -116,6 +133,13 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 						ad <- avg
 						md <- max
 						sddd <- sdd
+						if(mx3 == 2) {
+							mxxx1 <- lt[mx1,]
+							mxxx2 <- B[mx2,]
+						} else {
+							mxxx1 <- lt[mx2,]
+							mxxx2 <- B[mx1,]
+						}
 						data1[[n]] <- lt
 						data2[[n]] <- B
 						if(!is.null(break_early)) {
@@ -128,6 +152,8 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 				adistances <- rbind(adistances, ad)
 				mdistances <- rbind(mdistances, md)
 				sddistances <- rbind(sddistances, sddd)
+				maxcoords1 <- rbind(maxcoords1, mxxx1)
+				maxcoords2 <- rbind(maxcoords2, mxxx2)
 				cnames <- c(cnames, paste(names(data)[i], names(data)[x], sep="-"))
 				print(paste(names(data)[i], names(data)[x], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
 				n <- n + 1
@@ -172,6 +198,9 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 				avg <- d1t[1]
 				max <- d1t[2]
 				sdd <- d1t[3]
+				mx1 <- d1t[4]
+				mx2 <- d1t[5]
+				mx3 <- d1t[6]
 				if(verbose) {
 					print(paste(avg, max, sdd, sep = " "))
 				}
@@ -182,6 +211,13 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 					ad <- avg
 					md <- max
 					sddd <- sdd
+					if(mx3 == 2) {
+						mxxx1 <- lt[mx1,]
+						mxxx2 <- B[mx2,]
+					} else {
+						mxxx1 <- lt[mx2,]
+						mxxx2 <- B[mx1,]
+					}
 					if(!is.null(break_early)) {
 						if(max < break_early) {
 							break
@@ -192,6 +228,8 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 			adistances <- rbind(adistances, ad)
 			mdistances <- rbind(mdistances, md)
 			sddistances <- rbind(sddistances, sddd)
+			maxcoords1 <- rbind(maxcoords1, mxxx1)
+			maxcoords2 <- rbind(maxcoords2, mxxx2)
 			cnames <- c(cnames, paste(choose, names(data)[i], sep="-"))
 			print(paste(choose, names(data)[i], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
 			n <- n + 1
@@ -200,5 +238,5 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 	gc()
 	print("Pairwise comparisons completed")	
 	options(stringsAsFactors = TRUE)
-	return(list(cnames, data1, data2, adistances[-1], mean(adistances[-1]), mdistances[-1], mean(mdistances[-1]), tem(adistances[-1]), tem(mdistances[-1]), rmse(adistances[-1]), rmse(mdistances[-1]), mean(sddistances[-1]), sddistances[-1]))
+	return(list(cnames, data1, data2, adistances[-1], mean(adistances[-1]), mdistances[-1], mean(mdistances[-1]), tem(adistances[-1]), tem(mdistances[-1]), rmse(adistances[-1]), rmse(mdistances[-1]), mean(sddistances[-1]), sddistances[-1], maxcoords1[-1,], maxcoords2[-1,]))
 }
