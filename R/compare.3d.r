@@ -25,6 +25,9 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 			d1 = 999999
 			ad = 0
 			md = 0
+			sddd <- 0
+			mxxx1 <- 0
+			mxxx2 <- 0
 			for(j in 1:k) {
 				if (j == 1) {lt1 <- cbind( A[,1], A[,2],A[,3])}
 				else if (j == 2) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3]*-1)}
@@ -99,6 +102,9 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 				d1 = 999999
 				ad = 0
 				md = 0
+				sddd <- 0
+				mxxx1 <- 0
+				mxxx2 <- 0
 				for(j in 1:k) {
 					if (j == 1) {lt1 <- cbind( A[,1], A[,2],A[,3])}
 					else if (j == 2) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3]*-1)}
@@ -149,13 +155,21 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 						}
 					}
 				}
+print("A")
 				adistances <- rbind(adistances, ad)
+print("B")
 				mdistances <- rbind(mdistances, md)
+print("C")
 				sddistances <- rbind(sddistances, sddd)
+print("D")
 				maxcoords1 <- rbind(maxcoords1, mxxx1)
+print("E")
 				maxcoords2 <- rbind(maxcoords2, mxxx2)
+print("F")
 				cnames <- c(cnames, paste(names(data)[i], names(data)[x], sep="-"))
+print("G")
 				print(paste(names(data)[i], names(data)[x], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
+print("H")
 				n <- n + 1
 			}
 		}
@@ -175,6 +189,9 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 			d1 = 999999
 			ad = 0
 			md = 0
+			sddd <- 0
+			mxxx1 <- 0
+			mxxx2 <- 0
 			for(j in 1:k) {
 				if (j == 1) {lt1 <- cbind( A[,1], A[,2],A[,3])}
 				else if (j == 2) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3]*-1)}
