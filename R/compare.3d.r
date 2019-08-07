@@ -64,13 +64,8 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 					ad <- avg
 					md <- max
 					sddd <- sdd
-					if(mx3 == 2) {
-						mxxx1 <- lt[mx1,]
-						mxxx2 <- B[mx2,]
-					} else {
-						mxxx1 <- lt[mx2,]
-						mxxx2 <- B[mx1,]
-					}
+					mxxx1 <- lt[mx1,]
+					mxxx2 <- B[mx2,]
 					if(!is.null(break_early)) {
 						if(max < break_early) {
 							break
@@ -139,11 +134,8 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 						ad <- avg
 						md <- max
 						sddd <- sdd
-print("A")
 						mxxx1 <- lt[mx1,]
-print("B")
 						mxxx2 <- B[mx2,]
-print("C")
 						data1[[n]] <- lt
 						data2[[n]] <- B
 						if(!is.null(break_early)) {
@@ -218,13 +210,8 @@ print("C")
 					ad <- avg
 					md <- max
 					sddd <- sdd
-					if(mx3 == 2) {
-						mxxx1 <- lt[mx1,]
-						mxxx2 <- B[mx2,]
-					} else {
-						mxxx1 <- lt[mx2,]
-						mxxx2 <- B[mx1,]
-					}
+					mxxx1 <- lt[mx1,]
+					mxxx2 <- B[mx2,]
 					if(!is.null(break_early)) {
 						if(max < break_early) {
 							break
