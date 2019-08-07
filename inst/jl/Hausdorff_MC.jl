@@ -20,8 +20,8 @@ function Hausdorff(m1,m2)
 		j = Res1[Max1[2],2]
 		x = Res1[Max1[2],3]
 	else
-		j = Res2[Max2[2],2]
-		x = Res2[Max2[2],3]
+		x = Res2[Max2[2],2]
+		j = Res2[Max2[2],3]
 	end
 
 	return [Avg, Max[1], Sd, j, x]
