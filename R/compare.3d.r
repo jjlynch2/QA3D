@@ -149,7 +149,7 @@ print("J")
 						md <- max
 						sddd <- sdd
 print("L")
-						if(mx3 == 2) {
+						if(mx3 == 1) {
 							mxxx1 <- lt[mx1,]
 							mxxx2 <- B[mx2,]
 print("M")
