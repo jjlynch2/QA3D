@@ -89,21 +89,16 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 		}
 	} else if(procedure == "All") {
 		for(i in 1:length(data)) {
-print("A")
 			for(x in 1:length(data)) {
-print("B")
 				if(i == x) {break}
 				k = 1
 				A <- data[[i]][,c(1:3)]
 				B <- data[[x]][,c(1:3)]
-print("C")
 				if(pca) {
 					A <- QA3D::pca_align(A)
 					B <- QA3D::pca_align(B)
 					k = 8
-print("E")
 				}
-print("F")
 				d1 = 999999
 				ad = 0
 				md = 0
@@ -111,7 +106,6 @@ print("F")
 				mxxx1 <- 0
 				mxxx2 <- 0
 				for(j in 1:k) {
-print("G")
 					if (j == 1) {lt1 <- cbind( A[,1], A[,2],A[,3])}
 					else if (j == 2) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3]*-1)}
 					else if (j == 3) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3]*-1)}
@@ -129,11 +123,8 @@ print("G")
 					} else {
 						subs = NULL
 					}
-print("H")
 					lt <- icpmat(lt1, B, iterations = iteration, type = "rigid", threads = cores, subsample = subs)
-print("I")
 					d1t <- hausdorff_dist(lt, B)
-print("J")
 					avg <- d1t[1]
 					max <- d1t[2]
 					sdd <- d1t[3]
@@ -148,36 +139,26 @@ print("J")
 						ad <- avg
 						md <- max
 						sddd <- sdd
-print("L")
-						if(mx3 == 1) {
-							mxxx1 <- lt[mx1,]
-							mxxx2 <- B[mx2,]
-print("M")
-						} else {
-							mxxx1 <- lt[mx2,]
-							mxxx2 <- B[mx1,]
-print("N")
-						}
+print("A")
+						mxxx1 <- lt[mx1,]
+print("B")
+						mxxx2 <- B[mx2,]
+print("C")
 						data1[[n]] <- lt
 						data2[[n]] <- B
-print("O")
 						if(!is.null(break_early)) {
 							if(max < break_early) {
-print("P")
 								break
 							}
 						}
 					}
 				}
-print("Q")
 				adistances <- rbind(adistances, ad)
 				mdistances <- rbind(mdistances, md)
 				sddistances <- rbind(sddistances, sddd)
 				maxcoords1 <- rbind(maxcoords1, mxxx1)
 				maxcoords2 <- rbind(maxcoords2, mxxx2)
-print("R")
 				cnames <- c(cnames, paste(names(data)[i], names(data)[x], sep="-"))
-print("S")
 				print(paste(names(data)[i], names(data)[x], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
 				n <- n + 1
 			}
