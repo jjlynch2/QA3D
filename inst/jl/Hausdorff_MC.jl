@@ -8,7 +8,7 @@ function Hausdorff(m1,m2)
 	Avg2 = mean(Res2[:,1])
 	Max1 = findmax(Res1[:,1])
 	Max2 = findmax(Res2[:,1])
-	Avg = max([Avg1, Avg2])
+	Avg = max(Avg1, Avg2)
 	Max = findmax([Max1[1], Max2[1]])
 	if Max[2] == 1
 		j = Res1[Max1[2],2]
