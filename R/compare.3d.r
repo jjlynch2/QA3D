@@ -10,227 +10,79 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 	maxcoords1 <- 0
 	maxcoords2 <- 0
 	n <- 1
-	if(procedure == "Custom" && !is.null(custom_surface)) {
-		B <- custom_surface
-		if(pca) {
-			B <- QA3D::pca_align(B)
-		}
+	k <- 1
+
+	if(pca) {
+		print("Aligning along principal axes")
 		for(i in 1:length(data)) {
-			k = 1
+			data[[i]][,c(1:3)] <- QA3D::pca_align(data[[i]][,c(1:3)])
+		}
+		if(procedure == "Custom" && !is.null(custom_surface)) {
+			custom_surface <- QA3D::pca_align(custom_surface)
+		}
+		k <- 8
+		print("Finished...")
+	}
+	if(procedure == "Custom" && !is.null(custom_surface)) {
+		for(i in 1:length(data)) {
 			A <- data[[i]][,c(1:3)]
-			if(pca) {
-				A <- QA3D::pca_align(A)
-				k = 8
-			}
-			d1 = 999999
-			ad = 0
-			md = 0
-			sddd <- 0
-			mxxx1 <- 0
-			mxxx2 <- 0
-			for(j in 1:k) {
-				if (j == 1) {lt1 <- cbind( A[,1], A[,2],A[,3])}
-				else if (j == 2) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3]*-1)}
-				else if (j == 3) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3]*-1)}
-				else if (j == 4) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3]*-1)}
-				else if (j == 5) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3])}
-				else if (j == 6) {lt1 <- cbind( A[,1], A[,2],A[,3]*-1)}
-				else if (j == 7) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3])}
-				else if(j == 8) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3])}
-				if(!is.null(subsample)) {
-					nr1 <- nrow(B)
-					nr1 <- nr1 * subsample
-					nr2 <- nrow(lt1)
-					nr2 <- nr2 * subsample
-					subs <- round(mean(nr1, nr2), digits = 0)
-				} else {
-					subs = NULL
-				}
-				lt <- icpmat(lt1, B, iterations = iteration, type = "rigid", threads = cores, subsample = subs)
-				d1t <- hausdorff_dist(lt, B)
-				avg <- d1t[1]
-				max <- d1t[2]
-				sdd <- d1t[3]
-				mx1 <- d1t[4]
-				mx2 <- d1t[5]
-				mx3 <- d1t[6]
-				if(verbose) {
-					print(paste(avg, max, sdd, sep = " "))
-				}
-				if (avg < d1) {
-					d1 <- avg
-					data1[[n]] <- lt
-					data2[[n]] <- B
-					ad <- avg
-					md <- max
-					sddd <- sdd
-					mxxx1 <- lt[mx1,]
-					mxxx2 <- B[mx2,]
-					if(!is.null(break_early)) {
-						if(max < break_early) {
-							break
-						}
-					}
-				}
-			}
-			adistances <- rbind(adistances, ad)
-			mdistances <- rbind(mdistances, md)
-			sddistances <- rbind(sddistances, sddd)
-			maxcoords1 <- rbind(maxcoords1, mxxx1)
-			maxcoords2 <- rbind(maxcoords2, mxxx2)
+			d1t <- reflection_icp(A, B, iterations = iteration, threads = cores, subsample = subsample, break_early = break_early, k = k)
+			mx1 <- d1t[[2]][4]
+			mx2 <- d1t[[2]][5]
+			data1[[n]] <- d1t[[1]]
+			data2[[n]] <- B
+			adistances <- rbind(adistances, d1t[[2]][1])
+			mdistances <- rbind(mdistances, d1t[[2]][2])
+			sddistances <- rbind(sddistances, d1t[[2]][3])
+			maxcoords1 <- rbind(maxcoords1, d1t[[1]][d1t[[2]][4],])
+			maxcoords2 <- rbind(maxcoords2, B[d1t[[2]][5],])
 			cnames <- c(cnames, paste("Custom", names(data)[i], sep="-"))
-			print(paste("Custom", names(data)[i], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
+			print(paste("Final Error: ", "Custom", names(data)[i], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
 			n <- n + 1
 		}
 	} else if(procedure == "All") {
 		for(i in 1:length(data)) {
 			for(x in 1:length(data)) {
 				if(i == x) {break}
-				k = 1
 				A <- data[[i]][,c(1:3)]
 				B <- data[[x]][,c(1:3)]
-				if(pca) {
-					A <- QA3D::pca_align(A)
-					B <- QA3D::pca_align(B)
-					k = 8
-				}
-				d1 = 999999
-				ad = 0
-				md = 0
-				sddd <- 0
-				mxxx1 <- 0
-				mxxx2 <- 0
-				for(j in 1:k) {
-					if (j == 1) {lt1 <- cbind( A[,1], A[,2],A[,3])}
-					else if (j == 2) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3]*-1)}
-					else if (j == 3) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3]*-1)}
-					else if (j == 4) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3]*-1)}
-					else if (j == 5) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3])}
-					else if (j == 6) {lt1 <- cbind( A[,1], A[,2],A[,3]*-1)}
-					else if (j == 7) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3])}
-					else if(j == 8) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3])}
-					if(!is.null(subsample)) {
-						nr1 <- nrow(B)
-						nr1 <- nr1 * subsample
-						nr2 <- nrow(lt1)
-						nr2 <- nr2 * subsample
-						subs <- round(mean(nr1, nr2), digits = 0)
-					} else {
-						subs = NULL
-					}
-					lt <- icpmat(lt1, B, iterations = iteration, type = "rigid", threads = cores, subsample = subs)
-					d1t <- hausdorff_dist(lt, B)
-					avg <- d1t[1]
-					max <- d1t[2]
-					sdd <- d1t[3]
-					mx1 <- d1t[4]
-					mx2 <- d1t[5]
-					mx3 <- d1t[6]
-					if(verbose) {
-						print(paste(avg, max, sdd, sep = " "))
-					}
-					if (avg < d1) {
-						d1 <- avg
-						ad <- avg
-						md <- max
-						sddd <- sdd
-						mxxx1 <- lt[mx1,]
-						mxxx2 <- B[mx2,]
-						data1[[n]] <- lt
-						data2[[n]] <- B
-						if(!is.null(break_early)) {
-							if(max < break_early) {
-								break
-							}
-						}
-					}
-				}
-				adistances <- rbind(adistances, ad)
-				mdistances <- rbind(mdistances, md)
-				sddistances <- rbind(sddistances, sddd)
-				maxcoords1 <- rbind(maxcoords1, mxxx1)
-				maxcoords2 <- rbind(maxcoords2, mxxx2)
+				d1t <- reflection_icp(A, B, iterations = iteration, threads = cores, subsample = subsample, break_early = break_early, k = k)
+				mx1 <- d1t[[2]][4]
+				mx2 <- d1t[[2]][5]
+				data1[[n]] <- d1t[[1]]
+				data2[[n]] <- B
+				adistances <- rbind(adistances, d1t[[2]][1])
+				mdistances <- rbind(mdistances, d1t[[2]][2])
+				sddistances <- rbind(sddistances, d1t[[2]][3])
+				maxcoords1 <- rbind(maxcoords1, d1t[[1]][d1t[[2]][4],])
+				maxcoords2 <- rbind(maxcoords2, B[d1t[[2]][5],])
 				cnames <- c(cnames, paste(names(data)[i], names(data)[x], sep="-"))
-				print(paste(names(data)[i], names(data)[x], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
+				print(paste("Final Error: ", names(data)[i], names(data)[x], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
 				n <- n + 1
 			}
 		}
 	} else if(procedure == "Choose") {
 		B <- data[[choose]][,c(1:3)]
 		data[[choose]] <- NULL
-		if(pca) {
-			B <- QA3D::pca_align(B)
-		}
 		for(i in 1:length(data)) {
-			k = 1
 			A <- data[[i]][,c(1:3)]
-			if(pca) {
-				A <- QA3D::pca_align(A)
-				k = 8
-			}
-			d1 = 999999
-			ad = 0
-			md = 0
-			sddd <- 0
-			mxxx1 <- 0
-			mxxx2 <- 0
-			for(j in 1:k) {
-				if (j == 1) {lt1 <- cbind( A[,1], A[,2],A[,3])}
-				else if (j == 2) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3]*-1)}
-				else if (j == 3) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3]*-1)}
-				else if (j == 4) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3]*-1)}
-				else if (j == 5) {lt1 <- cbind( A[,1]*-1, A[,2]*-1,A[,3])}
-				else if (j == 6) {lt1 <- cbind( A[,1], A[,2],A[,3]*-1)}
-				else if (j == 7) {lt1 <- cbind( A[,1], A[,2]*-1,A[,3])}
-				else if(j == 8) {lt1 <- cbind( A[,1]*-1, A[,2],A[,3])}
-				if(!is.null(subsample)) {
-					nr1 <- nrow(B)
-					nr1 <- nr1 * subsample
-					nr2 <- nrow(lt1)
-					nr2 <- nr2 * subsample
-					subs <- round(mean(nr1, nr2), digits = 0)
-				} else {
-					subs = NULL
-				}
-				lt <- icpmat(lt1, B, iterations = iteration, type = "rigid", threads = cores, subsample = subs)
-				d1t <- hausdorff_dist(lt, B)
-				avg <- d1t[1]
-				max <- d1t[2]
-				sdd <- d1t[3]
-				mx1 <- d1t[4]
-				mx2 <- d1t[5]
-				mx3 <- d1t[6]
-				if(verbose) {
-					print(paste(avg, max, sdd, sep = " "))
-				}
-				if (avg < d1) {
-					d1 <- avg
-					data1[[n]] <- lt
-					data2[[n]] <- B
-					ad <- avg
-					md <- max
-					sddd <- sdd
-					mxxx1 <- lt[mx1,]
-					mxxx2 <- B[mx2,]
-					if(!is.null(break_early)) {
-						if(max < break_early) {
-							break
-						}
-					}
-				}
-			}
-			adistances <- rbind(adistances, ad)
-			mdistances <- rbind(mdistances, md)
-			sddistances <- rbind(sddistances, sddd)
-			maxcoords1 <- rbind(maxcoords1, mxxx1)
-			maxcoords2 <- rbind(maxcoords2, mxxx2)
+			d1t <- reflection_icp(A, B, iterations = iteration, threads = cores, subsample = subsample, break_early = break_early, k = k)
+			mx1 <- d1t[[2]][4]
+			mx2 <- d1t[[2]][5]
+			data1[[n]] <- d1t[[1]]
+			data2[[n]] <- B
+			adistances <- rbind(adistances, d1t[[2]][1])
+			mdistances <- rbind(mdistances, d1t[[2]][2])
+			sddistances <- rbind(sddistances, d1t[[2]][3])
+			maxcoords1 <- rbind(maxcoords1, d1t[[1]][d1t[[2]][4],])
+			maxcoords2 <- rbind(maxcoords2, B[d1t[[2]][5],])
 			cnames <- c(cnames, paste(choose, names(data)[i], sep="-"))
-			print(paste(choose, names(data)[i], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
+			print(paste("Final Error: ", choose, names(data)[i], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
 			n <- n + 1
 		}
 	}
 	gc()
-	print("Pairwise comparisons completed")	
+	print("Pairwise comparisons completed")
 	options(stringsAsFactors = TRUE)
 	return(list(cnames, data1, data2, adistances[-1], mean(adistances[-1]), mdistances[-1], mean(mdistances[-1]), tem(adistances[-1]), tem(mdistances[-1]), rmse(adistances[-1]), rmse(mdistances[-1]), mean(sddistances[-1]), sddistances[-1], maxcoords1[-1,], maxcoords2[-1,]))
 }
