@@ -44,11 +44,11 @@ shinyUI(
 							sliderInput(inputId = "iterations", label = "Iterations", min=1, max=1000, value=250, step =1),
 							checkboxInput("subsample", "ICP Subsample", value = TRUE),
 							conditionalPanel(condition = "input.subsample",
-								sliderInput(inputId = "vara2", label = "% of Coordinates", min=0.01, max=1, value=0.10, step = 0.01)
+								sliderInput(inputId = "vara2", label = "% of Coordinates", min=0.01, max=1, value=0.01, step = 0.01)
 							),
 							checkboxInput("pcalign", "PC Align", value = TRUE),
 							conditionalPanel(condition = "input.pcalign", 
-								checkboxInput("breake", "Break Early", value = FALSE),
+								checkboxInput("breake", "Break Early", value = TRUE),
 								conditionalPanel(condition = "input.breake", 
 									sliderInput(inputId = "breakearly", label = "Break Point", min=0.01, max=20, value=1, step =0.01)
 								)
