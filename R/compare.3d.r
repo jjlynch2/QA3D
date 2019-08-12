@@ -1,8 +1,6 @@
-compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessiontempdir = NULL, procedure = "All", pca = TRUE, iteration = 20, cores = 1, subsample = NULL, break_early = 1, verbose = TRUE) {
+compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, procedure = "All", pca = TRUE, iteration = 20, cores = 1, subsample = NULL, break_early = 1, verbose = TRUE) {
 	print("Pairwise comparisons started")
 	options(stringsAsFactors = FALSE)
-	data1 <- list()
-	data2 <- list()
 	cnames <- c()
 	adistances <- 0
 	mdistances <- 0
@@ -29,8 +27,7 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 			d1t <- reflection_icp(A, B, iterations = iteration, threads = cores, subsample = subsample, break_early = break_early, k = k)
 			mx1 <- d1t[[2]][4]
 			mx2 <- d1t[[2]][5]
-			data1[[n]] <- d1t[[1]]
-			data2[[n]] <- B
+			write.tmp.data(d1t[[1]], B, paste("Custom", names(data)[i], sep="-"))
 			adistances <- rbind(adistances, d1t[[2]][1])
 			mdistances <- rbind(mdistances, d1t[[2]][2])
 			sddistances <- rbind(sddistances, d1t[[2]][3])
@@ -49,8 +46,7 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 				d1t <- reflection_icp(A, B, iterations = iteration, threads = cores, subsample = subsample, break_early = break_early, k = k)
 				mx1 <- d1t[[2]][4]
 				mx2 <- d1t[[2]][5]
-				data1[[n]] <- d1t[[1]]
-				data2[[n]] <- B
+				write.tmp.data(d1t[[1]], B, paste(names(data)[i], names(data)[x], sep="-"))
 				adistances <- rbind(adistances, d1t[[2]][1])
 				mdistances <- rbind(mdistances, d1t[[2]][2])
 				sddistances <- rbind(sddistances, d1t[[2]][3])
@@ -69,8 +65,7 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 			d1t <- reflection_icp(A, B, iterations = iteration, threads = cores, subsample = subsample, break_early = break_early, k = k)
 			mx1 <- d1t[[2]][4]
 			mx2 <- d1t[[2]][5]
-			data1[[n]] <- d1t[[1]]
-			data2[[n]] <- B
+			write.tmp.data(d1t[[1]], B, paste(choose, names(data)[i], sep="-"))
 			adistances <- rbind(adistances, d1t[[2]][1])
 			mdistances <- rbind(mdistances, d1t[[2]][2])
 			sddistances <- rbind(sddistances, d1t[[2]][3])
@@ -84,5 +79,5 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, sessio
 	gc()
 	print("Pairwise comparisons completed")
 	options(stringsAsFactors = TRUE)
-	return(list(cnames, data1, data2, adistances[-1], mean(adistances[-1]), mdistances[-1], mean(mdistances[-1]), tem(adistances[-1]), tem(mdistances[-1]), rmse(adistances[-1]), rmse(mdistances[-1]), mean(sddistances[-1]), sddistances[-1], maxcoords1[-1,], maxcoords2[-1,]))
+	return(list(cnames, adistances[-1], mean(adistances[-1]), mdistances[-1], mean(mdistances[-1]), tem(adistances[-1]), tem(mdistances[-1]), rmse(adistances[-1]), rmse(mdistances[-1]), mean(sddistances[-1]), sddistances[-1], maxcoords1[-1,], maxcoords2[-1,]))
 }

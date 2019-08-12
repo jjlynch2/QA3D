@@ -2,6 +2,10 @@ filelist3 <- reactiveValues(list=list())
 
 observeEvent(input$clearFile3D, {
 	fileInput('aligndata', 'Import Scans', accept=c("xyz"), multiple = TRUE)
+	delete.tmp.data()
+	output$mspec3D <- renderUI({
+		selectInput(inputId = "mspec3D", label = "Choose comparison", choices = "")
+	})
 })
 
 output$resettableInput3D <- renderUI({
@@ -28,27 +32,31 @@ observeEvent(input$aligndata$datapath, {
 })
 
 observeEvent(input$mspec3D, {
-	tt1 <- d1[[2]][which(d1[[1]] == input$mspec3D)][[1]]
-	tt2 <- d1[[3]][which(d1[[1]] == input$mspec3D)][[1]]
+print(input$mspec3D)
+	if(input$mspec3D != "") {
+		tt <- import.tmp.data(input$mspec3D)
+		tt1 <- tt[[1]]
+		tt2 <- tt[[2]]
 
-	if(is.null(nrow(d1[[14]]))){
-		tt1p <- d1[[14]]
-		tt2p <- d1[[15]]
-	} else {
-		tt1p <- d1[[14]][which(d1[[1]] == input$mspec3D),]
-		tt2p <- d1[[15]][which(d1[[1]] == input$mspec3D),]
+		if(is.null(nrow(d1[[12]]))){
+			tt1p <- d1[[12]]
+			tt2p <- d1[[13]]
+		} else {
+			tt1p <- d1[[12]][which(d1[[1]] == input$mspec3D),]
+			tt2p <- d1[[13]][which(d1[[1]] == input$mspec3D),]
+		}
+		ttp <- rbind(tt1p, tt2p)
+
+		output$webgl3Dalign <- renderRglwidget ({
+			try(rgl.close())
+			points3d(tt1, size=3, col="dimgray", box=FALSE)
+			points3d(tt2, size=3, col="dodgerblue", box=FALSE)
+			points3d(ttp, size=10, col="red", box=FALSE)
+			lines3d(ttp, col=2, lwd=5)
+			axes3d(c('x++', 'y++', 'z++'))
+			rglwidget()
+		})
 	}
-	ttp <- rbind(tt1p, tt2p)
-
-	output$webgl3Dalign <- renderRglwidget ({
-		try(rgl.close())
-		points3d(tt1, size=3, col="dimgray", box=FALSE)
-		points3d(tt2, size=3, col="dodgerblue", box=FALSE)
-		points3d(ttp, size=6, col="red", box=FALSE)
-		lines3d(ttp, col=2, lwd=3)
-		axes3d(c('x++', 'y++', 'z++'))
-		rglwidget()
-	})
 })
 
 observeEvent(input$Process, {
@@ -90,14 +98,14 @@ observeEvent(input$Process, {
 		custom_surface = NULL
 	}
 
-	d1 <<- compare.3d(choose = input$Choose, data = data, custom_surface = surface, sessiontempdir = sessiontemp, procedure = input$Procedure, iteration = input$iterations, cores = input$ncorespc, subsample = subsample, pca = input$pcalign, break_early = breakk)
+	d1 <<- compare.3d(choose = input$Choose, data = data, custom_surface = surface, procedure = input$Procedure, iteration = input$iterations, cores = input$ncorespc, subsample = subsample, pca = input$pcalign, break_early = breakk)
 
 	output$mspec3D <- renderUI({
 		selectInput(inputId = "mspec3D", label = "Choose comparison", choices = c(d1[[1]]))
 	})
 
-	report_pw <- data.frame(Comparison = d1[[1]], Average_Hausdorff = d1[[4]], Maximum_Hausdorff = d1[[6]], Standard_Deviation = d1[[13]])
-	report_gr <- data.frame(Average_Hausdorff = d1[[5]], Maximum_Hausdorff = d1[[7]], Standard_Deviation = d1[[12]], TEMah = d1[[8]], TEMmh = d1[[9]], RMSEah = d1[[10]], RMSEmh = d1[[11]])
+	report_pw <- data.frame(Comparison = d1[[1]], Average_Hausdorff = d1[[2]], Maximum_Hausdorff = d1[[4]], Standard_Deviation = d1[[11]])
+	report_gr <- data.frame(Average_Hausdorff = d1[[3]], Maximum_Hausdorff = d1[[5]], Standard_Deviation = d1[[10]], TEMah = d1[[6]], TEMmh = d1[[7]], RMSEah = d1[[8]], RMSEmh = d1[[9]])
 	if(is.null(subsample)){
 		subsample <- FALSE
 	} else if(!is.null(subsample)) {
@@ -127,6 +135,5 @@ observeEvent(input$Process, {
 		HTML("<h3>Pairwise Results</h1>")
 	})
 	removeModal()
-	setwd(sessiontemp)
 	gc()
 })

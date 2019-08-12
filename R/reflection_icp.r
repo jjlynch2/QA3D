@@ -28,7 +28,7 @@ reflection_icp <- function(x,y,iterations,subsample=NULL,threads=1, break_early 
 		for(i in 1:iterations) {
 			clost <- Rvcg::vcgSearchKDtree(yKD,xtmp,1,threads=threads)
 			good <- which(clost$distance < 1e15)
-			trafo <- computeTransform(y[clost$index[good],],xtmp[good,],type="rigid")
+			trafo <- Morpho::computeTransform(y[clost$index[good],],xtmp[good,],type="rigid")
 			xtmp <- Morpho::applyTransform(xtmp[,],trafo)
 		}
 		if(!is.null(subsample)) {

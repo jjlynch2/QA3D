@@ -83,7 +83,7 @@ shinyUI(
 							downloadButton("savedata", " Report    ")
 						)
 					),
-					width=2,
+					width=3,
 					tags$style(type = "text/css", "#clearFile3D { width:100%; font-size:85%; background-color:#126a8f }"),
 					tags$style(type = "text/css", "#Process { width:100%; font-size:85%; background-color:#126a8f }"),
 					tags$style(type = "text/css", "#savedata { width:100%; font-size:85%; background-color:#126a8f }")

@@ -12,7 +12,6 @@ options(warn = -1) #disables warnings
 
 shinyServer(function(input, output, session) {
 	#defines which modules to include
-	source(system.file("QA3D/server", 'temp_dir.r', package = "QA3D"), local=TRUE) ###imports temporary directory code
 	source(system.file("QA3D/server", 'QA3D.r', package = "QA3D"), local=TRUE) ###imports main QA  code
 	source(system.file("QA3D/server", 'system_info.r', package = "QA3D"), local=TRUE) ###imports code to display system information
 	source(system.file("QA3D/server", 'URL.r', package = "QA3D"), local=TRUE) ###imports code to display URLs
