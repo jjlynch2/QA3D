@@ -27,6 +27,7 @@ The following will be installed automatically:
 * JuliaCall
 * rmarkdown
 * knitr
+* Rvcg
 
 ## Julia Dependencies
 The following will be installed automatically:
