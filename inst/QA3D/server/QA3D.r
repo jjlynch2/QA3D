@@ -3,6 +3,7 @@ filelist3 <- reactiveValues(list=list())
 observeEvent(input$clearFile3D, {
 	fileInput('aligndata', 'Import Scans', accept=c("xyz"), multiple = TRUE)
 	delete.tmp.data()
+	unlink(input$aligndata$datapath)
 	output$mspec3D <- renderUI({
 		selectInput(inputId = "mspec3D", label = "Choose comparison", choices = "")
 	})
