@@ -1,5 +1,19 @@
 filelist3 <- reactiveValues(list=list())
 
+observeEvent(input$clearFile3D, {
+	fileInput('aligndata', 'Import Scans', accept=c("xyz"), multiple = TRUE)
+	delete.tmp.data()
+	output$mspec3D <- renderUI({
+		selectInput(inputId = "mspec3D", label = "Choose comparison", choices = "")
+	})
+})
+
+output$resettableInput3D <- renderUI({
+	input$clearFile3D
+	input$uploadFormat
+	fileInput('aligndata', 'Import Scans', accept=c("xyz"), multiple = TRUE)
+})
+
 output$contents1 <- renderUI({
 	HTML(paste("<br>"))
 })
@@ -121,18 +135,4 @@ observeEvent(input$Process, {
 	})
 	removeModal()
 	gc()
-})
-
-observeEvent(input$clearFile3D, {
-	fileInput('aligndata', 'Import Scans', accept=c("xyz"), multiple = TRUE)
-	delete.tmp.data()
-	output$mspec3D <- renderUI({
-		selectInput(inputId = "mspec3D", label = "Choose comparison", choices = "")
-	})
-})
-
-output$resettableInput3D <- renderUI({
-	input$clearFile3D
-	input$uploadFormat
-	fileInput('aligndata', 'Import Scans', accept=c("xyz"), multiple = TRUE)
 })
