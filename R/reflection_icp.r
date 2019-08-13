@@ -14,11 +14,7 @@ reflection_icp <- function(x,y,iterations,subsample=NULL,threads=1, break_early 
 		else if (j == 7) {x <- cbind( A[,1], A[,2]*-1,A[,3])}
 		else if(j == 8) {x <- cbind( A[,1]*-1, A[,2],A[,3])}
 		if(!is.null(subsample)) {
-			nr1 <- nrow(y)
-			nr1 <- nr1 * subsample
-			nr2 <- nrow(x)
-			nr2 <- nr2 * subsample
-			s <- round(mean(nr1, nr2), digits = 0)
+			s <- round(nrow(x) * subsample, digits = 0)
 			subs <- Morpho::fastKmeans(x,k=s,iter.max = 100,threads=threads)$selected
 			xtmp <- x[subs,]
 		} else {
@@ -27,7 +23,7 @@ reflection_icp <- function(x,y,iterations,subsample=NULL,threads=1, break_early 
 		yKD <- Rvcg::vcgCreateKDtree(y)
 		for(i in 1:iterations) {
 			clost <- Rvcg::vcgSearchKDtree(yKD,xtmp,1,threads=threads)
-			good <- which(clost$distance < 1e15)
+			good <- which(clost$distance < 1e+15)
 			trafo <- Morpho::computeTransform(y[clost$index[good],],xtmp[good,],type="rigid")
 			xtmp <- Morpho::applyTransform(xtmp[,],trafo)
 		}
@@ -36,8 +32,8 @@ reflection_icp <- function(x,y,iterations,subsample=NULL,threads=1, break_early 
 		} else {
 			d1t <- hausdorff_dist(xtmp, y)
 		}
+		print(paste("Registration: ", d1t[1], d1t[2], d1t[3], sep = " "))
 		if(d1t[1] < d1) {
-			print(paste("Registration: ", d1t[1], d1t[2], d1t[3], sep = " "))
 			d1 <- d1t[1]
 			d1r <- d1t
 			if (!is.null(subsample)) {
