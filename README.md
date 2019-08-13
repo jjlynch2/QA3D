@@ -13,6 +13,9 @@ QA3D()
 ## Desktop Icon
 Once you run QA3D(), clicking the Desktop Shortcut button on the dashboard will allow you to run QA3D without launching R manually.
 
+## Filetype
+Currently only xyzrgb filetypes are supported
+
 ## R Dependencies
 The following will be installed automatically:
 * Morpho
