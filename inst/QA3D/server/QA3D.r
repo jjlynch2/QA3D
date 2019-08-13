@@ -32,7 +32,6 @@ observeEvent(input$aligndata$datapath, {
 })
 
 observeEvent(input$mspec3D, {
-print(input$mspec3D)
 	if(input$mspec3D != "") {
 		tt <- import.tmp.data(input$mspec3D)
 		tt1 <- tt[[1]]
