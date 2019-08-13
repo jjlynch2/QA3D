@@ -43,7 +43,7 @@ reflection_icp <- function(x,y,iterations,subsample=NULL,threads=1, break_early 
 				x_result <- xtmp
 			}
 			if(!is.null(break_early)) {
-				if(d1t[1] < break_early) {
+				if(d1t[2] < break_early) {
 					break
 				}
 			}
