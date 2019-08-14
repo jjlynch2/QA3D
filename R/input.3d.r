@@ -1,4 +1,4 @@
-input.3d <- function(list1 = NULL) {
+input.3d <- function(list1 = NULL, filenames = NULL) {
 	print("Importing 3D data")
 	Rlist <- list()
 	for(i in 1:length(list1)) {
@@ -10,7 +10,7 @@ input.3d <- function(list1 = NULL) {
 			Rlist[[i]] <- read.table(list1[i], quote="\"", comment.char="", stringsAsFactors=FALSE, header = FALSE)
 		}
 	}
-	names(Rlist) <- gsub(".*/\\s*", "", list1)
+	names(Rlist) <- gsub(".*/\\s*", "", filenames)
 	print("3D data imported")
 	return(Rlist)
 }
