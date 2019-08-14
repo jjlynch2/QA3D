@@ -24,7 +24,7 @@ output$contents2 <- renderUI({
 
 observeEvent(input$aligndata$datapath, {
 	showModal(modalDialog(title = "Import has started...Window will update when finished.", easyClose = FALSE, footer = NULL))
-	filelist3$list <- input.3d(input$aligndata$datapath, input$leftimages3D$name)
+	filelist3$list <- input.3d(input$aligndata$datapath, input$aligndata$name)
 	output$Choose <- renderUI({
 		selectInput(inputId = "Choose", label = "Choose Target", choices = names(filelist3$list))
 	})
