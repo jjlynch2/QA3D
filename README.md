@@ -43,3 +43,4 @@ The following needs to be installed manually:
 ## Known Issues
 * A bug exists in the StatsModels package version 0.6.0 in Julia, which prevents RCall from precompiling. This bug breaks JuliaCall in R. Downgrading the package to version 0.5.0 will allow QA3D to run properly.
 * Some versions of JuliaCall require RCall to be manually rebuilt in Julia.
+* Some versions of MiKTeX and/or TinyTex require rmarkdown version 1.8 for the pdf report to compile
