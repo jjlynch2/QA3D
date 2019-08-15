@@ -36,9 +36,8 @@ The following will be installed automatically:
 
 ## Other Windows Dependencies
 The following needs to be installed manually:
-* Requires MiKTeX https://miktex.org/download
+* Requires MiKTeX https://miktex.org/download or TinyTeX https://yihui.name/tinytex/
 * Requires Pandoc https://pandoc.org/installing.html
-* Requires TinyTeX https://yihui.name/tinytex/
 * Julia must be in your Windows environrment PATH to run.
 
 ## Known Issues
