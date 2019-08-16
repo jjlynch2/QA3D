@@ -8,7 +8,7 @@ if(Sys.info()[['sysname']] == "Linux") {
 if(Sys.info()[['sysname']] == "Windows") {
 	output$memUsage <- renderUI({
 		autoMem()
-		HTML(paste("<strong><font color=\"#FFFFFF\">Memory Usage: ", memory.size(), "</strong></font>"))
+		HTML(paste("<strong><font color=\"#FFFFFF\">Memory Usage: ", memory.size(max = TRUE), "</strong></font>"))
 	})
 }
 

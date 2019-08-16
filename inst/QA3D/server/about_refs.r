@@ -6,7 +6,7 @@ output$about_refs <- renderUI({
 		<br><br>
 		ICP Subsample uses k-means to identify a subsample of coordinates for registration based on a percentage of the original coordinates of each scan. If using PC alignment, this uses the subsample to calculate the distance between reflections.
 		<br><br>
-		PC Align uses Principal Component Analysis to pre-align specimens. This requires reflection along each dimension and takes longer to run. However, it significantly increases the change of successful registration.
+		PC Align uses Principal Component Analysis to pre-align specimens. This requires reflection along each dimension and takes longer to run. However, it significantly increases the chance of successful registration.
 		<br><br>
 		Break Early specifies a break point when using PC Align where any reflection with a maximum distance less than the break point is accepted as the true distance.
 		<br><br>
