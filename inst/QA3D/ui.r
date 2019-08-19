@@ -4,7 +4,7 @@ library(rgl)
 
 shinyUI(
 	navbarPage(theme = "css/flatly.min.css", windowTitle = "QA3D",
-		tags$script(HTML(paste("var header = $('.navbar > .container-fluid');header.append('<div style=\"float:left\"><img src=\"fav.png\" alt=\"alt\" style=\"float:right; width:45px;padding-top:5px;padding-right:5px;\"></div><div style=\"float:right; padding-top:15px\">", 
+		tags$script(HTML(paste("var header = $('.navbar > .container-fluid');header.append('<div style=\"float:left\"><img src=\"fav.png\" alt=\"alt\" style=\"float:right; width:40px;padding-top:5px;padding-right:5px;\"></div><div style=\"float:right; padding-top:15px\">", 
 		uiOutput("memUsage"), "</div>');console.log(header)", sep=""))),
 		tabPanel("About", icon = icon("question", lib="font-awesome"),
 			fluidRow(
