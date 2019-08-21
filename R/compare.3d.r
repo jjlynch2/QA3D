@@ -1,5 +1,6 @@
 compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, procedure = "All", pca = TRUE, iteration = 20, cores = 1, subsample = NULL, break_early = 1, verbose = TRUE) {
 	print("Pairwise comparisons started")
+	startt <- start_time()
 	options(stringsAsFactors = FALSE)
 	cnames <- c()
 	adistances <- 0
@@ -77,7 +78,8 @@ compare.3d <- function(data = NULL, custom_surface = NULL, choose = NULL, proced
 		}
 	}
 	gc()
+	ttime <- end_time(startt)
 	print("Pairwise comparisons completed")
 	options(stringsAsFactors = TRUE)
-	return(list(cnames, adistances[-1], mean(adistances[-1]), mdistances[-1], mean(mdistances[-1]), tem(adistances[-1]), tem(mdistances[-1]), rmse(adistances[-1]), rmse(mdistances[-1]), mean(sddistances[-1]), sddistances[-1], maxcoords1[-1,], maxcoords2[-1,]))
+	return(list(cnames, adistances[-1], mean(adistances[-1]), mdistances[-1], mean(mdistances[-1]), tem(adistances[-1]), tem(mdistances[-1]), rmse(adistances[-1]), rmse(mdistances[-1]), mean(sddistances[-1]), sddistances[-1], maxcoords1[-1,], maxcoords2[-1,], ttime))
 }

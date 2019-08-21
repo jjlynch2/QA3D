@@ -22,10 +22,13 @@ params:
   d: NULL
   attributes: NULL
   choose: NULL
+  time: NULL
 ---
 QA3D Version: `r packageVersion("QA3D")`
 
 Date: `r params$date`
+
+Completed in: `r params$time` minutes
 
 `r if(params$attributes != "") {paste("Attributes:", params$attributes, sep=" ")}`
 
