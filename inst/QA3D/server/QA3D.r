@@ -112,7 +112,7 @@ observeEvent(input$Process, {
 		subsample <- TRUE
 	}
 	ttime <- d1[[14]]
-	params_list <- list(choose = input$Choose, attributes = input$attributes, x = input$x, y = input$y, z = input$z, d = input$d, breake = input$breake, breakk = breakk, scannerid = input$scannerid, analyst = input$analyst, date = Sys.time(), iterations = input$iterations, subsample = subsample, pcalign = input$pcalign, kmeans = input$kmeans, procedure = input$Procedure, vara = input$vara, vara2 = input$vara2, report_pw = report_pw, report_gr = report_gr, time = ttime)
+	params_list <- list(choose = input$Choose, attributes = input$attributes, x = input$x, y = input$y, z = input$z, d = input$d, breake = input$breake, breakk = breakk, scannerid = input$scannerid, analyst = input$analyst, date = Sys.time(), iterations = input$iterations, subsample = subsample, pcalign = input$pcalign, kmeans = input$kmeans, procedure = input$Procedure, vara = input$vara, vara2 = input$vara2, report_pw = report_pw, report_gr = report_gr, time = ttime, comparisons = nrow(report_pw))
 
 	output$savedata <- downloadHandler(
 		filename = "report.pdf",
@@ -130,7 +130,7 @@ observeEvent(input$Process, {
 		DT::datatable(report_gr, options = list(dom = 't'), rownames = FALSE)
 	})
 	output$contents1 <- renderUI({
-	HTML(paste("<strong>Completed in: ", "<font color=\"#00688B\">", ttime, " minutes</font></strong><br><br>","<h3>Grand Results</h1>", sep=""))
+	HTML(paste("<strong>Comparisons: ","<font color=\"#00688B\">", nrow(report_pw),"</font>","<br>Completed in: ", "<font color=\"#00688B\">", ttime, " minutes</font></strong><br><br>","<h3>Grand Results</h1>", sep=""))
 	})
 	output$contents2 <- renderUI({
 		HTML("<h3>Pairwise Results</h1>")

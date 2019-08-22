@@ -23,10 +23,13 @@ params:
   attributes: NULL
   choose: NULL
   time: NULL
+  comparisons: NULL
 ---
 QA3D Version: `r packageVersion("QA3D")`
 
 Date: `r params$date`
+
+Comparisons: `r params$comparisons`
 
 Completed in: `r params$time` minutes
 
