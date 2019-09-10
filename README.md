@@ -1,11 +1,11 @@
-## QA3D 0.0.5
+## QA3D 0.0.6
 QA3D (Quality Assurance 3D) is an R package that allows the error analysis of repeated scans from three-dimensional equipment. While not requiring the use of skeletal elements, this app was designed and intended to be used with repeated skeletal element scans. Given the rise in popularity of three-dimensional technology in forensic anthropology, there is a need for an FA specific tool to verify the quality of scanners for research and laboratory accreditation purposes.
 
 ## Installation
 ```javascript
 install.packages("devtools")
 library(devtools)
-install_github("jjlynch2/QA3D", ref="v0.0.5")
+install_github("jjlynch2/QA3D", ref="v0.0.6")
 library(QA3D)
 QA3D()
 ```
