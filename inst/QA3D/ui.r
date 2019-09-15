@@ -1,7 +1,4 @@
 options(warn = -1)
-library(shiny)
-library(rgl)
-
 shinyUI(
 	navbarPage(theme = "css/flatly.min.css", windowTitle = "QA3D",
 		tags$script(HTML(paste("var header = $('.navbar > .container-fluid');header.append('<div style=\"float:left\"><img src=\"fav.png\" alt=\"alt\" style=\"float:right; width:40px;padding-top:5px;padding-right:5px;\"></div><div style=\"float:right; padding-top:15px\">", 
@@ -31,7 +28,8 @@ shinyUI(
 					uiOutput("about_refs")
 				,width = 6)
 			),
-			tags$style(type = "text/css", "#Create_Desktop_Icon { width:100%; font-size:85%; background-color:#126a8f }")
+			tags$style(type = "text/css", "#Create_Desktop_Icon { width:100%; font-size:85%; background-color:#126a8f }"),
+			tags$style(".well {border-width:1px; border-color:#126a8f;}")
 		),
 		tabPanel("QA3D", icon = icon("cloud-download", lib="glyphicon"),
 			titlePanel(""),

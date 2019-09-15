@@ -1,12 +1,4 @@
-#' Shiny server.r file
-#' 
-#' This is the server.r file for the interface that utilizes all previous functions. 
-#' runApp("QA3D")
-#' shinyServer()
-
-library(shiny)
 options(rgl.useNULL=TRUE) #required to avoid rgl device opening 
-library(rgl)
 options(shiny.maxRequestSize=200*1024^2) #200MB file size limit
 options(warn = -1) #disables warnings
 
