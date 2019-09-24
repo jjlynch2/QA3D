@@ -1,16 +1,10 @@
 autoMem <- reactiveTimer(10000) #10 seconds
-if(Sys.info()[['sysname']] == "Linux") {
-	output$memUsage <- renderUI({
-		autoMem()
-		HTML(paste("<strong><font color=\"#FFFFFF\">Memory Usage: ", gsub('VmSize:	', '', system(paste0("cat /proc/",Sys.getpid(),"/status | grep VmSize"), intern = TRUE)), "</strong></font>"))
-	})
-}
-if(Sys.info()[['sysname']] == "Windows") {
-	output$memUsage <- renderUI({
-		autoMem()
-		HTML(paste("<strong><font color=\"#FFFFFF\">Memory Usage: ", memory.size(max = TRUE), "</strong></font>"))
-	})
-}
+output$memUsage <- renderUI({
+	autoMem()
+	temp <- gc()
+	HTML(paste("<strong><font color=\"#FFFFFF\">Memory Usage: ", temp[1,2] + temp[2,2], "</strong></font>"))
+})
+
 
 system_name <- Sys.info()[['sysname']]
 system_mem <- NULL
@@ -20,7 +14,9 @@ if(system_name == "Linux") {
 }
 if(system_name == "Windows") {
 	system_name <- paste(icon = icon("windows", lib="font-awesome"), system_name, sep = " ")
-	system_mem <- memory.size(max = TRUE)
+	tempgsub <- gsub("TotalVisibleMemorySize=", '', system('wmic OS get TotalVisibleMemorySize /Value', intern = TRUE)[3])
+	tempgsub <- gsub("\r", '', tempgsub)
+	system_mem <- paste(tempgsub, " kB", sep="")
 }
 if(system_name == "Darwin") {
 	system_name <- paste(icon = icon("apple", lib="font-awesome"), system_name, sep = " ")
