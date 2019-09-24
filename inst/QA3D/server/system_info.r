@@ -2,7 +2,7 @@ autoMem <- reactiveTimer(10000) #10 seconds
 output$memUsage <- renderUI({
 	autoMem()
 	temp <- gc()
-	HTML(paste("<strong><font color=\"#FFFFFF\">Memory Usage: ", temp[1,2] + temp[2,2], "</strong></font>"))
+	HTML(paste("<strong><font color=\"#FFFFFF\">Memory Usage: ", temp[1,2] + temp[2,2], " Mb</strong></font>"))
 })
 
 
