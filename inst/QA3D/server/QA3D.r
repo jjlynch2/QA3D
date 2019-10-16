@@ -82,6 +82,10 @@ observeEvent(input$Process, {
 		}
 	})
 
+	if(length(filelist4$list) != length(filelist3$list)) {
+		return(NULL)
+	}
+
 	if(input$ncorespc != julia_call("nprocs")) {
 		print("Setting up Julia workers...")
 		JuliaSetup(add_cores = input$ncorespc, source = TRUE, recall_libraries = TRUE)
