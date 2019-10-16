@@ -82,9 +82,6 @@ observeEvent(input$Process, {
 		}
 	})
 
-	if(length(filelist4$list) != length(filelist3$list)) {
-		return(NULL)
-	}
 
 	if(input$ncorespc != julia_call("nprocs")) {
 		print("Setting up Julia workers...")
@@ -117,8 +114,11 @@ observeEvent(input$Process, {
 		custom_surface = NULL
 	}
 	data2 <- NULL
-	if(input$Procedure == "Inter-observer") {
+	if(input$Procedure == "Inter-observer-single" || input$Procedure == "Inter-observer-multiple" || input$Procedure == "Intra-observer-multiple") {
 		data2 <- filelist4$list
+		if(length(filelist4$list) != length(filelist3$list)) {
+			return(NULL)
+		}
 		if(input$kmeans) {
 			ll <- length(filelist4$list)
 			for (i in 1:ll) {

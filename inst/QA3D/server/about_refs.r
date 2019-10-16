@@ -14,9 +14,15 @@ output$about_refs <- renderUI({
 		<br><br>
 		The Choose procedure will compare all scans to the chosen scan.
 		<br><br>
-		The All procedure will compare all scans to every other scan.
+		The Intra-observer-single procedure will compare all scans to every other scan. This is intended for multiple repeated scans of a single specimen.
+		<br><br>
+		The Intra-observer-multiple procedure will compare scans from each import group sequentially. This is intended for repeated scans of multiple specimens.
 		<br><br>
 		The Custom procedure will create a surface of x, y, and z dimensions using a specified density for comparison with the imported scans.
+		<br><br>
+		The inter-observer-single procedure will compare all scans from one observer to every other scan from another observer. This is intended for multiple repeated scans of a single specimen.
+		<br><br>
+		The inter-observer-multiple procedure will compare scans from each import group sequentially. This is intended for repeated scans of multiple specimesn.
 		</p>
 	")
 })

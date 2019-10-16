@@ -19,7 +19,7 @@ compare.3d <- function(data = NULL, data2 = NULL, custom_surface = NULL, choose 
 		if(procedure == "Custom" && !is.null(custom_surface)) {
 			custom_surface <- QA3D::pca_align(custom_surface)
 		}
-		if(procedure == "Inter-observer") {
+		if(procedure == "Inter-observer-single" || procedure == "Inter-observer-multiple" || procedure == "Intra-observer-multiple") {
 			for(i in 1:length(data2)) {
 				data2[[i]][,c(1:3)] <- QA3D::pca_align(data2[[i]][,c(1:3)])
 			}
@@ -27,41 +27,7 @@ compare.3d <- function(data = NULL, data2 = NULL, custom_surface = NULL, choose 
 		k <- 8
 		print("Finished...")
 	}
-	if(procedure == "Inter-observer") {
-		for(i in 1:length(data)) {
-				A <- data[[i]][,c(1:3)]
-				B <- data2[[i]][,c(1:3)]
-				d1t <- reflection_icp(A, B, iterations = iteration, threads = cores, subsample = subsample, break_early = break_early, k = k)
-				mx1 <- d1t[[2]][4]
-				mx2 <- d1t[[2]][5]
-				write.tmp.data(d1t[[1]], B, paste(names(data)[i], names(data2)[i], sep="-"))
-				adistances <- rbind(adistances, d1t[[2]][1])
-				mdistances <- rbind(mdistances, d1t[[2]][2])
-				sddistances <- rbind(sddistances, d1t[[2]][3])
-				maxcoords1 <- rbind(maxcoords1, d1t[[1]][d1t[[2]][4],])
-				maxcoords2 <- rbind(maxcoords2, B[d1t[[2]][5],])
-				cnames <- c(cnames, paste(names(data)[i], names(data2)[i], sep="-"))
-				print(paste("Final Error: ", names(data)[i], names(data2)[i], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
-				n <- n + 1
-		}
-	}
-	if(procedure == "Custom" && !is.null(custom_surface)) {
-		for(i in 1:length(data)) {
-			A <- data[[i]][,c(1:3)]
-			d1t <- reflection_icp(A, custom_surface, iterations = iteration, threads = cores, subsample = subsample, break_early = break_early, k = k)
-			mx1 <- d1t[[2]][4]
-			mx2 <- d1t[[2]][5]
-			write.tmp.data(d1t[[1]], custom_surface, paste("Custom", names(data)[i], sep="-"))
-			adistances <- rbind(adistances, d1t[[2]][1])
-			mdistances <- rbind(mdistances, d1t[[2]][2])
-			sddistances <- rbind(sddistances, d1t[[2]][3])
-			maxcoords1 <- rbind(maxcoords1, d1t[[1]][d1t[[2]][4],])
-			maxcoords2 <- rbind(maxcoords2, custom_surface[d1t[[2]][5],])
-			cnames <- c(cnames, paste("Custom", names(data)[i], sep="-"))
-			print(paste("Final Error: ", "Custom", names(data)[i], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
-			n <- n + 1
-		}
-	} else if(procedure == "All") {
+	if(procedure == "Intra-observer-single") {
 		for(i in 1:length(data)) {
 			for(x in 1:length(data)) {
 				if(i == x) {break}
@@ -80,6 +46,58 @@ compare.3d <- function(data = NULL, data2 = NULL, custom_surface = NULL, choose 
 				print(paste("Final Error: ", names(data)[i], names(data)[x], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
 				n <- n + 1
 			}
+		}
+	} else if(procedure == "Inter-observer-single") {
+		for(i in 1:length(data)) {
+			for(x in 1:length(data2)) {
+				A <- data[[i]][,c(1:3)]
+				B <- data2[[x]][,c(1:3)]
+				d1t <- reflection_icp(A, B, iterations = iteration, threads = cores, subsample = subsample, break_early = break_early, k = k)
+				mx1 <- d1t[[2]][4]
+				mx2 <- d1t[[2]][5]
+				write.tmp.data(d1t[[1]], B, paste(names(data)[i], names(data2)[x], sep="-"))
+				adistances <- rbind(adistances, d1t[[2]][1])
+				mdistances <- rbind(mdistances, d1t[[2]][2])
+				sddistances <- rbind(sddistances, d1t[[2]][3])
+				maxcoords1 <- rbind(maxcoords1, d1t[[1]][d1t[[2]][4],])
+				maxcoords2 <- rbind(maxcoords2, B[d1t[[2]][5],])
+				cnames <- c(cnames, paste(names(data)[i], names(data2)[x], sep="-"))
+				print(paste("Final Error: ", names(data)[i], names(data2)[x], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
+				n <- n + 1
+			}
+		}
+	} else if(procedure == "Inter-observer-multiple" || procedure == "Intra-observer-multiple") {
+		for(i in 1:length(data)) {
+				A <- data[[i]][,c(1:3)]
+				B <- data2[[i]][,c(1:3)]
+				d1t <- reflection_icp(A, B, iterations = iteration, threads = cores, subsample = subsample, break_early = break_early, k = k)
+				mx1 <- d1t[[2]][4]
+				mx2 <- d1t[[2]][5]
+				write.tmp.data(d1t[[1]], B, paste(names(data)[i], names(data2)[i], sep="-"))
+				adistances <- rbind(adistances, d1t[[2]][1])
+				mdistances <- rbind(mdistances, d1t[[2]][2])
+				sddistances <- rbind(sddistances, d1t[[2]][3])
+				maxcoords1 <- rbind(maxcoords1, d1t[[1]][d1t[[2]][4],])
+				maxcoords2 <- rbind(maxcoords2, B[d1t[[2]][5],])
+				cnames <- c(cnames, paste(names(data)[i], names(data2)[i], sep="-"))
+				print(paste("Final Error: ", names(data)[i], names(data2)[i], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
+				n <- n + 1
+		}
+	} else if(procedure == "Custom" && !is.null(custom_surface)) {
+		for(i in 1:length(data)) {
+			A <- data[[i]][,c(1:3)]
+			d1t <- reflection_icp(A, custom_surface, iterations = iteration, threads = cores, subsample = subsample, break_early = break_early, k = k)
+			mx1 <- d1t[[2]][4]
+			mx2 <- d1t[[2]][5]
+			write.tmp.data(d1t[[1]], custom_surface, paste("Custom", names(data)[i], sep="-"))
+			adistances <- rbind(adistances, d1t[[2]][1])
+			mdistances <- rbind(mdistances, d1t[[2]][2])
+			sddistances <- rbind(sddistances, d1t[[2]][3])
+			maxcoords1 <- rbind(maxcoords1, d1t[[1]][d1t[[2]][4],])
+			maxcoords2 <- rbind(maxcoords2, custom_surface[d1t[[2]][5],])
+			cnames <- c(cnames, paste("Custom", names(data)[i], sep="-"))
+			print(paste("Final Error: ", "Custom", names(data)[i], adistances[n+1], mdistances[n+1], sddistances[n+1], sep=" "))
+			n <- n + 1
 		}
 	} else if(procedure == "Choose") {
 		B <- data[[choose]][,c(1:3)]

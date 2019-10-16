@@ -36,7 +36,7 @@ shinyUI(
 			sidebarLayout(
 				sidebarPanel(
 					uiOutput('resettableInput3D'),
-					conditionalPanel(condition = "input.Procedure == 'Inter-observer'",
+					conditionalPanel(condition = "input.Procedure == 'Inter-observer-multiple' || input.Procedure == 'Inter-observer-single' || input.Procedure == 'Intra-observer-multiple'",
 						uiOutput('resettableInput3D_inter')
 					),
 					fluidRow(
@@ -58,7 +58,7 @@ shinyUI(
 							conditionalPanel(condition = "input.kmeans",
 								sliderInput(inputId = "vara", label = "% of Coordinates", min=0.01, max=1, value=0.10, step = 0.01)
 							),
-							radioButtons("Procedure", "Procedure", choices = c("Choose", "All", "Custom", "Inter-observer"), selected = "All"),
+							radioButtons("Procedure", "Procedure", choices = c("Choose", "Intra-observer-single", "Intra-observer-multiple", "Custom", "Inter-observer-single", "Inter-observer-multiple"), selected = "Intra-observer-single"),
 							conditionalPanel(condition = "input.Procedure == 'Custom'",
 								numericInput(inputId = "x", label = "X", value = "10", min=0,max=999,step=0.01),
 								numericInput(inputId = "y", label = "Y", value = "10", min=0,max=999,step=0.01),
