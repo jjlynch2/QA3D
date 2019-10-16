@@ -1,4 +1,5 @@
 filelist3 <- reactiveValues(list=list())
+filelist4 <- reactiveValues(list=list())
 
 observeEvent(input$clearFile3D, {
 	fileInput('aligndata', 'Import Scans', accept=c("xyz"), multiple = TRUE)
@@ -15,6 +16,13 @@ output$resettableInput3D <- renderUI({
 	fileInput('aligndata', 'Import Scans', accept=c("xyz"), multiple = TRUE)
 })
 
+output$resettableInput3D_inter <- renderUI({
+	input$clearFile3D
+	input$uploadFormat
+	fileInput('aligndatainter', 'Import Scans', accept=c("xyz"), multiple = TRUE)
+})
+
+
 output$contents1 <- renderUI({
 	HTML(paste("<br>"))
 })
@@ -30,6 +38,13 @@ observeEvent(input$aligndata$datapath, {
 	})
 	removeModal()
 })
+
+observeEvent(input$aligndatainter$datapath, {
+	showModal(modalDialog(title = "Import has started...Window will update when finished.", easyClose = FALSE, footer = NULL))
+	filelist4$list <- input.3d(input$aligndatainter$datapath, input$aligndatainter$name)
+	removeModal()
+})
+
 
 observeEvent(input$mspec3D, {
 	if(input$mspec3D != "") {
@@ -97,8 +112,17 @@ observeEvent(input$Process, {
 	} else {
 		custom_surface = NULL
 	}
-
-	d1 <<- compare.3d(choose = input$Choose, data = data, custom_surface = surface, procedure = input$Procedure, iteration = input$iterations, cores = input$ncorespc, subsample = subsample, pca = input$pcalign, break_early = breakk)
+	data2 <- NULL
+	if(input$Procedure == "Inter-observer") {
+		data2 <- filelist4$list
+		if(input$kmeans) {
+			ll <- length(filelist4$list)
+			for (i in 1:ll) {
+				data2[[i]] <- kmeans.3d(filelist4$list[[i]], cluster = input$vara)
+			}
+		}
+	}
+	d1 <<- compare.3d(choose = input$Choose, data = data, data2 = data2, custom_surface = surface, procedure = input$Procedure, iteration = input$iterations, cores = input$ncorespc, subsample = subsample, pca = input$pcalign, break_early = breakk)
 
 	output$mspec3D <- renderUI({
 		selectInput(inputId = "mspec3D", label = "Choose comparison", choices = c(d1[[1]]))

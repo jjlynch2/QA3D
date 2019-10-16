@@ -36,6 +36,9 @@ shinyUI(
 			sidebarLayout(
 				sidebarPanel(
 					uiOutput('resettableInput3D'),
+					conditionalPanel(condition = "input.Procedure == 'Inter-observer'",
+						uiOutput('resettableInput3D_inter')
+					),
 					fluidRow(
 						column(12,
 							sliderInput(inputId = "ncorespc", label = "Parallel Cores", min=1, max=detectCores(), value=detectCores()-1, step =1),
@@ -55,7 +58,7 @@ shinyUI(
 							conditionalPanel(condition = "input.kmeans",
 								sliderInput(inputId = "vara", label = "% of Coordinates", min=0.01, max=1, value=0.10, step = 0.01)
 							),
-							radioButtons("Procedure", "Procedure", choices = c("Choose", "All", "Custom"), selected = "All"),
+							radioButtons("Procedure", "Procedure", choices = c("Choose", "All", "Custom", "Inter-observer"), selected = "All"),
 							conditionalPanel(condition = "input.Procedure == 'Custom'",
 								numericInput(inputId = "x", label = "X", value = "10", min=0,max=999,step=0.01),
 								numericInput(inputId = "y", label = "Y", value = "10", min=0,max=999,step=0.01),
