@@ -58,7 +58,8 @@ shinyUI(
 							conditionalPanel(condition = "input.kmeans",
 								sliderInput(inputId = "vara", label = "% of Coordinates", min=0.01, max=1, value=0.10, step = 0.01)
 							),
-							radioButtons("Procedure", "Procedure", choices = c("Choose", "Intra-observer-single", "Intra-observer-multiple", "Custom", "Inter-observer-single", "Inter-observer-multiple"), selected = "Intra-observer-single"),
+							checkboxInput("heatmap", "Generate Heatmaps", value = FALSE),
+							radioButtons("Procedure", "Procedure", choices = c("Choose", "Custom", "Intra-observer-single", "Intra-observer-multiple", "Inter-observer-single", "Inter-observer-multiple"), selected = "Intra-observer-single"),
 							conditionalPanel(condition = "input.Procedure == 'Custom'",
 								numericInput(inputId = "x", label = "X", value = "10", min=0,max=999,step=0.01),
 								numericInput(inputId = "y", label = "Y", value = "10", min=0,max=999,step=0.01),
@@ -97,8 +98,14 @@ shinyUI(
 							uiOutput('contents2'),
 							DT::dataTableOutput('table1')
 						),
-						tabPanel("Render",
+						tabPanel("Pairwise Overlap",
 							rglwidgetOutput('webgl3Dalign', width = "1000px", height = "1000px")
+						),
+						tabPanel("Pairwise Heatmap",
+							rglwidgetOutput('webgl3Dalign_pwm', width = "1000px", height = "1000px")
+						),
+						tabPanel("Mean Heatmap",
+							rglwidgetOutput('webgl3Dalign_m', width = "1000px", height = "1000px")
 						)
 					)
 				)

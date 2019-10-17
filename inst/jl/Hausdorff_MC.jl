@@ -17,5 +17,5 @@ function Hausdorff(m1,m2)
 		x = Res2[Max2[2],2]
 		j = Res2[Max2[2],3]
 	end
-	return [Avg, Max[1], Sd, j, x]
+	return [Avg, Max[1], Sd, j, x, Res1, Res2]
 end

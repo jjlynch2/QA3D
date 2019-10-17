@@ -49,8 +49,8 @@ observeEvent(input$aligndatainter$datapath, {
 observeEvent(input$mspec3D, {
 	if(input$mspec3D != "") {
 		tt <- import.tmp.data(input$mspec3D)
-		tt1 <- tt[[1]]
-		tt2 <- tt[[2]]
+		tt1 <- tt[[1]][c(1:3)]
+		tt2 <- tt[[2]][c(1:3)]
 
 		if(is.null(nrow(d1[[12]]))){
 			tt1p <- d1[[12]]
@@ -70,6 +70,16 @@ observeEvent(input$mspec3D, {
 			axes3d(c('x++', 'y++', 'z++'))
 			rglwidget()
 		})
+
+		if(input$heatmap) {
+			output$webgl3Dalign_pwm <- renderRglwidget ({
+				try(rgl.close())
+				names(ABm) <- d1[[1]]
+				points3d(ABm[[input$mspec3D]][,1:3], size=3, col=color.gradient(ABm[[input$mspec3D]][,4]), box=FALSE)
+				axes3d(c('x++', 'y++', 'z++'))
+				rglwidget()
+			})
+		}
 	}
 })
 
@@ -150,6 +160,25 @@ observeEvent(input$Process, {
 			rmarkdown::render("report.Rmd", output_file = file, params = params_list)
 		}
 	)
+
+	if(input$heatmap) {
+		ABm <<- list()
+		for(x in 1:length(d1[[1]])) {
+			tt <- import.tmp.data(d1[[1]][x])
+			tt1 <- tt[[1]][c(1:3)]
+			tt2 <- tt[[2]][c(1:3)]
+			ABm[[x]] <<- KDtreePWmean(tt[[1]], tt[[2]], threads = input$ncorespc)
+		}
+		names(ABm) <- d1[[1]]
+
+		ABgm <- KDtree_Gmean(ABm, iterations = input$iterations, threads = input$ncorespc, subsample = 0.10)
+		output$webgl3Dalign_m <- renderRglwidget ({
+			try(rgl.close())
+			points3d(ABgm[,1:3], size=3, col=color.gradient(ABgm[,4]), box=FALSE)
+			axes3d(c('x++', 'y++', 'z++'))
+			rglwidget()
+		})
+	}
 
 	output$table1 <- DT::renderDataTable({
 		DT::datatable(report_pw, options = list(pageLength = 50, dom = 't'), rownames = FALSE)
