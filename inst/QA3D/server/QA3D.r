@@ -60,24 +60,39 @@ observeEvent(input$mspec3D, {
 			tt2p <- d1[[13]][which(d1[[1]] == input$mspec3D),]
 		}
 		ttp <- rbind(tt1p, tt2p)
-
-		output$webgl3Dalign <- renderRglwidget ({
-			try(rgl.close())
-			points3d(tt1, size=3, col="dimgray", box=FALSE)
-			points3d(tt2, size=3, col="dodgerblue", box=FALSE)
-			points3d(ttp, size=10, col="red", box=FALSE)
-			lines3d(ttp, col=2, lwd=5)
-			axes3d(c('x++', 'y++', 'z++'))
-			rglwidget()
+		a <- cbind(tt1,gsub(".*-","",input$mspec3D))
+		b <- cbind(tt2,gsub("-.*","",input$mspec3D))
+		c <- cbind(ttp,"Maximum")
+		colnames(a) <- c("x","y","z","c")
+		colnames(b) <- c("x","y","z","c")
+		colnames(c) <- c("x","y","z","c")
+		td <- rbind(a,b,c)
+		output$plot3 <- renderPlotly({
+			plot_ly(td, x = ~x, y = ~y, z = ~z,color = ~c, size = 1, colors = c("#1E90FF","#696969","#FF0000")) %>%
+			add_markers() %>%
+			layout(width = 1000, height = 1000, 
+				scene = list(
+					xaxis = list(title = ''),
+					yaxis = list(title = ''),
+					zaxis = list(title = '')
+				)
+			)
 		})
-
 		if(input$heatmap) {
-			output$webgl3Dalign_pwm <- renderRglwidget ({
-				try(rgl.close())
-				names(ABm) <- d1[[1]]
-				points3d(ABm[[input$mspec3D]][,1:3], size=3, col=color.gradient(ABm[[input$mspec3D]][,4]), box=FALSE)
-				axes3d(c('x++', 'y++', 'z++'))
-				rglwidget()
+			names(ABm) <- d1[[1]]
+			tdf <<- data.frame(ABm[[input$mspec3D]][,1:4])
+			colnames(tdf) <- c("x","y","z","e")
+			output$plot <- renderPlotly({
+				plot_ly(tdf, x = ~x, y = ~y, z = ~z,
+				marker = list(size = 2, color = ~e, colorscale = "heatmap", showscale = TRUE)) %>%
+				add_markers() %>%
+				layout(width = 1000, height = 1000, 
+					scene = list(
+						xaxis = list(title = ''),
+						yaxis = list(title = ''),
+						zaxis = list(title = '')
+					)
+				)
 			})
 		}
 	}
@@ -169,15 +184,25 @@ observeEvent(input$Process, {
 			tt2 <- tt[[2]][c(1:3)]
 			ABm[[x]] <<- KDtreePWmean(tt[[1]], tt[[2]], threads = input$ncorespc)
 		}
-		names(ABm) <- d1[[1]]
 
-		ABgm <- KDtree_Gmean(ABm, iterations = input$iterations, threads = input$ncorespc, subsample = 0.10)
-		output$webgl3Dalign_m <- renderRglwidget ({
-			try(rgl.close())
-			points3d(ABgm[,1:3], size=3, col=color.gradient(ABgm[,4]), box=FALSE)
-			axes3d(c('x++', 'y++', 'z++'))
-			rglwidget()
-		})
+		if(length(ABm) > 1) {
+			if(subsample) {subsample = input$vara2} else {subsample = 0.10}
+			ABgm <- KDtree_Gmean(ABm, iterations = input$iterations, threads = input$ncorespc, subsample = subsample, break_early = breakk)
+			tdf <- data.frame(ABgm)
+			colnames(tdf) <- c("x","y","z","e")
+			output$plot2 <- renderPlotly({
+				plot_ly(tdf, x = ~x, y = ~y, z = ~z,
+				marker = list(size = 2, color = ~e, colorscale = "heatmap", showscale = TRUE)) %>%
+				add_markers() %>%
+				layout(width = 1000, height = 1000, 
+					scene = list(
+						xaxis = list(title = ''),
+						yaxis = list(title = ''),
+						zaxis = list(title = '')
+					)
+				)
+			})
+		}
 	}
 
 	output$table1 <- DT::renderDataTable({

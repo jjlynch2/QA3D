@@ -99,13 +99,13 @@ shinyUI(
 							DT::dataTableOutput('table1')
 						),
 						tabPanel("Pairwise Overlap",
-							rglwidgetOutput('webgl3Dalign', width = "1000px", height = "1000px")
+ 							 plotlyOutput("plot3")
 						),
 						tabPanel("Pairwise Heatmap",
-							rglwidgetOutput('webgl3Dalign_pwm', width = "1000px", height = "1000px")
+ 							 plotlyOutput("plot")
 						),
 						tabPanel("Mean Heatmap",
-							rglwidgetOutput('webgl3Dalign_m', width = "1000px", height = "1000px")
+ 							 plotlyOutput("plot2")
 						)
 					)
 				)
