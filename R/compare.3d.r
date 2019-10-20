@@ -10,7 +10,6 @@ compare.3d <- function(data = NULL, data2 = NULL, custom_surface = NULL, choose 
 	maxcoords2 <- 0
 	n <- 1
 	k <- 1
-
 	if(pca) {
 		print("Aligning along principal axes")
 		for(i in 1:length(data)) {

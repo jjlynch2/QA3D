@@ -1,7 +1,7 @@
 reflection_icp <- function(x,y,iterations,subsample=NULL,threads=1, break_early = NULL, k = 1) {
 	y <- as.matrix(y)
 	x <- as.matrix(x)
-	d1 <- 999999
+	d12 <- 999999
 	d1r <- NULL
 	A <- x
 	for(j in 1:k) {
@@ -33,8 +33,8 @@ reflection_icp <- function(x,y,iterations,subsample=NULL,threads=1, break_early 
 			d1t <- hausdorff_dist(xtmp, y)
 		}
 		print(paste("Registration: ", d1t[1], d1t[2], d1t[3], sep = " "))
-		if(d1t[1] < d1) {
-			d1 <- d1t[1]
+		if(d1t[[1]] < d12) {
+			d12 <- d1t[[1]]
 			d1r <- d1t
 			if (!is.null(subsample)) {
 				fintrafo <- Morpho::computeTransform(xtmp[,],x[subs,],type = "rigid")
@@ -43,7 +43,7 @@ reflection_icp <- function(x,y,iterations,subsample=NULL,threads=1, break_early 
 				x_result <- xtmp
 			}
 			if(!is.null(break_early)) {
-				if(d1t[2] < break_early) {
+				if(d1t[[2]] < break_early) {
 					break
 				}
 			}

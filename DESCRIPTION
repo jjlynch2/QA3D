@@ -14,8 +14,7 @@ Depends:
 	JuliaCall,
 	rmarkdown,
 	knitr,
-	Rvcg,
-	plotly
+	Rvcg
 License: GPL-2
 LazyData: true
 ByteCompile: true
@@ -29,5 +28,4 @@ Imports:
 	JuliaCall,
 	rmarkdown,
 	knitr,
-	Rvcg,
-	plotly
+	Rvcg
