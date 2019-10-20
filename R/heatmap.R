@@ -14,7 +14,7 @@ KDtreePWmean <- function(A, B, threads = NULL) {
 	return(A)
 }
 
-color.gradient <- function(x, colors=c("blue","green","yellow","orange","red"), colsteps=50) {
+color.gradient <- function(x, colors=c("blue","green","orange","red"), colsteps=50) {
 	return( colorRampPalette(colors) (colsteps) [ findInterval(x, seq(min(x),max(x), length.out=colsteps)) ] )
 }
 

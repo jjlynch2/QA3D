@@ -28,6 +28,7 @@ The following will be installed automatically:
 * rmarkdown
 * knitr
 * Rvcg
+* colourpicker
 
 ## Julia Dependencies
 The following will be installed automatically:

@@ -63,11 +63,10 @@ observeEvent(input$mspec3D, {
 
 		output$webgl3Dalign <- renderRglwidget ({
 			try(rgl.close())
-			points3d(tt1, size=3, col="dimgray", box=FALSE)
-			points3d(tt2, size=3, col="dodgerblue", box=FALSE)
+			points3d(tt1, size=3, col=input$colo1, box=FALSE)
+			points3d(tt2, size=3, col=input$colo2, box=FALSE)
 			points3d(ttp, size=10, col="red", box=FALSE)
 			lines3d(ttp, col=2, lwd=5)
-			axes3d(c('x++', 'y++', 'z++'))
 			rglwidget()
 		})
 
@@ -75,15 +74,14 @@ observeEvent(input$mspec3D, {
 			output$webgl3Dalign_pwm <- renderRglwidget ({
 				try(rgl.close())
 				names(ABm) <- d1[[1]]
-				points3d(ABm[[input$mspec3D]][,1:3], size=3, col=color.gradient(ABm[[input$mspec3D]][,4]), box=FALSE)
-				axes3d(c('x++', 'y++', 'z++'))
+				points3d(ABm[[input$mspec3D]][,1:3], size=3, col=color.gradient(ABm[[input$mspec3D]][,4], colors=c(input$col1, input$col2, input$col3, input$col4)), box=FALSE)
 				rglwidget()
 			})
 			output$testplot2 <- renderPlot({
 				names(ABm) <- d1[[1]]
 				nn <- length(ABm[[input$mspec3D]][,4])
 				nnn <- round(sort(ABm[[input$mspec3D]][,4]), digits=2)
-				plot(x = rep(1, nn), y = seq_along(nnn), pch = 15, cex = 15, col = color.gradient(nnn), ann = F, axes = F, xlim = c(1,2))
+				plot(x = rep(1, nn), y = seq_along(nnn), pch = 15, cex = 15, col = color.gradient(nnn, colors=c(input$col1, input$col2, input$col3, input$col4)), ann = F, axes = F, xlim = c(1,2))
 				axis(side = 2, at = seq(1, nn, length.out=5), labels = seq(from = min(nnn), to = max(nnn), length.out=5), line = 0.15)
 			})
 		}
@@ -182,21 +180,20 @@ observeEvent(input$Process, {
 			ABgm <- KDtree_Gmean(ABm, iterations = input$iterations, threads = input$ncorespc, subsample = subsample, break_early = breakk)
 			output$webgl3Dalign_m <- renderRglwidget ({
 				try(rgl.close())
-				points3d(ABgm[,1:3], size=3, col=color.gradient(ABgm[,4]), box=FALSE)
-				axes3d(c('x++', 'y++', 'z++'))
+				points3d(ABgm[,1:3], size=3, col=color.gradient(ABgm[,4], colors=c(input$colm1, input$colm2, input$colm3, input$colm4)), box=FALSE)
 				rglwidget()
 			})
 			output$testplot <- renderPlot({
 				nn <- length(ABgm[,4])
 				nnn <- round(sort(ABgm[,4]), digits=2)
-				plot(x = rep(1, nn), y = seq_along(nnn), pch = 15, cex = 15, col = color.gradient(nnn), ann = F, axes = F, xlim = c(1,2))
+				plot(x = rep(1, nn), y = seq_along(nnn), pch = 15, cex = 15, col = color.gradient(nnn, colors=c(input$colm1, input$colm2, input$colm3, input$colm4)), ann = F, axes = F, xlim = c(1,2))
 				axis(side = 2, at = seq(1, nn, length.out=5), labels = seq(from = min(nnn), to = max(nnn), length.out=5), line = 0.15)
 			})
 		}
 	}
 
 	output$table1 <- DT::renderDataTable({
-		DT::datatable(report_pw, options = list(pageLength = 50, dom = 't'), rownames = FALSE)
+		DT::datatable(report_pw, options = list(lengthMenu = c(5,10,15,20,25,30), pageLength = 10), rownames = FALSE)
 	})
 	output$table2 <- DT::renderDataTable({
 		DT::datatable(report_gr, options = list(dom = 't'), rownames = FALSE)

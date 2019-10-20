@@ -99,9 +99,35 @@ shinyUI(
 							DT::dataTableOutput('table1')
 						),
 						tabPanel("Pairwise Overlap",
-							rglwidgetOutput('webgl3Dalign', width = "1000px", height = "1000px")
+							fluidRow(
+								column(2,
+									colourInput("colo1", "Color 1", "dimgray")
+								),
+								column(2,
+									colourInput("colo2", "Color 2", "dodgerblue")
+								)
+							),
+							fluidRow(
+								column(12,
+									rglwidgetOutput('webgl3Dalign', width = "1000px", height = "1000px")
+								)
+							)
 						),
 						tabPanel("Pairwise Heatmap",
+							fluidRow(
+								column(2,
+									colourInput("col1", "Color 1", "blue")
+								),
+								column(2,
+									colourInput("col2", "Color 2", "green")
+								),
+								column(2,
+									colourInput("col3", "Color 3", "orange")
+								),
+								column(2,
+									colourInput("col4", "Color 4", "red")
+								)
+							),
 							fluidRow(
 								column(2,
 									plotOutput('testplot2')
@@ -112,11 +138,27 @@ shinyUI(
 							)
 						),
 						tabPanel("Mean Heatmap",
-							column(2,
-								plotOutput('testplot')
+							fluidRow(
+								column(2,
+									colourInput("colm1", "Color 1", "blue")
+								),
+								column(2,
+									colourInput("colm2", "Color 2", "green")
+								),
+								column(2,
+									colourInput("colm3", "Color 3", "orange")
+								),
+								column(2,
+									colourInput("colm4", "Color 4", "red")
+								)
 							),
-							column(10,
-								rglwidgetOutput('webgl3Dalign_m', width = "1000px", height = "1000px")
+							fluidRow(
+								column(2,
+									plotOutput('testplot')
+								),
+								column(10,
+									rglwidgetOutput('webgl3Dalign_m', width = "1000px", height = "1000px")
+								)
 							)
 						)
 					)
