@@ -97,20 +97,8 @@ observeEvent(input$Process, {
 		}
 	})
 
-
-	if(input$ncorespc != julia_call("nprocs")) {
-		print("Setting up Julia workers...")
-		JuliaSetup(add_cores = input$ncorespc, source = TRUE, recall_libraries = TRUE)
-		print("Finished.")
-	}
-
 	data <- filelist3$list
-	if(input$kmeans) {
-		ll <- length(filelist3$list)
-		for (i in 1:ll) {
-			data[[i]] <- kmeans.3d(filelist3$list[[i]], cluster = input$vara)
-		}
-	}
+
 	if(input$subsample) {
 		subsample <- input$vara2
 	} else {
@@ -134,12 +122,6 @@ observeEvent(input$Process, {
 		if(length(filelist4$list) != length(filelist3$list)) {
 			return(NULL)
 		}
-		if(input$kmeans) {
-			ll <- length(filelist4$list)
-			for (i in 1:ll) {
-				data2[[i]] <- kmeans.3d(filelist4$list[[i]], cluster = input$vara)
-			}
-		}
 	}
 	d1 <<- compare.3d(choose = input$Choose, data = data, data2 = data2, custom_surface = surface, procedure = input$Procedure, iteration = input$iterations, cores = input$ncorespc, subsample = subsample, pca = input$pcalign, break_early = breakk)
 
@@ -155,7 +137,7 @@ observeEvent(input$Process, {
 		subsample <- TRUE
 	}
 	ttime <- d1[[14]]
-	params_list <- list(choose = input$Choose, attributes = input$attributes, x = input$x, y = input$y, z = input$z, d = input$d, breake = input$breake, breakk = breakk, scannerid = input$scannerid, analyst = input$analyst, date = Sys.time(), iterations = input$iterations, subsample = subsample, pcalign = input$pcalign, kmeans = input$kmeans, procedure = input$Procedure, vara = input$vara, vara2 = input$vara2, report_pw = report_pw, report_gr = report_gr, time = ttime, comparisons = nrow(report_pw))
+	params_list <- list(choose = input$Choose, attributes = input$attributes, x = input$x, y = input$y, z = input$z, d = input$d, breake = input$breake, breakk = breakk, scannerid = input$scannerid, analyst = input$analyst, date = Sys.time(), iterations = input$iterations, subsample = subsample, pcalign = input$pcalign, procedure = input$Procedure, vara = input$vara, vara2 = input$vara2, report_pw = report_pw, report_gr = report_gr, time = ttime, comparisons = nrow(report_pw))
 
 	output$savedata <- downloadHandler(
 		filename = "report.pdf",

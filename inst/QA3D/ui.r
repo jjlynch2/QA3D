@@ -54,10 +54,6 @@ shinyUI(
 									sliderInput(inputId = "breakearly", label = "Break Point", min=0.01, max=20, value=1, step =0.01)
 								)
 							),
-							checkboxInput("kmeans", "K-means Simplify", value = FALSE),
-							conditionalPanel(condition = "input.kmeans",
-								sliderInput(inputId = "vara", label = "% of Coordinates", min=0.01, max=1, value=0.10, step = 0.01)
-							),
 							checkboxInput("heatmap", "Generate Heatmaps", value = FALSE),
 							radioButtons("Procedure", "Procedure", choices = c("Choose", "Custom", "Intra-observer-single", "Intra-observer-multiple", "Inter-observer-single", "Inter-observer-multiple"), selected = "Intra-observer-single"),
 							conditionalPanel(condition = "input.Procedure == 'Custom'",

@@ -12,6 +12,5 @@ shinyServer(function(input, output, session) {
 	source(system.file("QA3D/server", 'changes.r', package = "QA3D"), local=TRUE) ###imports code to display version changes
 	source(system.file("QA3D/server", 'exit_parameters.r', package = "QA3D"), local=TRUE) ###imports code to execute when app closes
 	source(system.file("QA3D/server", 'shortcut.r', package = "QA3D"), local=TRUE) ###imports code to create shortcut from help menu
-	source(system.file("QA3D/server", 'julia.r', package = "QA3D"), local=TRUE) ###imports julia environment
 	source(system.file("QA3D/server", 'versions.r', package = "QA3D"), local=TRUE) ###imports versioning code
 })

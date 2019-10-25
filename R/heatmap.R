@@ -56,7 +56,7 @@ KDtree_Gmean <- function(A = NULL, threads = NULL, iterations = NULL, subsample 
 				trafo <- Morpho::computeTransform(global_map_R[clost$index[good],1:3],xtmp[good,],type="rigid")
 				xtmp <- Morpho::applyTransform(xtmp[,],trafo)
 			}
-			d1t <- hausdorff_dist(xtmp, global_map_R[clost$index[good],1:3])
+			d1t <- hausdorff_dist(xtmp, global_map_R[clost$index[good],1:3], threads)
 			print(paste("Heatmap Registration: ", d1t[1], d1t[2], d1t[3], sep = " "))
 			if(d1t[[1]] < d11) {
 				d11 <- d1t[[1]]

@@ -52,10 +52,6 @@ Early Break: `r params$breake`
 
 `r if(params$pcalign && params$breake) {paste("Break Point:", params$breakk, sep=" ")}`
 
-K-means simplify: `r params$kmeans`
-
-`r if(params$kmeans) {paste("K-means %:", params$vara, sep=" ")}`
-
 Procedure: `r params$procedure`
 
 `r if(params$procedure == "Custom") {paste("X:", params$x, sep=" ")}`

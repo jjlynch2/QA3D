@@ -28,9 +28,9 @@ reflection_icp <- function(x,y,iterations,subsample=NULL,threads=1, break_early 
 			xtmp <- Morpho::applyTransform(xtmp[,],trafo)
 		}
 		if(!is.null(subsample)) {
-			d1t <- hausdorff_dist(xtmp, y[clost$index[good],])
+			d1t <- hausdorff_dist(xtmp, y[clost$index[good],], threads)
 		} else {
-			d1t <- hausdorff_dist(xtmp, y)
+			d1t <- hausdorff_dist(xtmp, y, threads)
 		}
 		print(paste("Registration: ", d1t[1], d1t[2], d1t[3], sep = " "))
 		if(d1t[[1]] < d12) {
@@ -50,7 +50,7 @@ reflection_icp <- function(x,y,iterations,subsample=NULL,threads=1, break_early 
 		}
 	}
 	if(!is.null(subsample)) {
-		d1r <- hausdorff_dist(x_result, y)
+		d1r <- hausdorff_dist(x_result, y, threads)
 	}
 	return(list(x_result, d1r))
 }
