@@ -68,14 +68,21 @@ shinyUI(
 							textInput(inputId = 'attributes', label = 'Attributes', value = ''),
 							textInput(inputId = 'scannerid', label = 'Scanner ID', value = ''),
 							textInput(inputId = 'analyst', label = 'Analyst', value = ''),
-							uiOutput('mspec3D'),
+							uiOutput('mspec3D')
+						)
+					),
+					fluidRow(
+						column(6,
+							actionButton("clearFile3D", " Clear   ", icon = icon("window-close"))
+						),
+						column(6,
 							actionButton("Process", "Process", icon = icon("cog"))
 						)
 					),
 					fluidRow(br()),
 					fluidRow(
 						column(6,
-							actionButton("clearFile3D", " Clear   ", icon = icon("window-close"))
+							downloadButton("meandown", " Save Mean  ")
 						),
 						column(6,
 							downloadButton("savedata", " Report    ")
@@ -84,7 +91,8 @@ shinyUI(
 					width=3,
 					tags$style(type = "text/css", "#clearFile3D { width:100%; font-size:85%; background-color:#126a8f }"),
 					tags$style(type = "text/css", "#Process { width:100%; font-size:85%; background-color:#126a8f }"),
-					tags$style(type = "text/css", "#savedata { width:100%; font-size:85%; background-color:#126a8f }")
+					tags$style(type = "text/css", "#savedata { width:100%; font-size:85%; background-color:#126a8f }"),
+					tags$style(type = "text/css", "#meandown { width:100%; font-size:85%; background-color:#126a8f }")
 				),
 				mainPanel(
 					tabsetPanel(id="tabSelected",

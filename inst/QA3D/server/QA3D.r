@@ -171,6 +171,15 @@ observeEvent(input$Process, {
 				plot(x = rep(1, nn), y = seq_along(nnn), pch = 15, cex = 15, col = color.gradient(nnn, colors=c(input$colm1, input$colm2, input$colm3, input$colm4)), ann = F, axes = F, xlim = c(1,2))
 				axis(side = 2, at = seq(1, nn, length.out=5), labels = seq(from = min(nnn), to = max(nnn), length.out=5), line = 0.15)
 			})
+			output$meandown <- downloadHandler (
+				filename = function(){"mean.csv"},
+				content = function(fname) {
+					tempg <- ABgm[,c(1:4)]
+					colnames(tempg) <- c("x","y","z","error")
+					write.csv(tempg, fname, row.names=FALSE, col.names=TRUE)
+				}
+
+			)
 		}
 	}
 
