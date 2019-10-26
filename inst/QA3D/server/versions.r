@@ -3,7 +3,7 @@ output$version_numbers <- renderUI({
 		paste(
 			"<p><h4><b>Version Details</b></h4></p>",
 			"<strong>QA3D:  </strong>", gsub("'", "" , packageVersion("QA3D")),"<p></p>",
-			"<strong>R: </strong>", gsub('R version', '', gsub('version.string R ', '', version['version.string'])),"<p></p>",
+			"<strong>R: </strong>", gsub('R version', '', gsub('version.string R ', '', version['version.string'])),"<p></p><br><br><br>",
 		sep = "")
 	)
 })

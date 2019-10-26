@@ -10,8 +10,6 @@ output$about_refs <- renderUI({
 		<br><br>
 		Break Early specifies a break point when using PC Align where any reflection with a maximum distance less than the break point is accepted as the true distance.
 		<br><br>
-		K-means Simplify reduces the point cloud size based on a percentage of the original coordinates of each scan.
-		<br><br>
 		The Choose procedure will compare all scans to the chosen scan.
 		<br><br>
 		The Intra-observer-single procedure will compare all scans to every other scan. This is intended for multiple repeated scans of a single specimen.
