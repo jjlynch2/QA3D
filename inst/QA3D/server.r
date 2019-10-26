@@ -1,6 +1,7 @@
 options(rgl.useNULL=TRUE) #required to avoid rgl device opening 
 options(shiny.maxRequestSize=200*1024^2) #200MB file size limit
 options(warn = -1) #disables warnings
+options(scipen = 999)
 
 shinyServer(function(input, output, session) {
 	#defines which modules to include
