@@ -81,5 +81,6 @@ KDtree_Gmean <- function(A = NULL, threads = NULL, iterations = NULL, subsample 
 	global_map[,2] <- global_map[,2] / global_map[,5]
 	global_map[,3] <- global_map[,3] / global_map[,5]
 	global_map[,4] <- global_map[,4] / global_map[,5]
+	print("Heatmap generation completed")
 	return(global_map)
 }

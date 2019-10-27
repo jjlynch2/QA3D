@@ -13,11 +13,11 @@ hausdorff_dist <- function (f2, f1, threads) {
 	Max2 <- clost2$distance[which.max(clost2$distance)]
 	Max <- max(Max1, Max2)
 	if(Max == Max1) {
+		x = clost1$index[which.max(clost1$distance)]
+		j = which.max(clost1$distance)
+	} else {
 		j = clost2$index[which.max(clost2$distance)]
 		x = which.max(clost2$distance)
-	} else {
-		j = clost1$index[which.max(clost1$distance)]
-		x = which.max(clost1$distance)
 	}
 	return(list(Avg, Max, Sd, j, x, clost1$distance, clost2$distance))
 }
