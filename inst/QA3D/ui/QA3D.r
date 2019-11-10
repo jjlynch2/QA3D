@@ -8,8 +8,8 @@ QA3D <- tabPanel("QA3D", icon = icon("cloud-download", lib="glyphicon"),
 			),
 			fluidRow(
 				column(12,
-					sliderInput(inputId = "ncorespc", label = "Parallel Cores", min=1, max=detectCores(), value=detectCores()-1, step =1),
-					sliderInput(inputId = "iterations", label = "Iterations", min=1, max=1000, value=250, step =1),
+					sliderInput(inputId = "ncorespc", label = "Parallel Threads", min=1, max=detectCores(), value=detectCores()-1, step =1),
+					numericInput(inputId = "iterations", label = "Iterations", min=1, max=10000, value=250, step =1),
 					checkboxInput("subsample", "ICP Subsample", value = TRUE),
 					conditionalPanel(condition = "input.subsample",
 						sliderInput(inputId = "vara2", label = "% of Coordinates", min=0.01, max=1, value=0.01, step = 0.01)

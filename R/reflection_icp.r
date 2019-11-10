@@ -32,7 +32,8 @@ reflection_icp <- function(x,y,iterations,subsample=NULL,threads=1, break_early 
 		} else {
 			d1t <- hausdorff_dist(xtmp, y, threads)
 		}
-		print(paste("Registration: ", d1t[1], d1t[2], d1t[3], sep = " "))
+		print(paste("Distances: ", d1t[1], d1t[2], d1t[3], sep = " "))
+		incProgress(amount = 1, message = paste("Distances: ", d1t[1], d1t[2], d1t[3], sep = " "), detail = '')
 		if(d1t[[1]] < d12) {
 			d12 <- d1t[[1]]
 			d1r <- d1t
