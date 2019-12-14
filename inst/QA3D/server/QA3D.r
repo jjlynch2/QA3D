@@ -160,7 +160,7 @@ observeEvent(input$Process, {
 			if(length(ABm) > 1) {
 				setProgress(value = 7, message = "Calculating mean heatmap", detail = '')
 				if(subsample) {subsample = input$vara2} else {subsample = 0.01}
-				ABgm <- KDtree_Gmean(ABm, iterations = input$iterations, threads = input$ncorespc, subsample = subsample, break_early = breakk)
+				ABgm <- KDtree_Gmean(ABm, iterations = input$iterations, threads = input$ncorespc, subsample = subsample)
 				output$webgl3Dalign_m <- renderRglwidget ({
 					try(rgl.close())
 					points3d(ABgm[,1:3], size=3, col=color.gradient(ABgm[,4], colors=c(input$colm1, input$colm2, input$colm3, input$colm4)), box=FALSE)
