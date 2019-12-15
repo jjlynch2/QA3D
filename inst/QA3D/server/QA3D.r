@@ -147,7 +147,6 @@ observeEvent(input$Process, {
 		if(input$heatmap) {
 			setProgress(value = 6, message = "Calculating pairwise heatmaps", detail = '')
 			ABm <<- list()
-
 			withProgress(message = '', detail = '', value = 1, min=0, max=length(d1[[1]]), {
 				for(x in 1:length(d1[[1]])) {
 					setProgress(value = x, message = d1[[1]][x], detail = '')
