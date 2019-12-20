@@ -78,16 +78,24 @@ observeEvent(input$mspec3D, {
 			output$webgl3Dalign_pwm <- renderRglwidget ({
 				try(rgl.close())
 				names(ABm) <- d1[[1]]
-				points3d(ABm[[input$mspec3D]][,1:3], size=3, col=color.gradient(ABm[[input$mspec3D]][,4], colors=c(input$col1, input$col2, input$col3, input$col4)), box=FALSE)
+				points3d(ABm[[input$mspec3D]][,1:3], size=3, col=color.gradient(ABm[[input$mspec3D]][,4], colors=c(input$col1, input$col2), min = input$mini, max = input$maxi, steps = input$steps), box=FALSE)
 				rglwidget()
 			})
 			output$testplot2 <- renderPlot({
 				names(ABm) <- d1[[1]]
-				nn <- length(ABm[[input$mspec3D]][,4])
-				nnn <- round(sort(ABm[[input$mspec3D]][,4]), digits=2)
-				plot(x = rep(1, nn), y = seq_along(nnn), pch = 15, cex = 15, col = color.gradient(nnn, colors=c(input$col1, input$col2, input$col3, input$col4)), ann = F, axes = F, xlim = c(1,2))
-				axis(side = 2, at = seq(1, nn, length.out=5), labels = seq(from = min(nnn), to = max(nnn), length.out=5), line = 0.15)
+				plot(x = rep(1, input$bsteps), y = seq(1, input$bsteps, length.out=input$bsteps), pch = 15, cex = 15, col = color.gradient(seq(input$mini, input$maxi, length.out=input$bsteps), colors=c(input$col1, input$col2), min = input$mini, max = input$maxi, steps = input$steps), ann = F, axes = F, xlim = c(1,2))
+				axis(side = 2, at = seq(1, input$bsteps, length.out=input$bsteps), labels = seq(from = input$mini, to = input$maxi, length.out=input$bsteps), line = 0.15)
 			})
+			output$pwdown <- downloadHandler (
+				filename = function(){input$mspec3D},
+				content = function(fname) {
+					names(ABm) <- d1[[1]]
+					tempg <- ABm[[input$mspec3D]][,1:4]
+					colnames(tempg) <- c("x","y","z","error")
+					write.csv(tempg, fname, row.names=FALSE, col.names=TRUE)
+				}
+
+			)
 		}
 	}
 })
@@ -162,14 +170,12 @@ observeEvent(input$Process, {
 				ABgm <- KDtree_Gmean(ABm, iterations = input$iterations, threads = input$ncorespc, subsample = subsample)
 				output$webgl3Dalign_m <- renderRglwidget ({
 					try(rgl.close())
-					points3d(ABgm[,1:3], size=3, col=color.gradient(ABgm[,4], colors=c(input$colm1, input$colm2, input$colm3, input$colm4)), box=FALSE)
+					points3d(ABgm[,1:3], size=3, col=color.gradient(ABgm[,4], colors=color.gradient(seq(input$gmini, input$gmaxi, length.out=input$gbsteps), colors=c(input$colm1, input$colm2), min = input$gmini, max = input$gmaxi, steps = input$gsteps)), box=FALSE)
 					rglwidget()
 				})
 				output$testplot <- renderPlot({
-					nn <- length(ABgm[,4])
-					nnn <- round(sort(ABgm[,4]), digits=2)
-					plot(x = rep(1, nn), y = seq_along(nnn), pch = 15, cex = 15, col = color.gradient(nnn, colors=c(input$colm1, input$colm2, input$colm3, input$colm4)), ann = F, axes = F, xlim = c(1,2))
-					axis(side = 2, at = seq(1, nn, length.out=5), labels = seq(from = min(nnn), to = max(nnn), length.out=5), line = 0.15)
+					plot(x = rep(1, input$gbsteps), y = seq(1, input$gbsteps, length.out=input$gbsteps), pch = 15, cex = 15, col = color.gradient(seq(input$gmini, input$gmaxi, length.out=input$gbsteps), colors=c(input$colm1, input$colm2), min = input$gmini, max = input$gmaxi, steps = input$gsteps), ann = F, axes = F, xlim = c(1,2))
+					axis(side = 2, at = seq(1, input$gbsteps, length.out=input$gbsteps), labels = seq(from = input$gmini, to = input$gmaxi, length.out=input$gbsteps), line = 0.15)
 				})
 				output$meandown <- downloadHandler (
 					filename = function(){"mean.csv"},

@@ -10,6 +10,8 @@ output$about_refs <- renderUI({
 		<br><br>
 		Break Early specifies a break point when using PC Align where any reflection with a maximum distance less than the break point is accepted as the true distance.
 		<br><br>
+		Generate heatmap will produce pairwise and mean heatmaps using the first and average sized scans respectively.
+		<br><br>
 		The Choose procedure will compare all scans to the chosen scan.
 		<br><br>
 		The Intra-observer-single procedure will compare all scans to every other scan. This is intended for multiple repeated scans of a single specimen.

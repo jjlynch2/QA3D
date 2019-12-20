@@ -1,6 +1,7 @@
 output$changes <- renderUI({
 	HTML("<p><h4><b>Version Changes</b></h4>
-		KDTree NearestNeighbor Search implemented for the Hausdorff distance calculation.
+		KD-tree NearestNeighbor Search implemented for the Hausdorff distance calculation. <br>
+		Heatmap functionality added.
 		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 		</p>
 	")

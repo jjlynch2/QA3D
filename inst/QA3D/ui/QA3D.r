@@ -39,17 +39,23 @@ QA3D <- tabPanel("QA3D", icon = icon("cloud-download", lib="glyphicon"),
 				)
 			),
 			fluidRow(
-				column(6,
-					actionButton("clearFile3D", " Clear   ", icon = icon("window-close"))
-				),
-				column(6,
+				column(12,
 					actionButton("Process", "Process", icon = icon("cog"))
 				)
 			),
 			fluidRow(br()),
 			fluidRow(
 				column(6,
-					downloadButton("meandown", " Save Mean  ")
+							downloadButton("pwdown", " Pairwise Heatmap Error  ")
+				),
+				column(6,
+							downloadButton("meandown", " Mean Heatmap Error  ")
+				)
+			),
+			fluidRow(br()),
+			fluidRow(
+				column(6,
+					actionButton("clearFile3D", " Clear   ", icon = icon("window-close"))
 				),
 				column(6,
 					downloadButton("savedata", " Report    ")
@@ -59,7 +65,8 @@ QA3D <- tabPanel("QA3D", icon = icon("cloud-download", lib="glyphicon"),
 			tags$style(type = "text/css", "#clearFile3D { width:100%; font-size:85%; background-color:#126a8f }"),
 			tags$style(type = "text/css", "#Process { width:100%; font-size:85%; background-color:#126a8f }"),
 			tags$style(type = "text/css", "#savedata { width:100%; font-size:85%; background-color:#126a8f }"),
-			tags$style(type = "text/css", "#meandown { width:100%; font-size:85%; background-color:#126a8f }")
+			tags$style(type = "text/css", "#meandown { width:100%; font-size:85%; background-color:#126a8f }"),
+			tags$style(type = "text/css", "#pwdown { width:100%; font-size:85%; background-color:#126a8f }")
 		),
 		mainPanel(
 			tabsetPanel(id="tabSelected",
@@ -87,16 +94,24 @@ QA3D <- tabPanel("QA3D", icon = icon("cloud-download", lib="glyphicon"),
 				tabPanel("Pairwise Heatmap",
 					fluidRow(
 						column(2,
-							colourInput("col1", "Color 1", "blue")
+							numericInput("mini", label = "Minimum", value = 0.01)
 						),
 						column(2,
-							colourInput("col2", "Color 2", "green")
+							numericInput("maxi", label = "Maximum", value = 1)
 						),
 						column(2,
-							colourInput("col3", "Color 3", "orange")
+							numericInput("steps", label = "Error Steps", value = 8)
 						),
 						column(2,
-							colourInput("col4", "Color 4", "red")
+							numericInput("bsteps", label = "Legend Labels", value = 5)
+						),
+					),
+					fluidRow(
+						column(2,
+							colourInput("col1", "Color 1", "green")
+						),
+						column(2,
+							colourInput("col2", "Color 2", "red")
 						)
 					),
 					fluidRow(
@@ -111,16 +126,24 @@ QA3D <- tabPanel("QA3D", icon = icon("cloud-download", lib="glyphicon"),
 				tabPanel("Mean Heatmap",
 					fluidRow(
 						column(2,
-							colourInput("colm1", "Color 1", "blue")
+							numericInput("gmini", label = "Minimum", value = 0.01)
 						),
 						column(2,
-							colourInput("colm2", "Color 2", "green")
+							numericInput("gmaxi", label = "Maximum", value = 1)
 						),
 						column(2,
-							colourInput("colm3", "Color 3", "orange")
+							numericInput("gsteps", label = "Error Steps", value = 8)
 						),
 						column(2,
-							colourInput("colm4", "Color 4", "red")
+							numericInput("gbsteps", label = "Legend Labels", value = 5)
+						),
+					),
+					fluidRow(
+						column(2,
+							colourInput("colm1", "Color 1", "green")
+						),
+						column(2,
+							colourInput("colm2", "Color 2", "red")
 						)
 					),
 					fluidRow(

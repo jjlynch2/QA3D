@@ -10,8 +10,8 @@ KDtreePWmean <- function(A, B, threads = NULL) {
 	return(A)
 }
 
-color.gradient <- function(x, colors=c("blue","green","orange","red"), colsteps=50) {
-	return( colorRampPalette(colors) (colsteps) [ findInterval(x, seq(min(x),max(x), length.out=colsteps)) ] )
+color.gradient <- function(x, colors=c("green","red"), mini = 0.01, maxi = 1, steps=10) {
+	return( colorRampPalette(colors) (steps) [ findInterval(x, seq(mini,maxi, length.out=steps)) ] )
 }
 
 KDtree_Gmean <- function(A = NULL, threads = NULL, iterations = NULL, subsample = 0.01) {
