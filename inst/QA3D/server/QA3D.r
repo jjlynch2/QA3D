@@ -1,6 +1,6 @@
 filelist3 <- reactiveValues(list=list())
 filelist4 <- reactiveValues(list=list())
-
+ABm <<- NULL
 observeEvent(input$clearFile3D, {
 	fileInput('aligndata', 'Import Scans', accept=c("xyz"), multiple = TRUE)
 	delete.tmp.data()
@@ -73,30 +73,61 @@ observeEvent(input$mspec3D, {
 			lines3d(ttp, col=2, lwd=5)
 			rglwidget()
 		})
-
-		if(input$heatmap) {
-			output$webgl3Dalign_pwm <- renderRglwidget ({
-				try(rgl.close())
-				names(ABm) <- d1[[1]]
-				points3d(ABm[[input$mspec3D]][,1:3], size=3, col=color.gradient(ABm[[input$mspec3D]][,4], colors=c(input$col1, input$col2), min = input$mini, max = input$maxi, steps = input$steps), box=FALSE)
-				rglwidget()
-			})
-			output$testplot2 <- renderPlot({
-				names(ABm) <- d1[[1]]
-				plot(x = rep(1, input$bsteps), y = seq(1, input$bsteps, length.out=input$bsteps), pch = 15, cex = 15, col = color.gradient(seq(input$mini, input$maxi, length.out=input$bsteps), colors=c(input$col1, input$col2), min = input$mini, max = input$maxi, steps = input$steps), ann = F, axes = F, xlim = c(1,2))
-				axis(side = 2, at = seq(1, input$bsteps, length.out=input$bsteps), labels = seq(from = input$mini, to = input$maxi, length.out=input$bsteps), line = 0.15)
-			})
-			output$pwdown <- downloadHandler (
-				filename = function(){input$mspec3D},
-				content = function(fname) {
+		observeEvent(input$PCMP, {
+			if(input$heatmap) {
+				output$webgl3Dalign_pwm <- renderRglwidget ({
+					try(rgl.close())
+					names(ABm) <- d1[[1]]					
+					if(input$PCMP == "Mesh") {
+						d <- as.matrix(ABm[[input$mspec3D]][,1:3])
+						if(input$mspec3D != "") {
+							showModal(modalDialog(title = "Reconstructing Surface...", easyClose = FALSE, footer = NULL))
+							ABm_p <<- Rvcg::vcgBallPivoting(d)
+							removeModal()
+						}
+						plot3d(ABm_p, col=color.gradient(ABm[[input$mspec3D]][,4], colors=c(input$col1, input$col2), mini = input$mini, maxi = input$maxi, steps = input$steps), axes=FALSE, xlab="", ylab="", zlab="", aspect = "iso")
+					}
+					if(input$PCMP == "Point Cloud") {
+						points3d(ABm[[input$mspec3D]][,1:3], size=3, col=color.gradient(ABm[[input$mspec3D]][,4], colors=c(input$col1, input$col2), mini = input$mini, maxi = input$maxi, steps = input$steps), box=FALSE)
+					}
+					rglwidget()
+				})
+				output$testplot2 <- renderPlot({
 					names(ABm) <- d1[[1]]
-					tempg <- ABm[[input$mspec3D]][,1:4]
-					colnames(tempg) <- c("x","y","z","error")
-					write.csv(tempg, fname, row.names=FALSE, col.names=TRUE)
-				}
+					plot(x = rep(1, input$steps), y = seq(1, input$steps, length.out=input$steps), pch = 15, cex = 15, col = color.gradient(seq(input$mini, input$maxi, length.out=input$steps), colors=c(input$col1, input$col2), mini = input$mini, maxi = input$maxi, steps = input$steps), ann = F, axes = F, xlim = c(1,2))
+					axis(side = 2, at = seq(1, input$steps, length.out=input$bsteps), labels = round(seq(from = input$mini, to = input$maxi, length.out=input$bsteps), digits = 2), line = 0.15)
+				})
+				output$pwdown <- downloadHandler (
+					filename = function(){input$mspec3D},
+					content = function(fname) {
+						names(ABm) <- d1[[1]]
+						tempg <- ABm[[input$mspec3D]][,1:4]
+						colnames(tempg) <- c("x","y","z","error")
+						write.csv(tempg, fname, row.names=FALSE, col.names=TRUE)
+					}
 
-			)
-		}
+				)
+			}
+		})
+	}
+})
+
+observeEvent(input$PCMG, {
+	if(length(ABm) > 1) {
+		output$webgl3Dalign_m <- renderRglwidget ({
+			try(rgl.close())
+			if(input$PCMG == "Mesh") {
+				plot3d(ABgm_p, col=color.gradient(ABgm[,4], colors=c(input$colm1, input$colm2), mini = input$gmini, maxi = input$gmaxi, steps = input$gsteps), axes=FALSE, xlab="", ylab="", zlab="", aspect = "iso")
+			}
+			if(input$PCMG == "Point Cloud") {
+				points3d(ABgm[,1:3], size=3, col=color.gradient(ABgm[,4], colors=c(input$colm1, input$colm2), mini = input$gmini, maxi = input$gmaxi, steps = input$gsteps), box=FALSE)
+			}
+			rglwidget()
+		})
+		output$testplot <- renderPlot({
+			plot(x = rep(1, input$gsteps), y = seq(1, input$gsteps, length.out=input$gsteps), pch = 15, cex = 15, col = color.gradient(seq(input$gmini, input$gmaxi, length.out=input$gsteps), colors=c(input$colm1, input$colm2), mini = input$gmini, maxi = input$gmaxi, steps = input$gsteps), ann = F, axes = F, xlim = c(1,2))
+			axis(side = 2, at = seq(1, input$gsteps, length.out=input$gbsteps), labels = round(seq(from = input$gmini, to = input$gmaxi, length.out=input$gbsteps), digits = 2), line = 0.15)
+		})
 	}
 })
 
@@ -165,18 +196,15 @@ observeEvent(input$Process, {
 				}
 			})
 			if(length(ABm) > 1) {
+				if(input$Procedure == "Custom") {
+					surface <- nsurface(input$x, input$y, input$z, input$d)
+				} else {
+					surface <- NULL
+				}
 				setProgress(value = 7, message = "Calculating mean heatmap", detail = '')
 				if(subsample) {subsample = input$vara2} else {subsample = 0.01}
-				ABgm <- KDtree_Gmean(ABm, iterations = input$iterations, threads = input$ncorespc, subsample = subsample)
-				output$webgl3Dalign_m <- renderRglwidget ({
-					try(rgl.close())
-					points3d(ABgm[,1:3], size=3, col=color.gradient(ABgm[,4], colors=color.gradient(seq(input$gmini, input$gmaxi, length.out=input$gbsteps), colors=c(input$colm1, input$colm2), min = input$gmini, max = input$gmaxi, steps = input$gsteps)), box=FALSE)
-					rglwidget()
-				})
-				output$testplot <- renderPlot({
-					plot(x = rep(1, input$gbsteps), y = seq(1, input$gbsteps, length.out=input$gbsteps), pch = 15, cex = 15, col = color.gradient(seq(input$gmini, input$gmaxi, length.out=input$gbsteps), colors=c(input$colm1, input$colm2), min = input$gmini, max = input$gmaxi, steps = input$gsteps), ann = F, axes = F, xlim = c(1,2))
-					axis(side = 2, at = seq(1, input$gbsteps, length.out=input$gbsteps), labels = seq(from = input$gmini, to = input$gmaxi, length.out=input$gbsteps), line = 0.15)
-				})
+				ABgm <<- KDtree_Gmean(ABm, iterations = input$iterations, threads = input$ncorespc, subsample = subsample, procedure = surface)
+				ABgm_p <<- Rvcg::vcgBallPivoting(as.matrix(ABgm[,1:3]))
 				output$meandown <- downloadHandler (
 					filename = function(){"mean.csv"},
 					content = function(fname) {

@@ -9,7 +9,7 @@ QA3D <- tabPanel("QA3D", icon = icon("cloud-download", lib="glyphicon"),
 			fluidRow(
 				column(12,
 					sliderInput(inputId = "ncorespc", label = "Parallel Threads", min=1, max=detectCores(), value=detectCores()-1, step =1),
-					numericInput(inputId = "iterations", label = "Iterations", min=1, max=10000, value=250, step =1),
+					numericInput(inputId = "iterations", label = "Iterations", min=1, max=10000, value=20, step =1),
 					checkboxInput("subsample", "ICP Subsample", value = TRUE),
 					conditionalPanel(condition = "input.subsample",
 						sliderInput(inputId = "vara2", label = "% of Coordinates", min=0.01, max=1, value=0.01, step = 0.01)
@@ -94,17 +94,17 @@ QA3D <- tabPanel("QA3D", icon = icon("cloud-download", lib="glyphicon"),
 				tabPanel("Pairwise Heatmap",
 					fluidRow(
 						column(2,
-							numericInput("mini", label = "Minimum", value = 0.01)
+							numericInput("mini", label = "Minimum", value = 0)
 						),
 						column(2,
 							numericInput("maxi", label = "Maximum", value = 1)
 						),
 						column(2,
-							numericInput("steps", label = "Error Steps", value = 8)
+							numericInput("steps", label = "Error Steps", value = 100)
 						),
 						column(2,
 							numericInput("bsteps", label = "Legend Labels", value = 5)
-						),
+						)
 					),
 					fluidRow(
 						column(2,
@@ -112,6 +112,9 @@ QA3D <- tabPanel("QA3D", icon = icon("cloud-download", lib="glyphicon"),
 						),
 						column(2,
 							colourInput("col2", "Color 2", "red")
+						),
+						column(2,
+							radioButtons("PCMP", "", choices=c("Point Cloud", "Mesh")),
 						)
 					),
 					fluidRow(
@@ -126,17 +129,17 @@ QA3D <- tabPanel("QA3D", icon = icon("cloud-download", lib="glyphicon"),
 				tabPanel("Mean Heatmap",
 					fluidRow(
 						column(2,
-							numericInput("gmini", label = "Minimum", value = 0.01)
+							numericInput("gmini", label = "Minimum", value = 0)
 						),
 						column(2,
 							numericInput("gmaxi", label = "Maximum", value = 1)
 						),
 						column(2,
-							numericInput("gsteps", label = "Error Steps", value = 8)
+							numericInput("gsteps", label = "Error Steps", value = 100)
 						),
 						column(2,
 							numericInput("gbsteps", label = "Legend Labels", value = 5)
-						),
+						)
 					),
 					fluidRow(
 						column(2,
@@ -144,6 +147,9 @@ QA3D <- tabPanel("QA3D", icon = icon("cloud-download", lib="glyphicon"),
 						),
 						column(2,
 							colourInput("colm2", "Color 2", "red")
+						),
+						column(2,
+							radioButtons("PCMG", "", choices=c("Point Cloud", "Mesh")),
 						)
 					),
 					fluidRow(

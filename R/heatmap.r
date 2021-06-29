@@ -1,20 +1,15 @@
 KDtreePWmean <- function(A, B, threads = NULL) {
-	if(nrow(A) < nrow(B)) {
-		bt <- A
-		A <- B
-		B <- bt
-	}
-	yKD <- Rvcg::vcgCreateKDtree(as.matrix(B[,1:3]))
-	clost <- Rvcg::vcgSearchKDtree(yKD,as.matrix(A[,1:3]),1,threads=threads)
-	A[,4] <- rowMeans(cbind(B[clost$index,4], A[,4]))
-	return(A)
+	yKD <- Rvcg::vcgCreateKDtree(as.matrix(A[,1:3]))
+	clost <- Rvcg::vcgSearchKDtree(yKD,as.matrix(B[,1:3]),1,threads=threads)
+	B[,4] <- rowMeans(cbind(A[clost$index,4], B[,4]))
+	return(B)
 }
 
 color.gradient <- function(x, colors=c("green","red"), mini = 0.01, maxi = 1, steps=10) {
 	return( colorRampPalette(colors) (steps) [ findInterval(x, seq(mini,maxi, length.out=steps)) ] )
 }
 
-KDtree_Gmean <- function(A = NULL, threads = NULL, iterations = NULL, subsample = 0.01) {
+KDtree_Gmean <- function(A = NULL, threads = NULL, iterations = NULL, subsample = 0.01, procedure = NULL) {
 	tn <- 0
 	for(z in 1:length(A)) {
 		centroid <- apply(A[[z]][,1:3],2,mean)
@@ -25,18 +20,22 @@ KDtree_Gmean <- function(A = NULL, threads = NULL, iterations = NULL, subsample 
 
 	tn <- tn[-1]
 	low_i = 1
-	for(z in 1:length(tn)) {
-		low = 99999999999
-		lowt = abs(tn[z] - mean(tn))
-		if(lowt < low) {
-			low = lowt
-			low_i = z
+	if(is.null(procedure)) {
+		for(z in 1:length(tn)) {
+			low = 99999999999
+			lowt = abs(tn[z] - mean(tn))
+			if(lowt < low) {
+				low = lowt
+				low_i = z
+			}
 		}
+		global_map_R <- as.matrix(A[[low_i]][,1:3])
+		global_mape <- as.matrix(A[[low_i]][,4])
+		A[[low_i]] <- NULL
+	} else {
+		global_map_R <- as.matrix(procedure)
+		global_mape <- rep(0, nrow(procedure))
 	}
-
-	global_map_R <- as.matrix(A[[low_i]][,1:3])
-	global_mape <- as.matrix(A[[low_i]][,4])
-	A[[low_i]] <- NULL
 	yKD <- Rvcg::vcgCreateKDtree(global_map_R)
 	withProgress(message = 'Distances: ', detail = '', value = 0, min=0, max=length(A), {
 		for(z in 1:length(A)) {
