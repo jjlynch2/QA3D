@@ -24,10 +24,9 @@ if(system_name == "Darwin") {
 }
 
 output$system_info <- renderUI({
-	HTML(paste("<p><h4><b>System Details</b></h4></p>", 
+	HTML(paste( 
 	"<strong>Platform:  </strong>", system_name, "<p></p>",
 	"<strong>Cores: </strong>", QA3D:::detectCores(), "<p></p>",
-	"<strong>Memory: </strong>", system_mem,
-	"<br><br><p></p>"
+	"<strong>Memory: </strong>", system_mem
 	,sep=""))
 })

@@ -73,7 +73,11 @@ KDtree_Gmean <- function(A = NULL, threads = NULL, iterations = NULL, subsample 
 			}
 			global_mape <- cbind(global_mape, B[Gclost$index,4])
 		}
-		global_mape <- rowMeans(global_mape)
+		if(is.null(procedure)) {
+			global_mape <- rowMeans(global_mape)
+		} else {
+			global_mape <- rowMeans(global_mape[,-1]) #remove first column if custom block is used
+		}
 		global_map <- cbind(global_map_R, global_mape)
 		print("Heatmap generation completed")
 	})

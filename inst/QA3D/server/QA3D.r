@@ -164,8 +164,8 @@ observeEvent(input$Process, {
 			selectInput(inputId = "mspec3D", label = "Choose comparison", choices = c(d1[[1]]))
 		})
 
-		report_pw <- data.frame(Comparison = d1[[1]], Average_Hausdorff = d1[[2]], Maximum_Hausdorff = d1[[4]], Standard_Deviation = d1[[11]])
-		report_gr <- data.frame(Average_Hausdorff = d1[[3]], Maximum_Hausdorff = d1[[5]], Standard_Deviation = d1[[10]], TEMah = d1[[6]], TEMmh = d1[[7]], RMSEah = d1[[8]], RMSEmh = d1[[9]])
+		report_pw <- data.frame(Comparison = d1[[1]], Average = d1[[2]], Maximum = d1[[4]], Standard_Deviation = d1[[11]])
+		report_gr <- data.frame(Average = d1[[3]], Maximum = d1[[5]], Standard_Deviation = d1[[10]], TEMah = d1[[6]], TEMmh = d1[[7]], RMSEah = d1[[8]], RMSEmh = d1[[9]])
 		if(is.null(subsample)){
 			subsample <- FALSE
 		} else if(!is.null(subsample)) {
