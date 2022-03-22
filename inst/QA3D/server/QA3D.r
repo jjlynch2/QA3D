@@ -216,18 +216,16 @@ observeEvent(input$Process, {
 				)
 			}
 		}
-
 		output$table1 <- DT::renderDataTable({
 			DT::datatable(report_pw, options = list(lengthMenu = c(5,10,15,20,25,30), pageLength = 10), rownames = FALSE)
 		})
-		output$table2 <- DT::renderDataTable({
-			DT::datatable(report_gr, options = list(dom = 't'), rownames = FALSE)
+		output$table2 <- renderTable(colnames=TRUE, rownames=FALSE, width="100%", striped = TRUE,{
+			return(report_gr)
 		})
-		output$contents1 <- renderUI({
-		HTML(paste("<strong>Comparisons: ","<font color=\"#00688B\">", nrow(report_pw),"</font>","<br>Completed in: ", "<font color=\"#00688B\">", ttime, " minutes</font></strong><br><br>","<h3>Grand Results</h1>", sep=""))
-		})
-		output$contents2 <- renderUI({
-			HTML("<h3>Pairwise Results</h1>")
+		output$contents1 <- renderTable(colnames=FALSE, rownames=TRUE, width="100%", striped = FALSE,{
+			tp <- t(data.frame(nrow(report_pw), paste(ttime," minutes",sep="")))
+			rownames(tp) <- c("Pairwise comparisons: ", "Completed in: ")
+			return(tp)
 		})
 		setProgress(value = 8, message = "Running garbage collection", detail = '')
 		gc()

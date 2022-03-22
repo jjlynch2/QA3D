@@ -33,7 +33,7 @@ about <- tabPanel("About", icon = icon("question", lib="font-awesome"),
 				solidHeader=TRUE,
 				uiOutput("version_numbers"),
 				width=12,
-				height="200",
+				height="210",
 				status="primary"
 			)
 		),
@@ -43,7 +43,7 @@ about <- tabPanel("About", icon = icon("question", lib="font-awesome"),
 				solidHeader=TRUE,
 				uiOutput("update_gh"),
 				width=12,
-				height="200",
+				height="210",
 				status="primary"
 			)
 		),
@@ -52,9 +52,10 @@ about <- tabPanel("About", icon = icon("question", lib="font-awesome"),
 				title = "System Details",
 				solidHeader=TRUE,
 				uiOutput("system_info"),
+				br(),
 				actionButton('Create_Desktop_Icon', 'Desktop Shortcut', icon = icon("gears")),
 				width=12,
-				height="200",
+				height="210",
 				status="primary"
 			)
 		),
@@ -64,7 +65,7 @@ about <- tabPanel("About", icon = icon("question", lib="font-awesome"),
 				solidHeader=TRUE,
 				uiOutput("URL"),
 				width=12,
-				height="200",
+				height="210",
 				status="primary"
 			)
 		)
@@ -77,7 +78,6 @@ about <- tabPanel("About", icon = icon("question", lib="font-awesome"),
 				solidHeader=TRUE,
 				uiOutput("changes"),
 				width=12,
-				#height="365",
 				status="primary"
 			)
 		),
@@ -87,11 +87,10 @@ about <- tabPanel("About", icon = icon("question", lib="font-awesome"),
 				solidHeader=TRUE,
 				uiOutput("about_refs"),
 				width=12,
-				#height="300",
 				status="primary"
 			)
 		)
 	),
-	tags$style(type = "text/css", "#Create_Desktop_Icon { width:100%; font-size:85%; background-color:#126a8f }"),
+	tags$style(type = "text/css", "#Create_Desktop_Icon { width:65%; font-size:85%; background-color:#126a8f }"),
 	tags$style(".well {border-width:1px; border-color:#126a8f;}")
 )

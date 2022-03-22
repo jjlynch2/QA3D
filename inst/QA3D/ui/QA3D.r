@@ -71,10 +71,35 @@ QA3D <- tabPanel("QA3D", icon = icon("cloud-download", lib="glyphicon"),
 		mainPanel(
 			tabsetPanel(id="tabSelected",
 				tabPanel("Results",
-					uiOutput('contents1'),
-					DT::dataTableOutput('table2'),
-					uiOutput('contents2'),
-					DT::dataTableOutput('table1')
+					column(4,
+						box(
+							solidHeader=TRUE,
+							tableOutput('contents1'),
+							width=12,
+							height="100",
+							status="primary"
+						)
+					),
+					column(12,
+						box(
+							title = "Mean Results",
+							solidHeader=TRUE,
+							tableOutput('table2'),
+							width=12,
+							status="primary",
+							collapsible=TRUE
+						)
+					),
+					column(12,
+						box(
+							title = "Pairwise Results",
+							solidHeader=TRUE,
+							DT::dataTableOutput('table1'),
+							width=12,
+							status="primary",
+							collapsible=TRUE
+						)
+					)
 				),
 				tabPanel("Pairwise Overlap",
 					fluidRow(
